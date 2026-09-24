@@ -75,7 +75,19 @@ const calculators = [
         </div>
       </section>
 
-      <section class="tool-grid" aria-label="Steel calculator directory">
+      <section class="directory-toolbar" aria-label="Calculator search">
+        <label class="search-box">
+          <span aria-hidden="true">⌕</span>
+          <input id="calculator-search" type="search" placeholder="Search calculators..." autocomplete="off" />
+        </label>
+        <div class="directory-stats">
+          <span><strong>05</strong> tools</span>
+          <span>Instant results</span>
+          <span>No sign-up</span>
+        </div>
+      </section>
+
+      <section class="tool-grid" id="calculator-grid" aria-label="Steel calculator directory">
         {calculators.map((tool) => (
           <a class="tool-card" href={tool.href}>
             <div class="card-top">
@@ -89,6 +101,8 @@ const calculators = [
           </a>
         ))}
       </section>
+
+      <p class="no-results" id="no-results" hidden>No calculator matches that search. Try “pipe”, “rebar”, “plate”, “cost”, or “weight”.</p>
 
       <section class="guide">
         <div>
@@ -119,6 +133,26 @@ const calculators = [
   </div>
 </Layout>
 
+<script>
+  const search = document.querySelector('#calculator-search');
+  const cards = Array.from(document.querySelectorAll('.tool-card'));
+  const noResults = document.querySelector('#no-results');
+
+  search?.addEventListener('input', () => {
+    const query = search.value.trim().toLowerCase();
+    let visible = 0;
+
+    cards.forEach((card) => {
+      const text = card.textContent?.toLowerCase() || '';
+      const match = !query || text.includes(query);
+      card.toggleAttribute('hidden', !match);
+      if (match) visible += 1;
+    });
+
+    if (noResults) noResults.hidden = visible > 0;
+  });
+</script>
+
 <style>
   :global(*){box-sizing:border-box}
   :global(body){margin:0;background:#f6f7f8;color:#17212b;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
@@ -133,13 +167,15 @@ const calculators = [
   .hero{display:flex;align-items:flex-end;justify-content:space-between;gap:35px;padding:56px 0 45px}.eyebrow{font-size:9px;font-weight:800;letter-spacing:2px;color:#8a949d;display:flex;align-items:center;gap:9px}.status-dot{width:6px;height:6px;background:#e6a13a;border-radius:50%;box-shadow:0 0 0 4px #f7ead7}
   h1{font-size:clamp(42px,5vw,62px);line-height:1.04;letter-spacing:-3.4px;margin:20px 0 15px;font-weight:780;color:#17212b}h1 em,h2 em{font-family:Georgia,serif;font-weight:500;color:#c88427}
   .hero p{max-width:650px;margin:0;color:#6c7780;font-size:13px;line-height:1.85}.hero-note{min-width:235px;border:1px solid #dde2e6;border-radius:9px;background:#fff;padding:18px}.hero-note span{font-family:Georgia,serif;color:#c4862c;font-size:26px}.hero-note strong{display:block;font-size:12px;color:#26333d;margin-top:5px}.hero-note small{display:block;color:#949da5;font-size:9px;line-height:1.6;margin-top:4px}
+  .directory-toolbar{display:flex;align-items:center;justify-content:space-between;gap:22px;margin:4px 0 18px}.search-box{display:flex;align-items:center;gap:9px;max-width:330px;flex:1;border:1px solid #dce2e6;background:#fff;border-radius:7px;padding:0 12px;height:42px;box-shadow:0 6px 18px #17232d07}.search-box span{font-size:18px;color:#9aa3aa;line-height:1}.search-box input{border:0;outline:0;background:transparent;width:100%;font:inherit;font-size:10px;color:#24313a}.search-box input::placeholder{color:#a3abb2}.directory-stats{display:flex;align-items:center;gap:14px;font-size:9px;color:#8c969e}.directory-stats span{padding-left:14px;border-left:1px solid #e0e5e8}.directory-stats span:first-child{padding-left:0;border-left:0}.directory-stats strong{font-family:Georgia,serif;font-size:15px;color:#c4862c;margin-right:4px}
   .tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.tool-card{display:block;text-decoration:none;color:inherit;background:#fff;border:1px solid #e1e6e9;border-radius:9px;padding:22px 21px 18px;min-height:245px;transition:transform .2s,border-color .2s,box-shadow .2s}.tool-card:hover{transform:translateY(-3px);border-color:#d5b172;box-shadow:0 13px 30px #17232d0a}
   .card-top,.card-bottom{display:flex;justify-content:space-between;align-items:center}.number{font-size:10px;font-weight:850;color:#c4862c}.tag{font-size:7px;letter-spacing:1.2px;color:#89949d;background:#f4f6f7;border-radius:3px;padding:6px 8px;font-weight:800}
   .symbol{position:relative;height:46px;width:52px;margin:19px 0 12px}.symbol span,.symbol i{position:absolute;display:block;transform:skewY(-22deg)}.symbol span{left:3px;top:8px;width:37px;height:28px;border:1px solid #b8c2ca;background:linear-gradient(130deg,#f9fafb,#d9dfe3)}.symbol i{left:12px;top:15px;width:31px;height:23px;border:1px solid #d2a15c;background:linear-gradient(135deg,#f2c77f,#d99a3c);box-shadow:3px 4px 0 #bd8536}
   .tool-card h2{font-size:15px;letter-spacing:-.25px;margin:0 0 8px;color:#202c36}.tool-card p{font-size:10px;line-height:1.7;color:#7d8790;margin:0;min-height:51px}.card-bottom{border-top:1px solid #edf0f2;margin-top:18px;padding-top:13px}.card-bottom span{font-size:7px;letter-spacing:1.2px;font-weight:850;color:#9ca5ac}.card-bottom b{font-size:15px;color:#c4862c}
+  .no-results{margin:16px 0 0;border:1px dashed #d9dfe3;border-radius:7px;padding:14px;color:#8d969e;font-size:10px;background:#fafbfb}
   .guide{display:grid;grid-template-columns:.85fr 1.15fr;gap:9%;border-top:1px solid #dfe4e7;margin-top:60px;padding:48px 0 44px}.guide h2{font-size:33px;line-height:1.15;letter-spacing:-1.4px;margin:13px 0 0;color:#17212b}.steps>div{display:flex;gap:18px;padding:0 0 17px;margin-bottom:17px;border-bottom:1px solid #e5e8eb}.steps>div:last-child{border:0;margin-bottom:0;padding-bottom:0}.steps>div>span{font-size:10px;font-weight:850;color:#c4862c}.steps h3{font-size:12px;color:#2c3841;margin:0 0 5px}.steps p{font-size:10px;line-height:1.65;color:#7e8890;margin:0}
   .notes{display:flex;justify-content:space-between;align-items:center;gap:28px;border-top:1px solid #dfe4e7;padding-top:21px}.notes strong{font-size:10px;color:#4b5962}.notes p{max-width:720px;font-size:9px;line-height:1.65;color:#8d969e;margin:5px 0 0}.notes a{font-size:10px;font-weight:750;color:#68747d;text-decoration:none;white-space:nowrap}.notes a span{color:#c4862c;margin-left:6px}
   footer{border-top:1px solid #dfe4e7;margin-top:40px;padding:24px 0 8px;display:flex;align-items:center;justify-content:space-between;gap:20px}.footer-brand{font-size:16px}.footer-brand .brand-mark{width:27px;height:27px}.footer-brand small{font-size:7px}footer p,footer>span{font-size:9px;color:#8a949d;margin:0}
-  @media(max-width:850px){.hero{display:block}.hero-note{margin-top:23px;max-width:260px}.tool-grid{grid-template-columns:1fr 1fr}.guide{grid-template-columns:1fr;gap:30px}.notes{align-items:flex-start;flex-direction:column}.notes a{white-space:normal}}
-  @media(max-width:600px){.hub{padding:0 18px 50px}.topbar{height:75px}.topbar nav{display:none}.nav-cta{padding:10px 12px;font-size:10px}.hero{padding:36px 0 32px}h1{font-size:44px;letter-spacing:-2.7px}.tool-grid{grid-template-columns:1fr}.tool-card{min-height:220px}footer{flex-wrap:wrap;align-items:flex-start}footer p{order:3;flex-basis:100%}}
+  @media(max-width:850px){.hero{display:block}.hero-note{margin-top:23px;max-width:260px}.directory-toolbar{display:block}.directory-stats{margin-top:13px;gap:11px;flex-wrap:wrap}.directory-stats span{padding-left:11px}.tool-grid{grid-template-columns:1fr 1fr}.guide{grid-template-columns:1fr;gap:30px}.notes{align-items:flex-start;flex-direction:column}.notes a{white-space:normal}}
+  @media(max-width:600px){.hub{padding:0 18px 50px}.topbar{height:75px}.topbar nav{display:none}.nav-cta{padding:10px 12px;font-size:10px}.hero{padding:36px 0 32px}h1{font-size:44px;letter-spacing:-2.7px}.search-box{max-width:none}.tool-grid{grid-template-columns:1fr}.tool-card{min-height:220px}.directory-stats{font-size:8px}footer{flex-wrap:wrap;align-items:flex-start}footer p{order:3;flex-basis:100%}}
 </style>
