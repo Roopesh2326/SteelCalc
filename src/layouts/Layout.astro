@@ -1,5 +1,27 @@
 ---
-const { title = 'SteelCalc | Steel Weight & Cost Calculators', description = 'Fast, practical steel weight and cost estimates for TMT bars, plates, pipes, and more.' } = Astro.props;
+const {
+  title = 'SteelCalc | Steel Weight & Cost Calculators',
+  description = 'Fast, practical steel weight and cost estimates for TMT bars, plates, pipes, and more.'
+} = Astro.props;
+
+const pathname = Astro.url.pathname;
+const canonical = Astro.site ? new URL(pathname, Astro.site).toString() : undefined;
+const pageName = title.replace(/\s*\|\s*SteelCalc\s*$/, '');
+const isCalculator = pathname.startsWith('/calculators/') && pathname !== '/calculators/';
+
+const applicationSchema = {
+  '@context': 'https://schema.org',
+  '@type': isCalculator ? 'WebApplication' : 'WebSite',
+  name: pageName,
+  description,
+  applicationCategory: isCalculator ? 'BusinessApplication' : undefined,
+  operatingSystem: isCalculator ? 'Any' : undefined,
+  url: canonical
+};
+
+const cleanSchema = Object.fromEntries(
+  Object.entries(applicationSchema).filter(([, value]) => value !== undefined)
+);
 ---
 <!doctype html>
 <html lang="en">
@@ -8,9 +30,20 @@ const { title = 'SteelCalc | Steel Weight & Cost Calculators', description = 'Fa
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#f6f7f8" />
     <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="SteelCalc" />
+    <meta property="og:type" content={isCalculator ? 'website' : 'website'} />
+    <meta property="og:site_name" content="SteelCalc" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
+    <script type="application/ld+json" set:html={JSON.stringify(cleanSchema)}></script>
     <title>{title}</title>
   </head>
   <body>
