@@ -36,6 +36,7 @@ const cleanSchema = Object.fromEntries(
     <meta property="og:site_name" content="SteelCalc" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
