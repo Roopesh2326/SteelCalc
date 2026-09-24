@@ -138,8 +138,8 @@ const calculators = [
   const cards = Array.from(document.querySelectorAll('.tool-card'));
   const noResults = document.querySelector('#no-results');
 
-  search?.addEventListener('input', () => {
-    const query = search.value.trim().toLowerCase();
+  const applyFilter = (value) => {
+    const query = value.trim().toLowerCase();
     let visible = 0;
 
     cards.forEach((card) => {
@@ -150,6 +150,19 @@ const calculators = [
     });
 
     if (noResults) noResults.hidden = visible > 0;
+  };
+
+  const initialQuery = new URLSearchParams(window.location.search).get('q') || '';
+  if (search) search.value = initialQuery;
+  applyFilter(initialQuery);
+
+  search?.addEventListener('input', () => {
+    const query = search.value.trim();
+    const url = new URL(window.location.href);
+    if (query) url.searchParams.set('q', query);
+    else url.searchParams.delete('q');
+    window.history.replaceState({}, '', url);
+    applyFilter(query);
   });
 </script>
 
