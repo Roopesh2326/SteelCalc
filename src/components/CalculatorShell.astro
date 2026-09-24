@@ -73,10 +73,13 @@ const relatedTools: Record<Props['type'], Array<{ title: string; href: string }>
   ]
 };
 
+const currentFaqItems = faqItems[type] ?? [];
+const currentRelatedTools = relatedTools[type] ?? [];
+
 const faqSchema = {
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
-  mainEntity: faqItems.map((item) => ({
+  mainEntity: currentFaqItems.map((item) => ({
     '@type': 'Question',
     name: item.question,
     acceptedAnswer: {
@@ -201,7 +204,7 @@ const faqSchema = {
       <p>Keep these calculation assumptions in mind when you use the estimate for planning or procurement.</p>
     </div>
     <div class="faq-list">
-      {faqItems.map((item) => (
+      {currentFaqItems.map((item) => (
         <details>
           <summary>{item.question}<span aria-hidden="true">+</span></summary>
           <p>{item.answer}</p>
@@ -216,7 +219,7 @@ const faqSchema = {
       <h2 id="related-title">Related calculators.</h2>
     </div>
     <div class="related-grid">
-      {relatedTools[type].map((tool) => (
+      {currentRelatedTools.map((tool) => (
         <a href={tool.href}>{tool.title}<span aria-hidden="true">↗</span></a>
       ))}
     </div>
