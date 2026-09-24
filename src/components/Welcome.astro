@@ -18,6 +18,10 @@ const tools = [
       <a href="/calculators">Calculators</a>
       <a href="#how-it-works">How it works</a>
     </nav>
+    <form class="header-search" action="/calculators" role="search">
+      <span aria-hidden="true">⌕</span>
+      <input name="q" type="search" placeholder="Search calculators..." aria-label="Search calculators" autocomplete="off" />
+    </form>
     <a class="nav-cta" href="/calculators">Explore tools <span aria-hidden="true">↗</span></a>
   </header>
 
@@ -45,10 +49,10 @@ const tools = [
     </section>
 
     <section class="stats-strip" aria-label="SteelCalc benefits">
-      <div><strong>5</strong><span>Calculator categories</span></div>
+      <div><strong>05</strong><span>Calculators</span></div>
       <div><strong>01</strong><span>Simple workflow</span></div>
-      <div><strong>∞</strong><span>Ways to plan smarter</span></div>
-      <p>Designed to make everyday steel estimates easier.</p>
+      <div><strong>∞</strong><span>Quick calculations</span></div>
+      <p>Free tools for weight, rebar, plate, pipe, and cost planning.</p>
     </section>
 
     <section class="tools-section" id="tools">
@@ -67,7 +71,10 @@ const tools = [
           </a>
         ))}
       </div>
-      <p class="tool-note">Five calculators are live. Open the <a href="/calculators">calculator directory</a> to see the full toolkit in one place.</p>
+      <div class="tool-note-row">
+        <p class="tool-note">Five calculators are live. Open the <a href="/calculators">calculator directory</a> to browse the full toolkit.</p>
+        <a class="directory-link" href="/calculators">View all tools <span aria-hidden="true">↗</span></a>
+      </div>
     </section>
 
     <section class="how-section" id="how-it-works">
@@ -80,7 +87,15 @@ const tools = [
     </section>
   </main>
 
-  <footer><a class="brand footer-brand" href="/"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>Steel<span class="brand-light">Calc</span><small>PRECISION TOOLS</small></span></a><p>Practical steel estimates, without the extra steps.</p><span>© {new Date().getFullYear()} SteelCalc</span></footer>
+  <footer>
+    <div>
+      <a class="brand footer-brand" href="/"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>Steel<span class="brand-light">Calc</span><small>PRECISION TOOLS</small></span></a>
+      <p class="footer-copy">Practical steel estimates for builders, fabricators, engineers, students, and everyday planning.</p>
+    </div>
+    <div class="footer-col"><strong>Calculators</strong><a href="/calculators/steel-weight">Steel Weight</a><a href="/calculators/tmt-rebar">TMT / Rebar</a><a href="/calculators/steel-plate">Steel Plate</a></div>
+    <div class="footer-col"><strong>Explore</strong><a href="/calculators/steel-pipe">Steel Pipe</a><a href="/calculators/steel-cost">Steel Cost</a><a href="#how-it-works">How it works</a></div>
+    <div class="footer-bottom"><span>© {new Date().getFullYear()} SteelCalc. All rights reserved.</span><span>Built for practical calculations.</span></div>
+  </footer>
 </div>
 
 <style>
@@ -91,5 +106,5 @@ const tools = [
   .stats-strip{display:grid;grid-template-columns:repeat(3,1fr) 1.6fr;align-items:center;border-top:1px solid #dfe4e7;border-bottom:1px solid #dfe4e7;padding:25px 0;gap:18px}.stats-strip>div{display:flex;align-items:center;gap:12px;border-right:1px solid #dfe4e7}.stats-strip strong{font-family:Georgia,serif;font-size:25px;font-weight:500;color:#c4862c}.stats-strip span{font-size:10px;color:#6f7a84;max-width:85px;line-height:1.4}.stats-strip p{font-size:10px;line-height:1.6;color:#8a949d;margin:0 0 0 12px}
   .tools-section{padding:85px 0 75px}.section-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;margin-bottom:30px}.section-heading h2,.how-intro h2{font-size:36px;line-height:1.15;letter-spacing:-1.5px;margin:14px 0 0;color:#17212b}.section-heading>p{max-width:330px;font-size:11px;line-height:1.8;color:#78838d;margin:0 0 3px}.tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.tool-card{display:block;background:#fff;border:1px solid #e4e8eb;border-radius:8px;padding:21px 21px 17px;min-height:224px;transition:transform .2s,border-color .2s,box-shadow .2s;text-decoration:none;color:inherit}.tool-card:hover{transform:translateY(-3px);border-color:#d8b77f;box-shadow:0 12px 28px #18232d0a}.tool-card-top,.tool-card-bottom{display:flex;justify-content:space-between;align-items:center}.tool-number{font-size:10px;font-weight:800;color:#c4862c}.tool-tag{font-size:7px;letter-spacing:1.2px;color:#89949d;background:#f4f6f7;padding:6px 8px;border-radius:3px;font-weight:800}.tool-symbol{height:42px;width:49px;margin:18px 0 13px;position:relative}.symbol-line{position:absolute;left:3px;top:6px;width:35px;height:28px;border:1px solid #b8c2ca;transform:skewY(-23deg);background:linear-gradient(130deg,#f9fafb,#d9dfe3)}.symbol-block{position:absolute;left:12px;top:13px;width:31px;height:24px;border:1px solid #d4a45f;background:linear-gradient(135deg,#f2c77f,#d99a3c);transform:skewY(-23deg);box-shadow:3px 4px 0 #bd8536}.tool-card h3{font-size:15px;letter-spacing:-.3px;margin:0 0 8px;color:#202c36}.tool-card>p{font-size:10px;line-height:1.7;color:#7d8790;margin:0;max-width:270px;min-height:34px}.tool-card-bottom{border-top:1px solid #edf0f2;margin-top:17px;padding-top:12px}.tool-status{font-size:7px;letter-spacing:1.2px;font-weight:800;color:#a0a9b0}.tool-arrow{font-size:15px;color:#c4862c}.tool-note{font-size:10px;color:#929ba3;margin:17px 0 0}.tool-note a{color:#7b5a28;font-weight:750;text-decoration:underline;text-underline-offset:3px}.tool-note a:hover{color:#17212b}
   .how-section{display:grid;grid-template-columns:.8fr 1.2fr;gap:9%;padding:47px 0 64px;border-top:1px solid #e0e5e8}.how-intro h2{font-size:32px}.how-steps>div{display:flex;gap:20px;padding:0 0 19px;margin-bottom:18px;border-bottom:1px solid #e4e8eb}.how-steps>div:last-child{margin-bottom:0;border:0;padding-bottom:0}.how-steps>div>span{font-size:10px;font-weight:800;color:#c4862c;padding-top:2px}.how-steps h3{font-size:12px;margin:0 0 6px;color:#27333d}.how-steps p{font-size:10px;line-height:1.6;color:#7d8790;margin:0}footer{border-top:1px solid #dfe4e7;padding:24px 0 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.footer-brand{font-size:16px}.footer-brand .brand-mark{width:27px;height:27px}.footer-brand small{font-size:7px}footer>p,footer>span{font-size:9px;color:#8a949d;margin:0}
-  @media(min-width:1200px){.hero{padding-top:88px;padding-bottom:78px}}@media(max-width:900px){.site-shell{padding:0 5%}.hero{gap:4%;grid-template-columns:1fr  .85fr}.hero h1{font-size:54px}.hero-visual{height:315px}.stats-strip{grid-template-columns:repeat(3,1fr)}.stats-strip p{grid-column:1/-1;margin:0}.tool-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:620px){.site-shell{padding:0 20px}.topbar{height:75px}.topbar nav{display:none}.nav-cta{padding:10px 12px;font-size:10px}.hero{grid-template-columns:1fr;padding:54px 0 40px;gap:32px}.hero h1{font-size:49px;letter-spacing:-2.8px}.hero-lede{font-size:13px}.hero-visual{height:285px}.stats-strip{grid-template-columns:1fr 1fr;gap:15px;padding:21px 0}.stats-strip>div{border-right:0}.stats-strip p{grid-column:1/-1}.tools-section{padding:60px 0 52px}.section-heading{display:block}.section-heading h2{font-size:31px}.section-heading>p{margin-top:13px}.tool-grid{grid-template-columns:1fr;gap:11px}.tool-card{min-height:210px}.how-section{grid-template-columns:1fr;gap:28px;padding:38px 0 45px}.how-intro h2{font-size:30px}footer{align-items:flex-start;flex-wrap:wrap}footer>p{order:3;flex-basis:100%}}@media(prefers-reduced-motion:reduce){:global(html){scroll-behavior:auto}.tool-card{transition:none}}
+  @media(min-width:1200px){.hero{padding-top:88px;padding-bottom:78px}}@media(max-width:900px){.site-shell{padding:0 5%}.hero{gap:4%;grid-template-columns:1fr  .85fr}.hero h1{font-size:54px}.hero-visual{height:315px}.stats-strip{grid-template-columns:repeat(3,1fr)}.stats-strip p{grid-column:1/-1;margin:0}.tool-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:620px){.site-shell{padding:0 20px}.topbar{height:75px}.topbar nav{display:none}.nav-cta{padding:10px 12px;font-size:10px}.hero{grid-template-columns:1fr;padding:54px 0 40px;gap:32px}.hero h1{font-size:49px;letter-spacing:-2.8px}.hero-lede{font-size:13px}.hero-visual{height:285px}.stats-strip{grid-template-columns:1fr 1fr;gap:15px;padding:21px 0}.stats-strip>div{border-right:0}.stats-strip p{grid-column:1/-1}.tools-section{padding:60px 0 52px}.section-heading{display:block}.section-heading h2{font-size:31px}.section-heading>p{margin-top:13px}.tool-grid{grid-template-columns:1fr;gap:11px}.tool-card{min-height:210px}.how-section{grid-template-columns:1fr;gap:28px;padding:38px 0 45px}.how-intro h2{font-size:30px}footer{grid-template-columns:1fr 1fr;align-items:start}.footer-bottom{grid-column:1/-1}}@media(prefers-reduced-motion:reduce){:global(html){scroll-behavior:auto}.tool-card{transition:none}}
 </style>
