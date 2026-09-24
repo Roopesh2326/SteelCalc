@@ -1,46 +1,54 @@
-# Astro Starter Kit: Basics
+# SteelCalc
+
+SteelCalc is an Astro-based toolkit for practical steel weight and cost calculations.
+
+## Calculator toolkit
+
+- Steel Weight Calculator
+- TMT / Rebar Calculator
+- Steel Plate Calculator
+- Steel Pipe Calculator
+- Steel Cost Calculator
+
+## Development
+
+From the repository root:
 
 ```sh
-npm create astro@latest -- --template basics
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Production build:
 
-## 🚀 Project Structure
+```sh
+npm run build
+npm run preview
+```
 
-Inside of your Astro project, you'll see the following folders and files:
+## Production SEO configuration
+
+Set `PUBLIC_SITE_URL` to the final production origin when deploying, for example:
 
 ```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+PUBLIC_SITE_URL=https://example.com
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+Astro then uses that origin for absolute canonical URLs, the sitemap endpoint, and the sitemap reference in `robots.txt`.
 
-## 🧞 Commands
+Without `PUBLIC_SITE_URL`, the site still works locally; canonical and absolute sitemap URLs remain unset until a real production domain is configured.
 
-All commands are run from the root of the project, from a terminal:
+## Routes
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+The calculator directory is available at `/calculators`, with individual tools below it:
 
-## 👀 Want to learn more?
+```text
+/calculators
+/calculators/steel-weight
+/calculators/tmt-rebar
+/calculators/steel-plate
+/calculators/steel-pipe
+/calculators/steel-cost
+```
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+The site also exposes `/robots.txt` and `/sitemap.xml`.
