@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="Page Not Found | SteelCalc" description="The SteelCalc page you requested could not be found.">
+  <main class="not-found">
+    <a class="brand" href="/" aria-label="SteelCalc home">
+      <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span>Steel<span class="brand-light">Calc</span><small>PRECISION TOOLS</small></span>
+    </a>
+
+    <section>
+      <span class="eyebrow">ERROR / 404</span>
+      <h1>That page is<br /><em>not here.</em></h1>
+      <p>The address may be outdated, or the calculator route may have changed. Head back to the toolkit and choose the calculation you need.</p>
+      <div class="actions">
+        <a class="primary" href="/calculators">Open calculators <span>→</span></a>
+        <a class="secondary" href="/">Back home <span>↗</span></a>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  :global(body){margin:0;background:#f6f7f8;color:#17212b;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+  .not-found{max-width:760px;margin:0 auto;padding:38px 28px 80px;min-height:78vh;display:flex;flex-direction:column}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#18232d;font-size:18px;font-weight:850;letter-spacing:-.7px;line-height:1}.brand-light{font-weight:450;color:#67727d}.brand small{display:block;font-size:7px;letter-spacing:1.8px;font-weight:750;color:#8b969f;margin-top:5px}.brand-mark{width:29px;height:29px;background:#e9a23b;border-radius:8px;display:flex;align-items:flex-end;justify-content:center;gap:3px;padding:6px}.brand-mark span{display:block;width:4px;background:#17212b;border-radius:1px}.brand-mark span:nth-child(1){height:7px}.brand-mark span:nth-child(2){height:13px}.brand-mark span:nth-child(3){height:10px}
+  section{margin:auto 0}.eyebrow{font-size:9px;font-weight:800;letter-spacing:2px;color:#c4862c}h1{font-size:clamp(48px,8vw,82px);line-height:.98;letter-spacing:-4px;margin:22px 0 19px;color:#17212b}h1 em{font-family:Georgia,serif;font-weight:500;color:#c88427}p{max-width:500px;font-size:13px;line-height:1.85;color:#707c85;margin:0}.actions{display:flex;gap:12px;align-items:center;margin-top:30px}.actions a{font-size:10px;font-weight:800;text-decoration:none;border-radius:6px;padding:13px 16px}.primary{background:#17232e;color:#fff;box-shadow:0 7px 15px #17232e12}.primary span{color:#efad4a;margin-left:12px;font-size:14px}.secondary{border:1px solid #d7dde1;color:#5f6b74;background:#fff}.secondary span{color:#c4862c;margin-left:8px}
+  @media(max-width:540px){.not-found{padding:26px 20px 55px}h1{font-size:54px;letter-spacing:-3px}.actions{align-items:flex-start;flex-direction:column}.actions a{width:fit-content}}
+</style>

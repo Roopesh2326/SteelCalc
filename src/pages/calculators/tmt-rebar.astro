@@ -1,0 +1,7 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CalculatorShell from '../../components/CalculatorShell.astro';
+---
+<Layout title="TMT Rebar Weight Calculator | SteelCalc" description="Calculate TMT and rebar weight from diameter, bar length, and quantity using the nominal d² / 162 method.">
+  <CalculatorShell type="tmt-rebar" eyebrow="REBAR / 02" title="TMT & rebar." accent="In a few seconds." description="Estimate total TMT or rebar weight from bar diameter, length per bar, and quantity." formula="d² / 162 × length × quantity" />
+</Layout>
