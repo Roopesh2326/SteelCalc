@@ -1,0 +1,7 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CalculatorShell from '../../components/CalculatorShell.astro';
+---
+<Layout title="Steel Pipe Weight Calculator | SteelCalc" description="Calculate steel pipe weight from outside diameter, wall thickness, length, quantity, and steel density.">
+  <CalculatorShell type="steel-pipe" eyebrow="PIPE / 04" title="Steel pipe." accent="Measure. Calculate." description="Estimate pipe weight from outside diameter, wall thickness, length, quantity, and steel density." formula="π / 4 × (OD² − ID²) × L × ρ" />
+</Layout>
