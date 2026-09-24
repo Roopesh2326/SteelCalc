@@ -26,29 +26,50 @@ npm run build
 npm run preview
 ```
 
-## Production SEO configuration
+## Production configuration
 
-Set `PUBLIC_SITE_URL` to the final production origin when deploying, for example:
+Copy `.env.example` to `.env` for local configuration. Before deployment, set the final public origin:
 
 ```text
-PUBLIC_SITE_URL=https://example.com
+PUBLIC_SITE_URL=https://your-domain.example
 ```
 
-Astro then uses that origin for absolute canonical URLs, the sitemap endpoint, and the sitemap reference in `robots.txt`.
+The site uses that value for absolute canonical URLs and the production sitemap reference.
 
-Without `PUBLIC_SITE_URL`, the site still works locally; canonical and absolute sitemap URLs remain unset until a real production domain is configured.
+For a static host such as Cloudflare Pages:
+
+- Build command: `npm run build`
+- Output directory: `dist`
+- Node: 22+
+
+No server runtime is required for the calculator pages.
 
 ## Routes
 
-The calculator directory is available at `/calculators`, with individual tools below it:
-
 ```text
+/
 /calculators
 /calculators/steel-weight
 /calculators/tmt-rebar
 /calculators/steel-plate
 /calculators/steel-pipe
 /calculators/steel-cost
+/robots.txt
+/sitemap.xml
 ```
 
-The site also exposes `/robots.txt` and `/sitemap.xml`.
+A branded `/404` page is included for invalid routes.
+
+## Quality gate
+
+Every pull request should pass:
+
+```sh
+npm run build
+```
+
+The repository also contains a GitHub Actions build workflow that runs the production build automatically on pushes and pull requests.
+
+## Notes on calculation estimates
+
+SteelCalc is an estimation tool. Actual delivered weight and purchase cost can vary by steel grade, manufacturing tolerances, coating, supplier pricing, and project-specific specifications.
