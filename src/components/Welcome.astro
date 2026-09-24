@@ -1,210 +1,95 @@
 ---
-import astroLogo from '../assets/astro.svg';
-import background from '../assets/background.svg';
+const tools = [
+  { number: '01', title: 'Steel Weight', detail: 'Estimate weight by material, shape, and dimensions.', tag: 'WEIGHT' },
+  { number: '02', title: 'TMT / Rebar', detail: 'Calculate bar weight from diameter and total length.', tag: 'REBAR' },
+  { number: '03', title: 'Steel Plate', detail: 'Work out plate weight from thickness and size.', tag: 'PLATE' },
+  { number: '04', title: 'Steel Pipe', detail: 'Estimate pipe weight using outer diameter and wall thickness.', tag: 'PIPE' },
+  { number: '05', title: 'Steel Cost', detail: 'Convert calculated quantities into an estimated material cost.', tag: 'COST' },
+];
 ---
 
-<div id="container">
-	<img id="background" src={background.src} alt="" fetchpriority="high" />
-	<main>
-		<section id="hero">
-			<a href="https://astro.build"
-				><img src={astroLogo.src} width="115" height="48" alt="Astro Homepage" /></a
-			>
-			<h1>
-				To get started, open the <code><pre>src/pages</pre></code> directory in your project.
-			</h1>
-			<section id="links">
-				<a class="button" href="https://docs.astro.build">Read our docs</a>
-				<a href="https://astro.build/chat"
-					>Join our Discord <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36"
-						><path
-							fill="currentColor"
-							d="M107.7 8.07A105.15 105.15 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83 97.68 97.68 0 0 0-29.11 0A72.37 72.37 0 0 0 45.64 0a105.89 105.89 0 0 0-26.25 8.09C2.79 32.65-1.71 56.6.54 80.21a105.73 105.73 0 0 0 32.17 16.15 77.7 77.7 0 0 0 6.89-11.11 68.42 68.42 0 0 1-10.85-5.18c.91-.66 1.8-1.34 2.66-2a75.57 75.57 0 0 0 64.32 0c.87.71 1.76 1.39 2.66 2a68.68 68.68 0 0 1-10.87 5.19 77 77 0 0 0 6.89 11.1 105.25 105.25 0 0 0 32.19-16.14c2.64-27.38-4.51-51.11-18.9-72.15ZM42.45 65.69C36.18 65.69 31 60 31 53s5-12.74 11.43-12.74S54 46 53.89 53s-5.05 12.69-11.44 12.69Zm42.24 0C78.41 65.69 73.25 60 73.25 53s5-12.74 11.44-12.74S96.23 46 96.12 53s-5.04 12.69-11.43 12.69Z"
-						></path></svg
-					>
-				</a>
-			</section>
-		</section>
-	</main>
+<div class="site-shell">
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="SteelCalc home">
+      <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span>Steel<span class="brand-light">Calc</span><small>PRECISION TOOLS</small></span>
+    </a>
+    <nav aria-label="Main navigation">
+      <a href="#tools">Calculators</a>
+      <a href="#how-it-works">How it works</a>
+    </nav>
+    <a class="nav-cta" href="#tools">Explore tools <span aria-hidden="true">↗</span></a>
+  </header>
 
-	<a href="https://astro.build/blog/astro-7/" id="news" class="box">
-		<svg width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg"
-			><path
-				d="M24.667 12c1.333 1.414 2 3.192 2 5.334 0 4.62-4.934 5.7-7.334 12C18.444 28.567 18 27.456 18 26c0-4.642 6.667-7.053 6.667-14Zm-5.334-5.333c1.6 1.65 2.4 3.43 2.4 5.333 0 6.602-8.06 7.59-6.4 17.334C13.111 27.787 12 25.564 12 22.666c0-4.434 7.333-8 7.333-16Zm-6-5.333C15.111 3.555 16 5.556 16 7.333c0 8.333-11.333 10.962-5.333 22-3.488-.774-6-4-6-8 0-8.667 8.666-10 8.666-20Z"
-				fill="#111827"></path></svg
-		>
-		<h2>What's New in Astro 7.0?</h2>
-		<p>
-			Rust-powered compiler, advanced routing, AI agent support, and more! Click to explore Astro
-			7.0's new features.
-		</p>
-	</a>
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="status-dot"></span> BUILT FOR THE REAL WORLD</div>
+        <h1>Steel calculations.<br /><em>Made simple.</em></h1>
+        <p class="hero-lede">Quick, practical steel weight and cost estimates for builders, fabricators, engineers, and everyone working with steel.</p>
+        <div class="hero-actions">
+          <a class="primary-btn" href="#tools">Explore calculators <span aria-hidden="true">→</span></a>
+          <span class="micro-note">Clear inputs. Useful answers.</span>
+        </div>
+        <div class="hero-proof"><span class="proof-icon">✓</span> Fast estimates <i></i><span class="proof-icon">✓</span> No sign-up required</div>
+      </div>
+      <div class="hero-visual" aria-label="Decorative steel material illustration">
+        <div class="visual-grid"></div>
+        <div class="visual-label label-top">MATERIAL / 01</div>
+        <div class="steel-plate plate-back"></div>
+        <div class="steel-plate plate-front"><div class="plate-sheen"></div><div class="plate-stamp">SC<span> / </span>01</div></div>
+        <div class="dimension dimension-x"><span></span><b>LENGTH</b><span></span></div>
+        <div class="dimension dimension-y"><span></span><b>THICKNESS</b><span></span></div>
+        <div class="visual-caption"><span>01</span><div><strong>ENGINEERED FOR CLARITY</strong><small>Practical tools. Less guesswork.</small></div></div>
+      </div>
+    </section>
+
+    <section class="stats-strip" aria-label="SteelCalc benefits">
+      <div><strong>5</strong><span>Calculator categories</span></div>
+      <div><strong>01</strong><span>Simple workflow</span></div>
+      <div><strong>∞</strong><span>Ways to plan smarter</span></div>
+      <p>Designed to make everyday steel estimates easier.</p>
+    </section>
+
+    <section class="tools-section" id="tools">
+      <div class="section-heading">
+        <div><div class="eyebrow">THE TOOLKIT</div><h2>Find the right <em>calculator.</em></h2></div>
+        <p>Choose a tool to get started. Each calculator is designed around the measurements you already use.</p>
+      </div>
+      <div class="tool-grid">
+        {tools.map((tool) => (
+          <article class="tool-card">
+            <div class="tool-card-top"><span class="tool-number">{tool.number}</span><span class="tool-tag">{tool.tag}</span></div>
+            <div class="tool-symbol" aria-hidden="true"><span class="symbol-line"></span><span class="symbol-block"></span></div>
+            <h3>{tool.title}</h3>
+            <p>{tool.detail}</p>
+            <div class="tool-card-bottom"><span class="tool-status">CALCULATOR</span><span class="tool-arrow" aria-hidden="true">↗</span></div>
+          </article>
+        ))}
+      </div>
+      <p class="tool-note">Calculator interfaces are being prepared. This page is the polished starting point for the SteelCalc toolkit.</p>
+    </section>
+
+    <section class="how-section" id="how-it-works">
+      <div class="how-intro"><div class="eyebrow">STRAIGHTFORWARD BY DESIGN</div><h2>From dimensions<br />to <em>decisions.</em></h2></div>
+      <div class="how-steps">
+        <div><span>01</span><section><h3>Choose your material</h3><p>Select the steel form that matches your project.</p></section></div>
+        <div><span>02</span><section><h3>Enter measurements</h3><p>Use familiar dimensions and quantities.</p></section></div>
+        <div><span>03</span><section><h3>Plan with confidence</h3><p>Use the estimate as a practical starting point for your next step.</p></section></div>
+      </div>
+    </section>
+  </main>
+
+  <footer><a class="brand footer-brand" href="/"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>Steel<span class="brand-light">Calc</span><small>PRECISION TOOLS</small></span></a><p>Practical steel estimates, without the extra steps.</p><span>© {new Date().getFullYear()} SteelCalc</span></footer>
 </div>
 
 <style>
-	#background {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		z-index: -1;
-		filter: blur(100px);
-	}
-
-	#container {
-		font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
-		height: 100%;
-	}
-
-	main {
-		height: 100%;
-		display: flex;
-		justify-content: center;
-	}
-
-	#hero {
-		display: flex;
-		align-items: start;
-		flex-direction: column;
-		justify-content: center;
-		padding: 16px;
-	}
-
-	h1 {
-		font-size: 22px;
-		margin-top: 0.25em;
-	}
-
-	#links {
-		display: flex;
-		gap: 16px;
-	}
-
-	#links a {
-		display: flex;
-		align-items: center;
-		padding: 10px 12px;
-		color: #111827;
-		text-decoration: none;
-		transition: color 0.2s;
-	}
-
-	#links a:hover {
-		color: rgb(78, 80, 86);
-	}
-
-	#links a svg {
-		height: 1em;
-		margin-left: 8px;
-	}
-
-	#links a.button {
-		color: white;
-		background: linear-gradient(83.21deg, #3245ff 0%, #bc52ee 100%);
-		box-shadow:
-			inset 0 0 0 1px rgba(255, 255, 255, 0.12),
-			inset 0 -2px 0 rgba(0, 0, 0, 0.24);
-		border-radius: 10px;
-	}
-
-	#links a.button:hover {
-		color: rgb(230, 230, 230);
-		box-shadow: none;
-	}
-
-	pre {
-		font-family:
-			ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono',
-			monospace;
-		font-weight: normal;
-		background: linear-gradient(14deg, #d83333 0%, #f041ff 100%);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-		margin: 0;
-	}
-
-	h2 {
-		margin: 0 0 1em;
-		font-weight: normal;
-		color: #111827;
-		font-size: 20px;
-	}
-
-	p {
-		color: #4b5563;
-		font-size: 16px;
-		line-height: 24px;
-		letter-spacing: -0.006em;
-		margin: 0;
-	}
-
-	code {
-		display: inline-block;
-		background:
-			linear-gradient(66.77deg, #f3cddd 0%, #f5cee7 100%) padding-box,
-			linear-gradient(155deg, #d83333 0%, #f041ff 18%, #f5cee7 45%) border-box;
-		border-radius: 8px;
-		border: 1px solid transparent;
-		padding: 6px 8px;
-	}
-
-	.box {
-		padding: 16px;
-		background: rgba(255, 255, 255, 1);
-		border-radius: 16px;
-		border: 1px solid white;
-	}
-
-	#news {
-		position: absolute;
-		bottom: 16px;
-		right: 16px;
-		max-width: 300px;
-		text-decoration: none;
-		transition: background 0.2s;
-		backdrop-filter: blur(50px);
-	}
-
-	#news:hover {
-		background: rgba(255, 255, 255, 0.55);
-	}
-
-	@media screen and (max-height: 368px) {
-		#news {
-			display: none;
-		}
-	}
-
-	@media screen and (max-width: 768px) {
-		#container {
-			display: flex;
-			flex-direction: column;
-		}
-
-		#hero {
-			display: block;
-			padding-top: 10%;
-		}
-
-		#links {
-			flex-wrap: wrap;
-		}
-
-		#links a.button {
-			padding: 14px 18px;
-		}
-
-		#news {
-			right: 16px;
-			left: 16px;
-			bottom: 2.5rem;
-			max-width: 100%;
-		}
-
-		h1 {
-			line-height: 1.5;
-		}
-	}
+  :global(*){box-sizing:border-box} :global(html){scroll-behavior:smooth} :global(body){margin:0;background:#f6f7f8;color:#17212b;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+  .site-shell{max-width:1440px;margin:0 auto;padding:0 7.1%}.topbar{height:94px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #e3e7e9}.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:#18232d;font-size:20px;font-weight:850;letter-spacing:-.8px;line-height:1}.brand-light{font-weight:450;color:#67727d}.brand small{display:block;font-size:8px;letter-spacing:2px;font-weight:750;color:#8b969f;margin-top:6px}.brand-mark{width:31px;height:31px;background:#e9a23b;border-radius:8px;display:flex;align-items:flex-end;justify-content:center;gap:3px;padding:7px}.brand-mark span{display:block;width:4px;background:#17212b;border-radius:1px}.brand-mark span:nth-child(1){height:8px}.brand-mark span:nth-child(2){height:14px}.brand-mark span:nth-child(3){height:11px}.topbar nav{display:flex;gap:35px}.topbar nav a{font-size:12px;font-weight:650;color:#65717c;text-decoration:none}.topbar nav a:hover{color:#17212b}.nav-cta{font-size:12px;font-weight:750;color:#17212b;text-decoration:none;border:1px solid #d7dde1;padding:12px 16px;border-radius:7px}.nav-cta span{color:#d68c23;margin-left:9px}
+  .hero{display:grid;grid-template-columns:1fr .9fr;align-items:center;gap:5%;padding:78px 0 70px;min-height:500px}.eyebrow{font-size:9px;font-weight:800;letter-spacing:2px;color:#8a949d;display:flex;align-items:center;gap:9px}.status-dot{width:6px;height:6px;background:#e6a13a;border-radius:50%;box-shadow:0 0 0 4px #f7ead7}.hero h1{font-size:clamp(43px,5vw,69px);line-height:1.04;letter-spacing:-3.8px;margin:24px 0 20px;font-weight:780;color:#17212b}.hero h1 em,.section-heading h2 em,.how-intro h2 em{font-family:Georgia,serif;font-weight:500;color:#c88427}.hero-lede{font-size:14px;line-height:1.85;color:#68737d;max-width:450px;margin:0}.hero-actions{display:flex;align-items:center;gap:19px;margin-top:29px}.primary-btn{display:inline-flex;align-items:center;gap:22px;padding:15px 19px;background:#17232e;color:#fff;text-decoration:none;font-size:11px;font-weight:750;border-radius:6px;box-shadow:0 5px 12px #18232d16}.primary-btn span{color:#efad4a;font-size:17px}.micro-note{font-size:10px;color:#8a949c}.hero-proof{display:flex;align-items:center;gap:8px;margin-top:28px;font-size:10px;color:#75808a}.proof-icon{display:grid;place-items:center;width:15px;height:15px;border-radius:50%;background:#e8f0e8;color:#56835a;font-size:9px;font-weight:800}.hero-proof i{height:3px;width:3px;background:#b4bcc2;border-radius:50%;margin:0 5px}
+  .hero-visual{height:355px;position:relative;background:#e9edf0;border-radius:10px;overflow:hidden;border:1px solid #dfe4e7}.visual-grid{position:absolute;inset:0;background-image:linear-gradient(#cbd3d944 1px,transparent 1px),linear-gradient(90deg,#cbd3d944 1px,transparent 1px);background-size:27px 27px;mask-image:linear-gradient(135deg,#000,transparent 80%)}.visual-label{position:absolute;top:22px;left:24px;font-size:8px;font-weight:800;letter-spacing:1.7px;color:#8a969f}.steel-plate{position:absolute;width:66%;height:52%;left:18%;top:24%;transform:skewY(-13deg) rotate(-8deg);border-radius:4px}.plate-back{background:linear-gradient(125deg,#aeb9c1,#d9dfe3 40%,#87949e);box-shadow:14px 18px 0 #b8c1c8;opacity:.75;left:23%;top:20%}.plate-front{background:linear-gradient(145deg,#f9fafb 0%,#cbd3d9 35%,#aab5bd 60%,#e5e9ec 100%);border:1px solid #aeb8c0;box-shadow:0 24px 35px #27374426,inset 0 1px 1px #fff;overflow:hidden}.plate-sheen{position:absolute;inset:0;background:linear-gradient(115deg,transparent 20%,#fff8 48%,transparent 62%)}.plate-stamp{position:absolute;right:17px;bottom:15px;font-size:20px;font-weight:850;letter-spacing:-1px;color:#78848e;opacity:.7}.plate-stamp span{color:#d18a2d}.dimension{position:absolute;display:flex;align-items:center;gap:7px;color:#89949d;font-size:7px;font-weight:800;letter-spacing:1px}.dimension span{display:block;width:34px;height:1px;background:#aab4bc}.dimension-x{left:15%;bottom:20%}.dimension-y{right:9%;top:48%;transform:rotate(90deg)}.visual-caption{position:absolute;bottom:19px;left:23px;right:23px;display:flex;gap:11px;align-items:center;border-top:1px solid #cbd2d8;padding-top:13px}.visual-caption>span{font-family:Georgia,serif;color:#c4862c;font-size:20px}.visual-caption strong,.visual-caption small{display:block}.visual-caption strong{font-size:7px;letter-spacing:1.5px;color:#596671}.visual-caption small{font-size:9px;color:#8a959e;margin-top:4px}
+  .stats-strip{display:grid;grid-template-columns:repeat(3,1fr) 1.6fr;align-items:center;border-top:1px solid #dfe4e7;border-bottom:1px solid #dfe4e7;padding:25px 0;gap:18px}.stats-strip>div{display:flex;align-items:center;gap:12px;border-right:1px solid #dfe4e7}.stats-strip strong{font-family:Georgia,serif;font-size:25px;font-weight:500;color:#c4862c}.stats-strip span{font-size:10px;color:#6f7a84;max-width:85px;line-height:1.4}.stats-strip p{font-size:10px;line-height:1.6;color:#8a949d;margin:0 0 0 12px}
+  .tools-section{padding:85px 0 75px}.section-heading{display:flex;align-items:flex-end;justify-content:space-between;gap:30px;margin-bottom:30px}.section-heading h2,.how-intro h2{font-size:36px;line-height:1.15;letter-spacing:-1.5px;margin:14px 0 0;color:#17212b}.section-heading>p{max-width:330px;font-size:11px;line-height:1.8;color:#78838d;margin:0 0 3px}.tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.tool-card{background:#fff;border:1px solid #e4e8eb;border-radius:8px;padding:21px 21px 17px;min-height:224px;transition:transform .2s,border-color .2s,box-shadow .2s}.tool-card:hover{transform:translateY(-3px);border-color:#d8b77f;box-shadow:0 12px 28px #18232d0a}.tool-card-top,.tool-card-bottom{display:flex;justify-content:space-between;align-items:center}.tool-number{font-size:10px;font-weight:800;color:#c4862c}.tool-tag{font-size:7px;letter-spacing:1.2px;color:#89949d;background:#f4f6f7;padding:6px 8px;border-radius:3px;font-weight:800}.tool-symbol{height:42px;width:49px;margin:18px 0 13px;position:relative}.symbol-line{position:absolute;left:3px;top:6px;width:35px;height:28px;border:1px solid #b8c2ca;transform:skewY(-23deg);background:linear-gradient(130deg,#f9fafb,#d9dfe3)}.symbol-block{position:absolute;left:12px;top:13px;width:31px;height:24px;border:1px solid #d4a45f;background:linear-gradient(135deg,#f2c77f,#d99a3c);transform:skewY(-23deg);box-shadow:3px 4px 0 #bd8536}.tool-card h3{font-size:15px;letter-spacing:-.3px;margin:0 0 8px;color:#202c36}.tool-card>p{font-size:10px;line-height:1.7;color:#7d8790;margin:0;max-width:270px;min-height:34px}.tool-card-bottom{border-top:1px solid #edf0f2;margin-top:17px;padding-top:12px}.tool-status{font-size:7px;letter-spacing:1.2px;font-weight:800;color:#a0a9b0}.tool-arrow{font-size:15px;color:#c4862c}.tool-note{font-size:10px;color:#929ba3;margin:17px 0 0}
+  .how-section{display:grid;grid-template-columns:.8fr 1.2fr;gap:9%;padding:47px 0 64px;border-top:1px solid #e0e5e8}.how-intro h2{font-size:32px}.how-steps>div{display:flex;gap:20px;padding:0 0 19px;margin-bottom:18px;border-bottom:1px solid #e4e8eb}.how-steps>div:last-child{margin-bottom:0;border:0;padding-bottom:0}.how-steps>div>span{font-size:10px;font-weight:800;color:#c4862c;padding-top:2px}.how-steps h3{font-size:12px;margin:0 0 6px;color:#27333d}.how-steps p{font-size:10px;line-height:1.6;color:#7d8790;margin:0}footer{border-top:1px solid #dfe4e7;padding:24px 0 28px;display:flex;align-items:center;justify-content:space-between;gap:20px}.footer-brand{font-size:16px}.footer-brand .brand-mark{width:27px;height:27px}.footer-brand small{font-size:7px}footer>p,footer>span{font-size:9px;color:#8a949d;margin:0}
+  @media(min-width:1200px){.hero{padding-top:88px;padding-bottom:78px}}@media(max-width:900px){.site-shell{padding:0 5%}.hero{gap:4%;grid-template-columns:1fr  .85fr}.hero h1{font-size:54px}.hero-visual{height:315px}.stats-strip{grid-template-columns:repeat(3,1fr)}.stats-strip p{grid-column:1/-1;margin:0}.tool-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:620px){.site-shell{padding:0 20px}.topbar{height:75px}.topbar nav{display:none}.nav-cta{padding:10px 12px;font-size:10px}.hero{grid-template-columns:1fr;padding:54px 0 40px;gap:32px}.hero h1{font-size:49px;letter-spacing:-2.8px}.hero-lede{font-size:13px}.hero-visual{height:285px}.stats-strip{grid-template-columns:1fr 1fr;gap:15px;padding:21px 0}.stats-strip>div{border-right:0}.stats-strip p{grid-column:1/-1}.tools-section{padding:60px 0 52px}.section-heading{display:block}.section-heading h2{font-size:31px}.section-heading>p{margin-top:13px}.tool-grid{grid-template-columns:1fr;gap:11px}.tool-card{min-height:210px}.how-section{grid-template-columns:1fr;gap:28px;padding:38px 0 45px}.how-intro h2{font-size:30px}footer{align-items:flex-start;flex-wrap:wrap}footer>p{order:3;flex-basis:100%}}@media(prefers-reduced-motion:reduce){:global(html){scroll-behavior:auto}.tool-card{transition:none}}
 </style>
