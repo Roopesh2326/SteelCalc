@@ -165,6 +165,10 @@ const tools = [
         <div><span>NEW / CONSTRUCTION TOOLS</span><strong>Moving beyond steel quantities?</strong><small>Estimate concrete volume, cement, sand, and aggregate for common construction work.</small></div>
         <a href="/calculators/concrete">Open concrete calculator <span>→</span></a>
       </div>
+      <div class="masonry-banner">
+        <div><span>NEW / MASONRY TOOL</span><strong>Estimating a wall?</strong><small>Estimate brick or block count, mortar, cement, and sand with custom unit dimensions.</small></div>
+        <a href="/calculators/brick-block">Open masonry calculator <span>→</span></a>
+      </div>
     </section>
   </main>
 
@@ -177,7 +181,7 @@ const tools = [
       <p>Free online steel and construction calculators for weight, rebar, plate, pipe, cost, concrete quantities, and project estimates.</p>
     </div>
     <div class="footer-col"><strong>Calculators</strong><a href="/calculators/steel-weight">Steel Weight</a><a href="/calculators/tmt-rebar">TMT Rebar</a><a href="/calculators/steel-plate">Steel Plate</a></div>
-    <div class="footer-col"><strong>More Tools</strong><a href="/calculators/steel-pipe">Steel Pipe</a><a href="/calculators/steel-cost">Steel Cost</a><a href="/calculators/concrete">Concrete</a><a href="/workbench">Project Workbench</a><a href="/calculators">All calculators</a></div>
+    <div class="footer-col"><strong>More Tools</strong><a href="/calculators/steel-pipe">Steel Pipe</a><a href="/calculators/steel-cost">Steel Cost</a><a href="/calculators/concrete">Concrete</a><a href="/calculators/brick-block">Brick & Block</a><a href="/workbench">Project Workbench</a><a href="/calculators">All calculators</a></div>
     <div class="footer-bottom"><span>© {new Date().getFullYear()} SteelCalc. All rights reserved.</span><span>Built for engineers, students, and builders.</span></div>
   </footer>
 </div>
@@ -267,6 +271,7 @@ const tools = [
 
   .how-section{display:grid;grid-template-columns:.85fr 1.15fr;gap:8%;padding:44px 0 58px;border-top:1px solid #e0e5e8}.workbench-banner{grid-column:1/-1;margin-top:13px;border:1px solid #dfe4e7;background:#18252f;color:#fff;border-radius:7px;padding:15px 17px;display:flex;align-items:center;justify-content:space-between;gap:20px}.workbench-banner span{font-size:6.5px;letter-spacing:1.4px;color:#d9a04f;font-weight:850}.workbench-banner strong,.workbench-banner small{display:block}.workbench-banner strong{font-size:11px;margin-top:6px}.workbench-banner small{font-size:8px;color:#a8b5bc;margin-top:4px}.workbench-banner>a{background:#d9932f;color:#fff;text-decoration:none;font-size:8px;font-weight:850;padding:9px 11px;border-radius:5px;white-space:nowrap}.workbench-banner>a span{color:#fff;margin-left:5px;letter-spacing:0}
   .construction-banner{grid-column:1/-1;margin-top:-2px;border:1px solid #e4dccd;background:#fbfaf7;color:#26343d;border-radius:7px;padding:14px 17px;display:flex;align-items:center;justify-content:space-between;gap:20px}.construction-banner span{font-size:6.5px;letter-spacing:1.4px;color:#c4862c;font-weight:850}.construction-banner strong,.construction-banner small{display:block}.construction-banner strong{font-size:11px;margin-top:6px}.construction-banner small{font-size:8px;color:#7f8991;margin-top:4px}.construction-banner>a{border:1px solid #d6c3a2;background:#fff;color:#6d5a3c;text-decoration:none;font-size:8px;font-weight:850;padding:9px 11px;border-radius:5px;white-space:nowrap}.construction-banner>a span{color:#c4862c;margin-left:5px;letter-spacing:0}
+  .masonry-banner{grid-column:1/-1;margin-top:-2px;border:1px solid #eadfd1;background:#faf7f3;color:#26343d;border-radius:7px;padding:14px 17px;display:flex;align-items:center;justify-content:space-between;gap:20px}.masonry-banner span{font-size:6.5px;letter-spacing:1.4px;color:#bb7b29;font-weight:850}.masonry-banner strong,.masonry-banner small{display:block}.masonry-banner strong{font-size:11px;margin-top:6px}.masonry-banner small{font-size:8px;color:#7f8991;margin-top:4px}.masonry-banner>a{border:1px solid #d7c4aa;background:#fff;color:#6d5a3c;text-decoration:none;font-size:8px;font-weight:850;padding:9px 11px;border-radius:5px;white-space:nowrap}.masonry-banner>a span{color:#c4862c;margin-left:5px;letter-spacing:0}
   .how-intro h2{font-size:29px}.how-intro p{max-width:410px;font-size:9px;line-height:1.75;color:#7a858e;margin:12px 0 0}
   .how-steps>div{display:flex;gap:18px;padding:0 0 15px;margin-bottom:15px;border-bottom:1px solid #e5e8ea}.how-steps>div:last-child{margin-bottom:0;border-bottom:0;padding-bottom:0}.how-steps>div>span{font-size:7px;font-weight:850;color:#d18f2d;padding-top:2px}.how-steps h3{font-size:10px;margin:0 0 5px;color:#29353e}.how-steps p{font-size:8px;line-height:1.65;color:#7d8790;margin:0}
 
@@ -296,7 +301,7 @@ const tools = [
     .hero{padding:39px 0 32px}.hero h1{font-size:41px;letter-spacing:-2.6px}.hero-lede{font-size:11px}.hero-actions{align-items:flex-start;flex-direction:column}.hero-material{height:270px}
     .benefits-strip{grid-template-columns:1fr}.benefit{border-right:0;border-bottom:1px solid #e5e8ea;padding:12px 7px}.benefit:last-child{border-bottom:0}
     .tools-section{padding:50px 0 45px}.section-heading h2{font-size:29px}.tool-grid{grid-template-columns:1fr;gap:10px}.tool-card{min-height:260px}
-    .how-section{grid-template-columns:1fr;gap:25px;padding:35px 0 42px}.how-intro h2{font-size:28px}.workbench-banner,.construction-banner{align-items:flex-start;flex-direction:column}.workbench-banner>a,.construction-banner>a{white-space:normal}
+    .how-section{grid-template-columns:1fr;gap:25px;padding:35px 0 42px}.how-intro h2{font-size:28px}.workbench-banner,.construction-banner,.masonry-banner{align-items:flex-start;flex-direction:column}.workbench-banner>a,.construction-banner>a,.masonry-banner>a{white-space:normal}
     footer{grid-template-columns:1fr 1fr}.footer-bottom{grid-column:1/-1;flex-direction:column;gap:5px}
   }
 

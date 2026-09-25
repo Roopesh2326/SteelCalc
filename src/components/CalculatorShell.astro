@@ -1,6 +1,6 @@
 ---
 interface Props {
-  type: 'steel-weight' | 'tmt-rebar' | 'steel-plate' | 'steel-pipe' | 'steel-cost' | 'concrete';
+  type: 'steel-weight' | 'tmt-rebar' | 'steel-plate' | 'steel-pipe' | 'steel-cost' | 'concrete' | 'masonry';
   eyebrow: string;
   title: string;
   accent: string;
@@ -16,6 +16,7 @@ const labels: Record<Props['type'], { result: string; helper: string }> = {
   'steel-pipe': { result: 'Pipe weight', helper: 'Based on outside diameter, wall thickness, and length.' },
   'steel-cost': { result: 'Estimated material cost', helper: 'Weight × rate, with an optional allowance for waste.' },
   'concrete': { result: 'Concrete volume', helper: 'Wet volume with a configurable dry-volume factor and mix ratio.' },
+  'masonry': { result: 'Masonry units', helper: 'Estimated brick or block count, mortar, cement, and sand.' },
 };
 
 const faqItems: Record<Props['type'], Array<{ question: string; answer: string }>> = {
@@ -49,6 +50,12 @@ const faqItems: Record<Props['type'], Array<{ question: string; answer: string }
     { question: 'What does the dry-volume factor do?', answer: 'It converts wet concrete volume into an estimated dry material volume for batching. The default example is 1.54, but you can change it to match your estimating practice or project specification.' },
     { question: 'Can I use a custom concrete mix ratio?', answer: 'Yes. Enter the cement, sand, and aggregate ratio parts. The calculator distributes dry volume across those parts and estimates cement bags from the entered bag weight.' },
     { question: 'Is this a structural mix-design calculator?', answer: 'No. It is a quantity-estimation tool. Final concrete mix proportions, water-cement ratio, strength class, admixtures, and construction requirements should follow the project specification and qualified engineering review.' }
+  ],
+  'masonry': [
+    { question: 'How is brick or block quantity calculated?', answer: 'The calculator divides masonry wall volume by the unit module volume, where the module includes the entered mortar joint on the unit dimensions.' },
+    { question: 'Why is mortar joint size included?', answer: 'A brick or block occupies space together with its surrounding mortar joints. Using a unit module gives a planning count that better reflects wall coverage than dividing only by the solid unit volume.' },
+    { question: 'How are cement and sand estimated?', answer: 'The tool estimates wet mortar as wall volume minus the solid volume of the base unit count, then applies the entered dry-volume factor and cement:sand ratio.' },
+    { question: 'Are these exact site quantities?', answer: 'No. They are planning estimates. Bond pattern, openings, joint thickness, breakage, cutting, workmanship, and project-specific mortar practice can change actual quantities.' }
   ]
 };
 
@@ -82,6 +89,11 @@ const relatedTools: Record<Props['type'], Array<{ title: string; href: string }>
     { title: 'TMT / Rebar Calculator', href: '/calculators/tmt-rebar' },
     { title: 'Project Workbench', href: '/workbench' },
     { title: 'Steel Cost Calculator', href: '/calculators/steel-cost' }
+  ],
+  'masonry': [
+    { title: 'Concrete Calculator', href: '/calculators/concrete' },
+    { title: 'TMT / Rebar Calculator', href: '/calculators/tmt-rebar' },
+    { title: 'Project Workbench', href: '/workbench' }
   ]
 };
 
@@ -147,7 +159,7 @@ const breadcrumbSchema = {
   <section class="calculator-card">
     <form class="calc-form" id="calc-form">
       <div class="form-head">
-        <div><span class="form-kicker">INPUTS</span><h2>{type === 'concrete' ? 'Enter concrete inputs' : 'Enter your dimensions'}</h2></div>
+        <div><span class="form-kicker">INPUTS</span><h2>{type === 'concrete' ? 'Enter concrete inputs' : type === 'masonry' ? 'Enter masonry inputs' : 'Enter your dimensions'}</h2></div>
         <button class="ghost-btn" type="button" id="reset-btn">Reset</button>
       </div>
       <div id="form-error" role="alert" aria-live="polite"></div>
@@ -215,6 +227,24 @@ const breadcrumbSchema = {
           <div class="field"><label for="sand-ratio">Sand ratio <span>parts</span></label><input id="sand-ratio" type="number" min="0" step="0.1" placeholder="2" /></div>
           <div class="field"><label for="aggregate-ratio">Aggregate ratio <span>parts</span></label><input id="aggregate-ratio" type="number" min="0" step="0.1" placeholder="4" /></div>
           <div class="field full"><label for="cement-bag">Cement bag weight <span>kg / bag</span></label><input id="cement-bag" type="number" min="0" step="0.1" placeholder="50" /></div>
+        </>
+      )}
+
+      {type === 'masonry' && (
+        <>
+          <div class="field full"><label for="unit-type">Masonry unit</label><select id="unit-type"><option value="" selected>Select unit</option><option value="brick">Brick</option><option value="block">Concrete block</option></select></div>
+          <div class="field"><label for="wall-length">Wall length <span>m</span></label><input id="wall-length" type="number" min="0" step="0.001" placeholder="6" /></div>
+          <div class="field"><label for="wall-height">Wall height <span>m</span></label><input id="wall-height" type="number" min="0" step="0.001" placeholder="3" /></div>
+          <div class="field"><label for="wall-thickness">Wall thickness <span>mm</span></label><input id="wall-thickness" type="number" min="0" step="0.1" placeholder="115" /></div>
+          <div class="field"><label for="unit-length">Unit length <span>mm</span></label><input id="unit-length" type="number" min="0" step="0.1" placeholder="190" /></div>
+          <div class="field"><label for="unit-height">Unit height <span>mm</span></label><input id="unit-height" type="number" min="0" step="0.1" placeholder="90" /></div>
+          <div class="field"><label for="unit-thickness">Unit thickness <span>mm</span></label><input id="unit-thickness" type="number" min="0" step="0.1" placeholder="90" /></div>
+          <div class="field"><label for="joint">Mortar joint <span>mm</span></label><input id="joint" type="number" min="0" step="0.1" placeholder="10" /></div>
+          <div class="field"><label for="dry-mortar-factor">Dry mortar factor <span>×</span></label><input id="dry-mortar-factor" type="number" min="0" step="0.01" placeholder="1.33" /></div>
+          <div class="field"><label for="cement-mortar-ratio">Cement ratio <span>parts</span></label><input id="cement-mortar-ratio" type="number" min="0" step="0.1" placeholder="1" /></div>
+          <div class="field"><label for="sand-mortar-ratio">Sand ratio <span>parts</span></label><input id="sand-mortar-ratio" type="number" min="0" step="0.1" placeholder="4" /></div>
+          <div class="field"><label for="cement-bag">Cement bag weight <span>kg / bag</span></label><input id="cement-bag" type="number" min="0" step="0.1" placeholder="50" /></div>
+          <div class="field"><label for="masonry-wastage"><span>Optional</span> Wastage <span>%</span></label><input id="masonry-wastage" data-optional="true" type="number" min="0" step="0.1" placeholder="5" /></div>
         </>
       )}
 
@@ -373,6 +403,7 @@ const breadcrumbSchema = {
     const controls = Array.from(form.querySelectorAll('input[type="number"], select'))
       .filter((control) => control.id !== 'auto-calc')
       .filter((control) => control.id !== 'waste')
+      .filter((control) => control.dataset.optional !== 'true')
       .filter((control) => !control.closest('.field')?.classList.contains('hidden-field'));
     return controls.every((control) => control.value.trim() !== '');
   };
@@ -520,6 +551,70 @@ const breadcrumbSchema = {
           `${formatNumber(bags)} bags`,
           'Sand / aggregate',
           `${formatNumber(sandVolume)} m³ / ${formatNumber(aggregateVolume)} m³`
+        ]
+      );
+      return;
+    }
+    if (type === 'masonry') {
+      const unitType = root.querySelector('#unit-type')?.value || '';
+      const wallLength = value('wall-length');
+      const wallHeight = value('wall-height');
+      const wallThickness = value('wall-thickness');
+      const unitLength = value('unit-length');
+      const unitHeight = value('unit-height');
+      const unitThickness = value('unit-thickness');
+      const joint = value('joint');
+      const dryMortarFactor = value('dry-mortar-factor');
+      const cementRatio = value('cement-mortar-ratio');
+      const sandRatio = value('sand-mortar-ratio');
+      const bagWeight = value('cement-bag');
+      const wastage = value('masonry-wastage');
+
+      if (!unitType) { setError('Select the masonry unit.'); return; }
+      if (!requirePositive(
+        ['Wall length', wallLength],
+        ['Wall height', wallHeight],
+        ['Wall thickness', wallThickness],
+        ['Unit length', unitLength],
+        ['Unit height', unitHeight],
+        ['Unit thickness', unitThickness],
+        ['Dry mortar factor', dryMortarFactor],
+        ['Cement ratio', cementRatio],
+        ['Sand ratio', sandRatio],
+        ['Cement bag weight', bagWeight]
+      )) return;
+      if (joint < 0) { setError('Mortar joint cannot be negative.'); return; }
+      if (wastage < 0) { setError('Wastage cannot be negative.'); return; }
+
+      const wallVolume = wallLength * wallHeight * (wallThickness / 1000);
+      const moduleLength = (unitLength + joint) / 1000;
+      const moduleHeight = (unitHeight + joint) / 1000;
+      const moduleThickness = (unitThickness + joint) / 1000;
+      const moduleVolume = moduleLength * moduleHeight * moduleThickness;
+      const baseUnits = wallVolume / moduleVolume;
+      const planningUnits = Math.ceil(baseUnits * (1 + wastage / 100));
+      const solidUnitVolume = (unitLength / 1000) * (unitHeight / 1000) * (unitThickness / 1000);
+      const wetMortar = Math.max(0, wallVolume - (baseUnits * solidUnitVolume));
+      const dryMortar = wetMortar * dryMortarFactor;
+      const ratioTotal = cementRatio + sandRatio;
+      if (ratioTotal <= 0) { setError('Mortar ratio total must be greater than zero.'); return; }
+      const cementVolume = dryMortar * cementRatio / ratioTotal;
+      const sandVolume = dryMortar * sandRatio / ratioTotal;
+      const cementMass = cementVolume * 1440;
+      const cementBags = cementMass / bagWeight;
+      const unitName = unitType === 'block' ? 'blocks' : 'bricks';
+
+      setResult(
+        planningUnits,
+        unitName,
+        `Estimated masonry quantities for the selected ${unitType}.`,
+        'Wet mortar',
+        `${formatNumber(wetMortar)} m³`,
+        [
+          'Cement',
+          `${formatNumber(cementBags)} bags`,
+          'Sand',
+          `${formatNumber(sandVolume)} m³`
         ]
       );
       return;
