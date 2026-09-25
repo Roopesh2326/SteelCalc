@@ -145,42 +145,42 @@ import Layout from '../layouts/Layout.astro';
     empty?.toggleAttribute('hidden', items.length > 0);
     body.innerHTML = items.map((item) => {
       const result = calc(item);
-      const commonSize = \`<input class="mini diameter" type="number" min="0" step="0.01" value="\${item.diameter}" aria-label="Diameter or size" />\`;
+      const commonSize = `<input class="mini diameter" type="number" min="0" step="0.01" value="${item.diameter}" aria-label="Diameter or size" />`;
 
       let cells = '';
       if (item.type === 'plate') {
-        cells = \`
+        cells = `
           <td><select class="mini type"><option value="tmt">TMT</option><option value="round">Round</option><option value="plate" selected>Plate</option><option value="pipe">Pipe</option></select></td>
-          <td><div class="stack"><input class="mini width" type="number" min="0" step="0.01" value="\${item.width}" aria-label="Width" /><input class="mini thickness" type="number" min="0" step="0.01" value="\${item.thickness}" aria-label="Thickness" /></div></td>
-          <td><input class="mini plateLength" type="number" min="0" step="0.01" value="\${item.plateLength}" aria-label="Length" /></td>
+          <td><div class="stack"><input class="mini width" type="number" min="0" step="0.01" value="${item.width}" aria-label="Width" /><input class="mini thickness" type="number" min="0" step="0.01" value="${item.thickness}" aria-label="Thickness" /></div></td>
+          <td><input class="mini plateLength" type="number" min="0" step="0.01" value="${item.plateLength}" aria-label="Length" /></td>
           <td><span class="muted">—</span></td>
-          <td><input class="mini qty" type="number" min="0" step="1" value="\${item.qty}" aria-label="Quantity" /></td>
-          <td><input class="mini rate" type="number" min="0" step="0.01" value="\${item.rate}" aria-label="Rate per kg" /></td>\`;
+          <td><input class="mini qty" type="number" min="0" step="1" value="${item.qty}" aria-label="Quantity" /></td>
+          <td><input class="mini rate" type="number" min="0" step="0.01" value="${item.rate}" aria-label="Rate per kg" /></td>`;
       } else if (item.type === 'pipe') {
-        cells = \`
+        cells = `
           <td><select class="mini type"><option value="tmt">TMT</option><option value="round">Round</option><option value="plate">Plate</option><option value="pipe" selected>Pipe</option></select></td>
-          <td><div class="stack"><input class="mini diameter" type="number" min="0" step="0.01" value="\${item.diameter}" aria-label="Outside diameter" /><input class="mini thickness" type="number" min="0" step="0.01" value="\${item.thickness}" aria-label="Wall thickness" /></div></td>
+          <td><div class="stack"><input class="mini diameter" type="number" min="0" step="0.01" value="${item.diameter}" aria-label="Outside diameter" /><input class="mini thickness" type="number" min="0" step="0.01" value="${item.thickness}" aria-label="Wall thickness" /></div></td>
           <td><span class="muted">OD × WT</span></td>
-          <td><input class="mini length" type="number" min="0" step="0.01" value="\${item.length}" aria-label="Length" /></td>
-          <td><input class="mini qty" type="number" min="0" step="1" value="\${item.qty}" aria-label="Quantity" /></td>
-          <td><input class="mini rate" type="number" min="0" step="0.01" value="\${item.rate}" aria-label="Rate per kg" /></td>\`;
+          <td><input class="mini length" type="number" min="0" step="0.01" value="${item.length}" aria-label="Length" /></td>
+          <td><input class="mini qty" type="number" min="0" step="1" value="${item.qty}" aria-label="Quantity" /></td>
+          <td><input class="mini rate" type="number" min="0" step="0.01" value="${item.rate}" aria-label="Rate per kg" /></td>`;
       } else {
-        cells = \`
-          <td><select class="mini type"><option value="tmt" \${item.type === 'tmt' ? 'selected' : ''}>TMT</option><option value="round" \${item.type === 'round' ? 'selected' : ''}>Round</option><option value="plate">Plate</option><option value="pipe">Pipe</option></select></td>
-          <td>\${commonSize}</td>
+        cells = `
+          <td><select class="mini type"><option value="tmt" ${item.type === 'tmt' ? 'selected' : ''}>TMT</option><option value="round" ${item.type === 'round' ? 'selected' : ''}>Round</option><option value="plate">Plate</option><option value="pipe">Pipe</option></select></td>
+          <td>${commonSize}</td>
           <td><span class="muted">—</span></td>
-          <td><input class="mini length" type="number" min="0" step="0.01" value="\${item.length}" aria-label="Length" /></td>
-          <td><input class="mini qty" type="number" min="0" step="1" value="\${item.qty}" aria-label="Quantity" /></td>
-          <td><input class="mini rate" type="number" min="0" step="0.01" value="\${item.rate}" aria-label="Rate per kg" /></td>\`;
+          <td><input class="mini length" type="number" min="0" step="0.01" value="${item.length}" aria-label="Length" /></td>
+          <td><input class="mini qty" type="number" min="0" step="1" value="${item.qty}" aria-label="Quantity" /></td>
+          <td><input class="mini rate" type="number" min="0" step="0.01" value="${item.rate}" aria-label="Rate per kg" /></td>`;
       }
 
-      return \`
-        <tr data-id="\${item.id}">
-          \${cells}
-          <td class="weight-cell">\${result.invalid ? 'Invalid OD/WT' : \`\${format(result.kg)} kg\`}</td>
-          <td class="amount-cell">\${money(result.amount)}</td>
+      return `
+        <tr data-id="${item.id}">
+          ${cells}
+          <td class="weight-cell">${result.invalid ? 'Invalid OD/WT' : `${format(result.kg)} kg`}</td>
+          <td class="amount-cell">${money(result.amount)}</td>
           <td><button class="remove" type="button" title="Remove item" aria-label="Remove item">×</button></td>
-        </tr>\`;
+        </tr>`;
     }).join('');
 
     body.querySelectorAll('tr').forEach((tr) => {
@@ -201,7 +201,7 @@ import Layout from '../layouts/Layout.astro';
           const result = calc(item);
           const weightCell = tr.querySelector('.weight-cell');
           const amountCell = tr.querySelector('.amount-cell');
-          if (weightCell) weightCell.textContent = result.invalid ? 'Invalid OD/WT' : \`\${format(result.kg)} kg\`;
+          if (weightCell) weightCell.textContent = result.invalid ? 'Invalid OD/WT' : `${format(result.kg)} kg`;
           if (amountCell) amountCell.textContent = money(result.amount);
           refreshSummary();
         });
@@ -237,12 +237,12 @@ import Layout from '../layouts/Layout.astro';
     const tax = (cost + transport) * gst / 100;
     const total = cost + transport + tax;
 
-    if (totalWeight) totalWeight.textContent = \`\${format(weight)} kg\`;
-    if (totalTonnes) totalTonnes.textContent = \`\${format(weight / 1000, 3)} t\`;
+    if (totalWeight) totalWeight.textContent = `${format(weight)} kg`;
+    if (totalTonnes) totalTonnes.textContent = `${format(weight / 1000, 3)} t`;
     if (materialCost) materialCost.textContent = money(cost);
     if (transportCost) transportCost.textContent = money(transport);
     if (grandTotal) grandTotal.textContent = money(total);
-    if (taxNote) taxNote.textContent = gst ? \`Includes \${format(gst, 1)}% GST\` : 'GST not added';
+    if (taxNote) taxNote.textContent = gst ? `Includes ${format(gst, 1)}% GST` : 'GST not added';
   };
 
   const serialize = () => JSON.stringify({
@@ -289,13 +289,13 @@ import Layout from '../layouts/Layout.astro';
         Number(result.kg.toFixed(3)),
         Number(result.amount.toFixed(2))
       ];
-      lines.push(values.map((value) => \`"\${String(value).replaceAll('"','""')}"\`).join(','));
+      lines.push(values.map((value) => `"${String(value).replaceAll('"','""')}"`).join(','));
     });
 
     const blob = new Blob([lines.join('\\n')], { type: 'text/csv;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
-    a.download = \`\${(nameInput?.value || 'steel-estimate').replace(/[^a-z0-9-_]+/gi,'-').toLowerCase()}.csv\`;
+    a.download = `${(nameInput?.value || 'steel-estimate').replace(/[^a-z0-9-_]+/gi,'-').toLowerCase()}.csv`;
     a.click();
     URL.revokeObjectURL(a.href);
   });
