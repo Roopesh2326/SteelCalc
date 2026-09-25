@@ -7,7 +7,11 @@ const paths = [
   '/calculators/tmt-rebar',
   '/calculators/steel-plate',
   '/calculators/steel-pipe',
-  '/calculators/steel-cost'
+  '/calculators/steel-cost',
+  '/guides',
+  '/guides/tmt-bar-weight-chart',
+  '/guides/steel-weight-formulas',
+  '/workbench'
 ];
 
 export const GET: APIRoute = ({ site }) => {
