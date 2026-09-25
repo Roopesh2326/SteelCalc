@@ -60,13 +60,29 @@ const constructionCalculators = [
     href: '/calculators/brick-block',
     tag: 'MASONRY',
     visual: 'masonry'
+  },
+  {
+    number: 'C03',
+    title: 'Plaster Calculator',
+    description: 'Estimate plaster volume, cement bags, and sand from surface area and thickness.',
+    href: '/calculators/plaster',
+    tag: 'PLASTER',
+    visual: 'plaster'
+  },
+  {
+    number: 'C04',
+    title: 'Flooring & Tile Calculator',
+    description: 'Estimate tile count, floor coverage, wastage, and boxes for flooring projects.',
+    href: '/calculators/flooring',
+    tag: 'FLOORING',
+    visual: 'flooring'
   }
 ];
 ---
 
 <Layout
   title="Steel & Construction Calculators | SteelCalc"
-  description="Explore SteelCalc's free steel, construction, weight, rebar, plate, pipe, cost, and concrete calculators."
+  description="Explore SteelCalc's free steel and construction calculators for weight, rebar, plate, pipe, cost, concrete, masonry, plaster, and flooring estimates."
 >
   <div class="site-shell">
     <header class="topbar">
@@ -107,9 +123,9 @@ const constructionCalculators = [
         </div>
 
         <div class="hero-panel">
-          <strong>07</strong>
+          <strong>09</strong>
           <span>Calculators</span>
-          <small>05 steel tools · 02 construction tools</small>
+          <small>05 steel tools · 04 construction tools</small>
         </div>
       </section>
 
@@ -120,8 +136,8 @@ const constructionCalculators = [
         </label>
 
         <div class="directory-stats">
-          <span><strong>07</strong> tools</span>
-          <span>05 steel · 02 construction</span>
+          <span><strong>09</strong> tools</span>
+          <span>05 steel · 04 construction</span>
           <span>Instant results</span>
           <span>No sign-up</span>
         </div>
@@ -154,7 +170,7 @@ const constructionCalculators = [
         ))}
       </section>
 
-      <p class="no-results" id="no-results" hidden>No calculator matches that search. Try “concrete”, “brick”, “block”, “pipe”, “rebar”, “plate”, “cost”, or “weight”.</p>
+      <p class="no-results" id="no-results" hidden>No calculator matches that search. Try “concrete”, “brick”, “block”, “plaster”, “flooring”, “tile”, “pipe”, “rebar”, “plate”, “cost”, or “weight”.</p>
 
       <section class="engineering-section" aria-labelledby="engineering-title">
         <div class="section-heading">
@@ -176,6 +192,8 @@ const constructionCalculators = [
               <div class={`tool-image ${tool.visual}`} aria-hidden="true">
                 {tool.visual === 'concrete' && <div class="art-concrete"><span></span><i></i><b>m³</b></div>}
                 {tool.visual === 'masonry' && <div class="art-masonry"><span></span><i></i><b>BRICK</b></div>}
+                {tool.visual === 'plaster' && <div class="art-plaster"><span></span><i></i><b>m²</b></div>}
+                {tool.visual === 'flooring' && <div class="art-flooring"><span></span><i></i><b>600</b></div>}
               </div>
 
               <h2>{tool.title}</h2>
@@ -235,6 +253,8 @@ const constructionCalculators = [
         <a href="/calculators/steel-cost">Steel Cost</a>
         <a href="/calculators/concrete">Concrete</a>
         <a href="/calculators/brick-block">Brick & Block</a>
+        <a href="/calculators/plaster">Plaster</a>
+        <a href="/calculators/flooring">Flooring & Tile</a>
         <a href="/calculators">All calculators</a>
       </div>
 
@@ -396,6 +416,16 @@ const constructionCalculators = [
   .art-masonry span{position:absolute;right:28px;top:37px;width:50px;height:34px;border:1px solid #929da4;background:#e5e9eb;transform:rotate(-7deg);box-shadow:0 11px 0 #c5ccd0}
   .art-masonry i{position:absolute;right:28px;bottom:22px;width:48px;height:4px;background:#5c6870;box-shadow:0 -9px 0 #5c6870}
   .art-masonry b{position:absolute;right:15px;bottom:15px;font:700 10px Georgia,serif;color:#c4862c;z-index:2}
+  .art-plaster{position:absolute;inset:0}
+  .art-plaster:before{content:"";position:absolute;left:30px;top:22px;width:88px;height:72px;border:1px solid #cbd2d6;background:linear-gradient(145deg,#f7f7f4,#d5d1c8);box-shadow:9px 9px 0 #b6bec3}
+  .art-plaster span{position:absolute;left:45px;top:39px;width:58px;height:8px;background:#aaafb0;transform:rotate(-5deg);box-shadow:0 15px 0 #c2c5c3,0 30px 0 #8f989d}
+  .art-plaster i{position:absolute;right:24px;bottom:22px;width:42px;height:42px;border:4px solid #6c777e;border-radius:50%;background:#e8ecee}
+  .art-plaster b{position:absolute;right:18px;bottom:25px;font:700 11px Georgia,serif;color:#c4862c;z-index:2}
+  .art-flooring{position:absolute;inset:0}
+  .art-flooring:before{content:"";position:absolute;left:21px;top:25px;width:106px;height:68px;background:linear-gradient(135deg,#f2f1ec,#cfd4d7);border:1px solid #aeb8bd;transform:skewY(-8deg);box-shadow:12px 12px 0 #e0e3e4}
+  .art-flooring span{position:absolute;left:38px;top:39px;width:83px;height:1px;background:#9da8ad;transform:rotate(-8deg);box-shadow:0 18px 0 #9da8ad,0 36px 0 #9da8ad}
+  .art-flooring i{position:absolute;right:24px;top:45px;width:38px;height:38px;border:4px solid #6a757d;background:#f8fafb;transform:rotate(15deg)}
+  .art-flooring b{position:absolute;right:19px;bottom:17px;font:700 10px Georgia,serif;color:#c4862c;z-index:2}
 
   .guide{display:grid;grid-template-columns:.85fr 1.15fr;gap:8%;padding:47px 0 54px;border-top:1px solid #e0e5e8;margin-top:52px}
   .guide h2{font-size:30px;line-height:1.1;letter-spacing:-1.3px;margin:12px 0 0;color:#17212b}
