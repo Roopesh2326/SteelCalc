@@ -10,6 +10,8 @@ const paths = [
   '/calculators/steel-cost',
   '/calculators/concrete',
   '/calculators/brick-block',
+  '/calculators/plaster',
+  '/calculators/flooring',
   '/guides',
   '/guides/tmt-bar-weight-chart',
   '/guides/steel-weight-formulas',

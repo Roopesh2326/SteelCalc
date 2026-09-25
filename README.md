@@ -11,6 +11,8 @@ SteelCalc is an Astro-based toolkit for practical steel, construction, and proje
 - Steel Cost Calculator
 - Concrete Calculator
 - Brick & Block Calculator
+- Plaster Calculator
+- Flooring & Tile Calculator
 - Project Workbench
 
 ## Development
@@ -59,6 +61,8 @@ No server runtime is required for the calculator pages.
 /calculators/steel-cost
 /calculators/concrete
 /calculators/brick-block
+/calculators/plaster
+/calculators/flooring
 /guides
 /guides/tmt-bar-weight-chart
 /guides/steel-weight-formulas

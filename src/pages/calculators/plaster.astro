@@ -1,0 +1,17 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CalculatorShell from '../../components/CalculatorShell.astro';
+---
+<Layout
+  title="Plaster Calculator | SteelCalc"
+  description="Estimate plaster area, wet and dry plaster volume, cement bags, and sand for walls or ceilings."
+>
+  <CalculatorShell
+    type="plaster"
+    eyebrow="CONSTRUCTION / 03"
+    title="Plaster calculator."
+    accent="Without the spreadsheet."
+    description="Estimate plaster material quantities for wall and ceiling surfaces using area, thickness, dry-volume factor, and cement:sand ratio."
+    formula="area × thickness"
+  />
+</Layout>
