@@ -1,6 +1,6 @@
 ---
 interface Props {
-  type: 'steel-weight' | 'tmt-rebar' | 'steel-plate' | 'steel-pipe' | 'steel-cost' | 'concrete' | 'masonry' | 'plaster' | 'flooring';
+  type: 'steel-weight' | 'tmt-rebar' | 'steel-plate' | 'steel-pipe' | 'steel-cost' | 'concrete' | 'masonry' | 'plaster' | 'flooring' | 'earthwork';
   eyebrow: string;
   title: string;
   accent: string;
@@ -19,6 +19,7 @@ const labels: Record<Props['type'], { result: string; helper: string }> = {
   'masonry': { result: 'Masonry units', helper: 'Estimated brick or block count, mortar, cement, and sand.' },
   'plaster': { result: 'Plaster volume', helper: 'Estimated wet plaster volume, cement bags, and sand for wall or ceiling surfaces.' },
   'flooring': { result: 'Tiles required', helper: 'Estimated tile count, covered area, and wastage for a floor.' },
+  'earthwork': { result: 'Excavation volume', helper: 'Estimated in-situ, loose haul, and planning volumes for excavation work.' },
 };
 
 const faqItems: Record<Props['type'], Array<{ question: string; answer: string }>> = {
@@ -70,6 +71,12 @@ const faqItems: Record<Props['type'], Array<{ question: string; answer: string }
     { question: 'Why add tile wastage?', answer: 'Cuts, breakage, edge pieces, pattern matching, and future replacement can require extra tiles beyond the exact floor-area requirement.' },
     { question: 'Can I estimate tile boxes?', answer: 'Yes. Enter the number of tiles per box and the calculator will also estimate the number of boxes, rounded up.' },
     { question: 'Does this calculate tile adhesive or grout?', answer: 'No. This version focuses on tile quantity and area coverage. Adhesive and grout can vary substantially by product, joint width, substrate, and installation method.' }
+  ],
+  'earthwork': [
+    { question: 'How is excavation volume calculated?', answer: 'In-situ excavation volume is length × width × depth × quantity for the selected trench, pit, or bulk excavation geometry.' },
+    { question: 'What does the swell allowance do?', answer: 'It estimates loose spoil or haul volume after excavation by increasing the in-situ volume by the entered swell percentage.' },
+    { question: 'What is the planning volume?', answer: 'Planning volume applies the optional compaction or placement allowance to the in-situ quantity so you can budget fill material more conservatively.' },
+    { question: 'Is this a geotechnical design calculator?', answer: 'No. It is a quantity-estimation tool. Actual excavation methods, soil classification, shoring, groundwater, haul conditions, and compaction requirements should follow the project specifications and site engineering review.' }
   ]
 };
 
@@ -118,6 +125,11 @@ const relatedTools: Record<Props['type'], Array<{ title: string; href: string }>
     { title: 'Plaster Calculator', href: '/calculators/plaster' },
     { title: 'Brick & Block Calculator', href: '/calculators/brick-block' },
     { title: 'Concrete Calculator', href: '/calculators/concrete' }
+  ],
+  'earthwork': [
+    { title: 'Concrete Calculator', href: '/calculators/concrete' },
+    { title: 'Flooring & Tile Calculator', href: '/calculators/flooring' },
+    { title: 'Project Workbench', href: '/workbench' }
   ]
 };
 
@@ -183,7 +195,7 @@ const breadcrumbSchema = {
   <section class="calculator-card">
     <form class="calc-form" id="calc-form">
       <div class="form-head">
-        <div><span class="form-kicker">INPUTS</span><h2>{type === 'concrete' ? 'Enter concrete inputs' : type === 'masonry' ? 'Enter masonry inputs' : 'Enter your dimensions'}</h2></div>
+        <div><span class="form-kicker">INPUTS</span><h2>{type === 'concrete' ? 'Enter concrete inputs' : type === 'masonry' ? 'Enter masonry inputs' : type === 'plaster' ? 'Enter plaster inputs' : type === 'flooring' ? 'Enter flooring inputs' : type === 'earthwork' ? 'Enter earthwork inputs' : 'Enter your dimensions'}</h2></div>
         <button class="ghost-btn" type="button" id="reset-btn">Reset</button>
       </div>
       <div id="form-error" role="alert" aria-live="polite"></div>
@@ -293,6 +305,18 @@ const breadcrumbSchema = {
           <div class="field"><label for="tile-wastage">Tile wastage <span>%</span></label><input id="tile-wastage" data-optional="true" type="number" min="0" step="0.1" placeholder="7" /></div>
           <div class="field"><label for="tiles-per-box">Tiles per box <span>pcs</span></label><input id="tiles-per-box" data-optional="true" type="number" min="0" step="1" placeholder="4" /></div>
           <div class="field full"><label for="tile-quantity">Optional extra tiles <span>pcs</span></label><input id="tile-quantity" data-optional="true" type="number" min="0" step="1" placeholder="0" /></div>
+        </>
+      )}
+
+      {type === 'earthwork' && (
+        <>
+          <div class="field full"><label for="earthwork-type">Work type</label><select id="earthwork-type"><option value="" selected>Select work type</option><option value="trench">Trench excavation</option><option value="pit">Pit excavation</option><option value="bulk">Bulk excavation</option></select></div>
+          <div class="field"><label for="earthwork-length">Length <span>m</span></label><input id="earthwork-length" type="number" min="0" step="0.001" placeholder="10" /></div>
+          <div class="field"><label for="earthwork-width">Width <span>m</span></label><input id="earthwork-width" type="number" min="0" step="0.001" placeholder="1.2" /></div>
+          <div class="field"><label for="earthwork-depth">Depth <span>m</span></label><input id="earthwork-depth" type="number" min="0" step="0.001" placeholder="1.5" /></div>
+          <div class="field"><label for="earthwork-quantity">Quantity <span>nos.</span></label><input id="earthwork-quantity" type="number" min="1" step="1" placeholder="1" /></div>
+          <div class="field"><label for="swell">Swell / bulking <span>%</span></label><input id="swell" data-optional="true" type="number" min="0" step="0.1" placeholder="20" /></div>
+          <div class="field"><label for="compaction">Compaction allowance <span>%</span></label><input id="compaction" data-optional="true" type="number" min="0" step="0.1" placeholder="10" /></div>
         </>
       )}
 
@@ -740,6 +764,41 @@ const breadcrumbSchema = {
         'Floor coverage',
         `${formatNumber(floorArea)} m²`,
         ['Tile coverage', `${formatNumber(coverage)} m²`, secondDetailLabel, secondDetailValue]
+      );
+      return;
+    }
+    if (type === 'earthwork') {
+      const workType = root.querySelector('#earthwork-type')?.value || '';
+      const lengthM = value('earthwork-length');
+      const widthM = value('earthwork-width');
+      const depthM = value('earthwork-depth');
+      const qty = value('earthwork-quantity');
+      const swell = value('swell');
+      const compaction = value('compaction');
+
+      if (!workType) { setError('Select the earthwork type.'); return; }
+      if (!requirePositive(
+        ['Length', lengthM],
+        ['Width', widthM],
+        ['Depth', depthM],
+        ['Quantity', qty]
+      )) return;
+      if (swell < 0) { setError('Swell / bulking cannot be negative.'); return; }
+      if (compaction < 0) { setError('Compaction allowance cannot be negative.'); return; }
+
+      const inSitu = lengthM * widthM * depthM * qty;
+      const looseVolume = inSitu * (1 + swell / 100);
+      const planningFill = inSitu * (1 + compaction / 100);
+      const labelMap = { trench: 'trench', pit: 'pit', bulk: 'bulk' };
+      const label = labelMap[workType] || 'earthwork';
+
+      setResult(
+        inSitu,
+        'm³',
+        `Estimated in-situ volume for the selected ${label} excavation.`,
+        'Loose haul volume',
+        `${formatNumber(looseVolume)} m³`,
+        ['Planning fill', `${formatNumber(planningFill)} m³`, 'Swell', `${formatNumber(swell, 1)}%`]
       );
       return;
     }

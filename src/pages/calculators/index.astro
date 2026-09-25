@@ -76,6 +76,14 @@ const constructionCalculators = [
     href: '/calculators/flooring',
     tag: 'FLOORING',
     visual: 'flooring'
+  },
+  {
+    number: 'C05',
+    title: 'Excavation & Earthwork Calculator',
+    description: 'Estimate excavation, loose haul, and planning fill volumes for site earthwork.',
+    href: '/calculators/earthwork',
+    tag: 'EARTHWORK',
+    visual: 'earthwork'
   }
 ];
 ---
@@ -123,9 +131,9 @@ const constructionCalculators = [
         </div>
 
         <div class="hero-panel">
-          <strong>09</strong>
+          <strong>10</strong>
           <span>Calculators</span>
-          <small>05 steel tools · 04 construction tools</small>
+          <small>05 steel tools · 05 construction tools</small>
         </div>
       </section>
 
@@ -136,8 +144,8 @@ const constructionCalculators = [
         </label>
 
         <div class="directory-stats">
-          <span><strong>09</strong> tools</span>
-          <span>05 steel · 04 construction</span>
+          <span><strong>10</strong> tools</span>
+          <span>05 steel · 05 construction</span>
           <span>Instant results</span>
           <span>No sign-up</span>
         </div>
@@ -194,6 +202,7 @@ const constructionCalculators = [
                 {tool.visual === 'masonry' && <div class="art-masonry"><span></span><i></i><b>BRICK</b></div>}
                 {tool.visual === 'plaster' && <div class="art-plaster"><span></span><i></i><b>m²</b></div>}
                 {tool.visual === 'flooring' && <div class="art-flooring"><span></span><i></i><b>600</b></div>}
+                {tool.visual === 'earthwork' && <div class="art-earthwork"><span></span><i></i><b>m³</b></div>}
               </div>
 
               <h2>{tool.title}</h2>
@@ -255,6 +264,7 @@ const constructionCalculators = [
         <a href="/calculators/brick-block">Brick & Block</a>
         <a href="/calculators/plaster">Plaster</a>
         <a href="/calculators/flooring">Flooring & Tile</a>
+        <a href="/calculators/earthwork">Earthwork</a>
         <a href="/calculators">All calculators</a>
       </div>
 
@@ -426,6 +436,11 @@ const constructionCalculators = [
   .art-flooring span{position:absolute;left:38px;top:39px;width:83px;height:1px;background:#9da8ad;transform:rotate(-8deg);box-shadow:0 18px 0 #9da8ad,0 36px 0 #9da8ad}
   .art-flooring i{position:absolute;right:24px;top:45px;width:38px;height:38px;border:4px solid #6a757d;background:#f8fafb;transform:rotate(15deg)}
   .art-flooring b{position:absolute;right:19px;bottom:17px;font:700 10px Georgia,serif;color:#c4862c;z-index:2}
+  .art-earthwork{position:absolute;inset:0}
+  .art-earthwork:before{content:"";position:absolute;left:24px;bottom:21px;width:110px;height:52px;background:linear-gradient(#d7a15a 0 34%,#b87b38 34% 70%,#8b5e2f 70%);clip-path:polygon(0 25%,35% 25%,48% 0,100% 0,100% 100%,0 100%);box-shadow:7px -4px 0 #e1b577}
+  .art-earthwork span{position:absolute;right:29px;top:29px;width:55px;height:31px;border:2px solid #5f6b73;border-radius:3px 3px 11px 11px;background:#dce1e3;transform:rotate(-7deg)}
+  .art-earthwork i{position:absolute;right:23px;top:42px;width:9px;height:42px;background:#b9782f;transform:rotate(17deg);box-shadow:-12px 8px 0 #d49643}
+  .art-earthwork b{position:absolute;right:18px;bottom:16px;font:700 12px Georgia,serif;color:#c4862c;z-index:2}
 
   .guide{display:grid;grid-template-columns:.85fr 1.15fr;gap:8%;padding:47px 0 54px;border-top:1px solid #e0e5e8;margin-top:52px}
   .guide h2{font-size:30px;line-height:1.1;letter-spacing:-1.3px;margin:12px 0 0;color:#17212b}
