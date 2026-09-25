@@ -1,6 +1,6 @@
 ---
 interface Props {
-  type: 'steel-weight' | 'tmt-rebar' | 'steel-plate' | 'steel-pipe' | 'steel-cost';
+  type: 'steel-weight' | 'tmt-rebar' | 'steel-plate' | 'steel-pipe' | 'steel-cost' | 'electricity';
   eyebrow: string;
   title: string;
   accent: string;
@@ -15,6 +15,7 @@ const labels: Record<Props['type'], { result: string; helper: string }> = {
   'steel-plate': { result: 'Plate weight', helper: 'Calculated using 7.85 g/cm³ steel density.' },
   'steel-pipe': { result: 'Pipe weight', helper: 'Based on outside diameter, wall thickness, and length.' },
   'steel-cost': { result: 'Estimated material cost', helper: 'Weight × rate, with an optional allowance for waste.' },
+  'electricity': { result: 'Connected load', helper: 'Real power from voltage, current, phase type, and power factor.' },
 };
 
 const faqItems: Record<Props['type'], Array<{ question: string; answer: string }>> = {
@@ -42,6 +43,11 @@ const faqItems: Record<Props['type'], Array<{ question: string; answer: string }
     { question: 'How is steel cost estimated?', answer: 'The calculator multiplies weight by the entered rate per kilogram and quantity, then applies the optional waste or allowance percentage.' },
     { question: 'Does the waste percentage change the material weight?', answer: 'It changes the planning quantity used for the cost estimate. The base material amount remains visible in the result breakdown.' },
     { question: 'Does SteelCalc provide live market steel rates?', answer: 'No. The calculator uses the rate you enter. Supplier and market prices can change by location, grade, quantity, and time.' }
+  ],
+  'electricity': [
+    { question: 'How is electrical load calculated?', answer: 'For single-phase power, the estimate uses V × I × power factor ÷ 1000. For three-phase power, it uses √3 × V × I × power factor ÷ 1000.' },
+    { question: 'How is monthly electricity consumption estimated?', answer: 'Estimated monthly energy is connected load in kW × operating hours per day × operating days per month.' },
+    { question: 'Is this a substitute for electrical design?', answer: 'No. It is a planning estimate. Final conductor, protection, load, and installation decisions should follow the applicable electrical code, equipment data, and qualified design review.' }
   ]
 };
 
@@ -70,6 +76,11 @@ const relatedTools: Record<Props['type'], Array<{ title: string; href: string }>
     { title: 'Steel Weight Calculator', href: '/calculators/steel-weight' },
     { title: 'TMT / Rebar Calculator', href: '/calculators/tmt-rebar' },
     { title: 'Steel Plate Calculator', href: '/calculators/steel-plate' }
+  ],
+  'electricity': [
+    { title: 'Steel Cost Calculator', href: '/calculators/steel-cost' },
+    { title: 'Project Workbench', href: '/workbench' },
+    { title: 'Calculation Guides', href: '/guides' }
   ]
 };
 
@@ -135,7 +146,7 @@ const breadcrumbSchema = {
   <section class="calculator-card">
     <form class="calc-form" id="calc-form">
       <div class="form-head">
-        <div><span class="form-kicker">INPUTS</span><h2>Enter your dimensions</h2></div>
+        <div><span class="form-kicker">INPUTS</span><h2>{type === 'electricity' ? 'Enter your electrical inputs' : 'Enter your dimensions'}</h2></div>
         <button class="ghost-btn" type="button" id="reset-btn">Reset</button>
       </div>
       <div id="form-error" role="alert" aria-live="polite"></div>
@@ -188,6 +199,18 @@ const breadcrumbSchema = {
           <div class="field"><label for="rate">Rate <span>₹ / kg</span></label><input id="rate" type="number" min="0" step="0.01" placeholder="75" /></div>
           <div class="field"><label for="quantity">Quantity <span>lots</span></label><input id="quantity" type="number" min="1" step="1" placeholder="1" /></div>
           <div class="field"><label for="waste">Waste / allowance <span>%</span></label><input id="waste" type="number" min="0" step="0.1" placeholder="0" /></div>
+        </>
+      )}
+
+      {type === 'electricity' && (
+        <>
+          <div class="field full"><label for="phase">Supply type</label><select id="phase"><option value="" selected>Select phase</option><option value="single">Single-phase</option><option value="three">Three-phase</option></select></div>
+          <div class="field"><label for="voltage">Voltage <span>V</span></label><input id="voltage" type="number" min="0" step="0.1" placeholder="230" /></div>
+          <div class="field"><label for="current">Current <span>A</span></label><input id="current" type="number" min="0" step="0.1" placeholder="10" /></div>
+          <div class="field"><label for="power-factor">Power factor <span>0–1</span></label><input id="power-factor" type="number" min="0" max="1" step="0.01" placeholder="0.85" /></div>
+          <div class="field"><label for="hours-day">Hours / day <span>h</span></label><input id="hours-day" type="number" min="0" step="0.1" placeholder="8" /></div>
+          <div class="field"><label for="days-month">Days / month <span>days</span></label><input id="days-month" type="number" min="0" step="1" placeholder="30" /></div>
+          <div class="field"><label for="tariff">Electricity tariff <span>₹ / kWh</span></label><input id="tariff" type="number" min="0" step="0.01" placeholder="8" /></div>
         </>
       )}
 
@@ -446,6 +469,37 @@ const breadcrumbSchema = {
       const adjustedWeight = baseWeight * (1 + waste / 100);
       const cost = adjustedWeight * rate;
       setResult(cost, '₹', 'Includes the entered quantity and optional waste/allowance.', 'Adjusted weight', `${formatNumber(adjustedWeight)} kg`, ['Base material', `₹${formatNumber(baseWeight * rate, 2)}`, 'Waste added', `${formatNumber(waste, 1)}%`]);
+    }
+    if (type === 'electricity') {
+      const phase = root.querySelector('#phase').value;
+      const voltage = value('voltage');
+      const current = value('current');
+      const pf = value('power-factor');
+      const hours = value('hours-day');
+      const days = value('days-month');
+      const tariff = value('tariff');
+
+      if (!phase) { setError('Select the supply type.'); return; }
+      if (!requirePositive(['Voltage', voltage], ['Current', current], ['Power factor', pf], ['Hours / day', hours], ['Days / month', days], ['Electricity tariff', tariff])) return;
+      if (pf > 1) { setError('Power factor must be between 0 and 1.'); return; }
+
+      const multiplier = phase === 'three' ? Math.sqrt(3) : 1;
+      const kw = multiplier * voltage * current * pf / 1000;
+      const monthlyKwh = kw * hours * days;
+      const monthlyCost = monthlyKwh * tariff;
+      const powerFormula = phase === 'three'
+        ? '√3 × V × I × PF / 1000'
+        : 'V × I × PF / 1000';
+
+      setResult(
+        kw,
+        'kW',
+        `Estimated real power for a ${phase === 'three' ? 'three-phase' : 'single-phase'} supply.`,
+        'Monthly estimate',
+        `${formatNumber(monthlyKwh)} kWh`,
+        ['Estimated cost', `₹${formatNumber(monthlyCost, 2)} / month`, 'Power formula', powerFormula]
+      );
+      return;
     }
   };
 
