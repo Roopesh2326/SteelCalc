@@ -44,6 +44,14 @@ const calculators = [
   }
 ];
 
+const directorySchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Steel & Construction Calculators',
+  url: Astro.site ? new URL('/calculators', Astro.site).toString() : undefined,
+  description: 'SteelCalc calculator directory for steel, construction, structural section, earthwork, and reinforcement estimates.'
+};
+
 const constructionCalculators = [
   {
     number: 'C01',
@@ -106,7 +114,7 @@ const constructionCalculators = [
 
 <Layout
   title="Steel & Construction Calculators | SteelCalc"
-  description="Explore SteelCalc's free steel and construction calculators for weight, rebar, plate, pipe, cost, concrete, masonry, plaster, and flooring estimates."
+  description="Explore SteelCalc's free steel and construction calculators for weight, rebar, concrete, masonry, plaster, flooring, earthwork, structural sections, and BBS estimates."
 >
   <div class="site-shell">
     <header class="topbar">
@@ -118,6 +126,7 @@ const constructionCalculators = [
       <nav aria-label="Main navigation">
         <a class="active" href="/calculators">Calculators</a>
         <a href="/guides">Guides</a>
+        <a href="/tools">Tools</a>
         <a href="/#how-it-works">About</a>
       </nav>
 
@@ -137,7 +146,7 @@ const constructionCalculators = [
     <main>
       <div class="crumbs" aria-label="Breadcrumb">
         <a href="/">SteelCalc</a><span>/</span><strong>Calculators</strong>
-      </div>
+      </div>      <script type="application/ld+json" set:html={JSON.stringify(directorySchema)}></script>
 
       <section class="directory-hero">
         <div>
@@ -149,7 +158,7 @@ const constructionCalculators = [
         <div class="hero-panel">
           <strong>12</strong>
           <span>Calculators</span>
-          <small>06 steel tools · 06 construction tools</small>
+          <small>05 core steel tools · 07 construction & engineering tools</small>
         </div>
       </section>
 
@@ -161,7 +170,7 @@ const constructionCalculators = [
 
         <div class="directory-stats">
           <span><strong>12</strong> tools</span>
-          <span>06 steel · 06 construction</span>
+          <span>05 core steel · 07 construction & engineering</span>
           <span>Instant results</span>
           <span>No sign-up</span>
         </div>

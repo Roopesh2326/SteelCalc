@@ -1,7 +1,7 @@
 {
   "name": "SteelCalc",
   "short_name": "SteelCalc",
-  "description": "Free steel weight and cost calculators for TMT rebar, plates, pipes, and more.",
+  "description": "Free steel and construction calculators for material weight, rebar, concrete, masonry, earthwork, flooring, and project estimates.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#f6f7f8",

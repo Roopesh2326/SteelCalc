@@ -91,3 +91,13 @@ The repository also contains a GitHub Actions build workflow that runs the produ
 ## Notes on calculation estimates
 
 SteelCalc is an estimation tool. Actual delivered weight and purchase cost can vary by steel grade, manufacturing tolerances, coating, supplier pricing, and project-specific specifications.
+
+## Production launch
+Set `PUBLIC_SITE_URL` to the production origin before building so canonical URLs, Open Graph URLs, the sitemap, and robots.txt can emit the correct absolute site URL.
+
+```bash
+npm run build
+npm run dev
+```
+
+Recommended final smoke-test routes include `/`, `/calculators`, every calculator route, `/calculators/bbs`, `/tools/unit-converter`, `/guides`, `/workbench`, `/sitemap.xml`, and `/robots.txt`.
