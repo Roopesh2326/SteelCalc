@@ -18,6 +18,11 @@ const paths = [
   '/guides',
   '/guides/tmt-bar-weight-chart',
   '/guides/steel-weight-formulas',
+  '/guides/construction-reference',
+  '/guides/structural-sections-reference',
+  '/guides/material-density-reference',
+  '/tools',
+  '/tools/unit-converter',
   '/workbench'
 ];
 
