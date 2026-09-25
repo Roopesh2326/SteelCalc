@@ -1,0 +1,17 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CalculatorShell from '../../components/CalculatorShell.astro';
+---
+<Layout
+  title="Flooring & Tile Calculator | SteelCalc"
+  description="Estimate floor area, tile quantity, coverage, wastage, and tile boxes for flooring projects."
+>
+  <CalculatorShell
+    type="flooring"
+    eyebrow="CONSTRUCTION / 04"
+    title="Flooring & tile calculator."
+    accent="Without the spreadsheet."
+    description="Estimate tile quantity and floor coverage from room dimensions, tile size, wastage, and optional box count."
+    formula="floor area ÷ tile area"
+  />
+</Layout>
