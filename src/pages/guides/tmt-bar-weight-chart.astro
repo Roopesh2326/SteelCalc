@@ -1,0 +1,48 @@
+---
+import GuideLayout from '../../components/GuideLayout.astro';
+const rows = [
+  ['6', '0.222', '2.66', '449.0'],
+  ['8', '0.395', '4.74', '253.1'],
+  ['10', '0.617', '7.40', '162.0'],
+  ['12', '0.888', '10.66', '112.3'],
+  ['16', '1.578', '18.94', '79.4'],
+  ['20', '2.466', '29.59', '81.0'],
+  ['25', '3.853', '46.24', '64.9'],
+  ['28', '4.833', '58.00', '51.8'],
+  ['32', '6.313', '75.76', '50.0'],
+  ['36', '7.990', '95.88', '45.0'],
+  ['40', '9.864', '118.37', '50.7']
+];
+---
+<GuideLayout
+  title="TMT Bar Weight Chart | SteelCalc"
+  description="Reference chart for TMT bar weight per metre and per 12 metre bar, using a 7,850 kg/m³ steel density."
+  eyebrow="TMT / REBAR REFERENCE"
+>
+  <h2>Quick formula</h2>
+  <div class="formula">Weight per metre (kg/m) = d² ÷ 162.2</div>
+  <p><strong>d</strong> is the nominal bar diameter in millimetres. The 162.2 constant comes from the circular cross-section calculation using a nominal 7,850 kg/m³ steel density. SteelCalc uses this as a nominal planning/reference method; actual supplied weight can vary within applicable tolerances.</p>
+
+  <h2>TMT bar weight chart</h2>
+  <table>
+    <thead><tr><th>Diameter</th><th>kg / m</th><th>kg / 12 m bar</th><th>Approx. bars / tonne</th></tr></thead>
+    <tbody>
+      {rows.map((row) => <tr><td>{row[0]} mm</td><td>{row[1]}</td><td>{row[2]}</td><td>{row[3]}</td></tr>)}
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>Example: 16 mm TMT</strong>
+    <p>16² ÷ 162.2 = about 1.578 kg/m. A nominal 12 m bar is therefore about 18.94 kg.</p>
+  </div>
+
+  <h2>Useful conversions</h2>
+  <ul>
+    <li>kg/m × 0.3048 ≈ kg/ft</li>
+    <li>kg/m × bar length (m) = weight per bar</li>
+    <li>total bar weight × quantity = combined weight</li>
+    <li>1,000 kg ÷ kg/bar ≈ nominal bars per tonne</li>
+  </ul>
+
+  <a class="guide-link" href="/calculators/tmt-rebar">Open TMT / Rebar Calculator <span>→</span></a>
+</GuideLayout>
