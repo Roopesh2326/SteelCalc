@@ -43,11 +43,22 @@ const calculators = [
     visual: 'cost'
   }
 ];
+
+const engineeringCalculators = [
+  {
+    number: 'E01',
+    title: 'Electricity Load Calculator',
+    description: 'Estimate single-phase or three-phase power, monthly energy use, and indicative electricity cost.',
+    href: '/calculators/electricity',
+    tag: 'ELECTRICAL',
+    visual: 'electric'
+  }
+];
 ---
 
 <Layout
-  title="Steel Calculators | SteelCalc"
-  description="Explore SteelCalc's free steel weight, TMT rebar, steel plate, steel pipe, and steel cost calculators."
+  title="Steel & Engineering Calculators | SteelCalc"
+  description="Explore SteelCalc's free steel weight, TMT rebar, plate, pipe, cost, and electricity load calculators."
 >
   <div class="site-shell">
     <header class="topbar">
@@ -83,14 +94,14 @@ const calculators = [
       <section class="directory-hero">
         <div>
           <div class="eyebrow">FREE ONLINE TOOLS</div>
-          <h1>Our Steel <em>Calculators</em></h1>
-          <p>Choose the tool that matches the steel material you're working with. Enter familiar measurements and get a practical estimate in seconds.</p>
+          <h1>Steel & <em>Engineering Calculators</em></h1>
+          <p>Start with steel weight and cost tools, or use the new electricity load calculator for practical power and energy estimates.</p>
         </div>
 
         <div class="hero-panel">
-          <strong>05</strong>
+          <strong>06</strong>
           <span>Calculators</span>
-          <small>Weight · Rebar · Plate · Pipe · Cost</small>
+          <small>05 steel tools · 01 electrical tool</small>
         </div>
       </section>
 
@@ -101,7 +112,8 @@ const calculators = [
         </label>
 
         <div class="directory-stats">
-          <span><strong>05</strong> tools</span>
+          <span><strong>06</strong> tools</span>
+          <span>05 steel · 01 electrical</span>
           <span>Instant results</span>
           <span>No sign-up</span>
         </div>
@@ -134,7 +146,40 @@ const calculators = [
         ))}
       </section>
 
-      <p class="no-results" id="no-results" hidden>No calculator matches that search. Try “pipe”, “rebar”, “plate”, “cost”, or “weight”.</p>
+      <section class="engineering-section" aria-labelledby="engineering-title">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">ENGINEERING TOOLS</div>
+            <h2 id="engineering-title">Beyond <em>steel.</em></h2>
+          </div>
+          <p>Practical calculators for adjacent project planning tasks.</p>
+        </div>
+
+        <div class="tool-grid engineering-grid">
+          {engineeringCalculators.map((tool) => (
+            <a class="tool-card" href={tool.href}>
+              <div class="tool-card-top">
+                <span class="tool-number">{tool.number}</span>
+                <span class="tool-tag">{tool.tag}</span>
+              </div>
+
+              <div class="tool-image electric" aria-hidden="true">
+                <div class="art-electric"><span></span><i></i><b>kW</b></div>
+              </div>
+
+              <h2>{tool.title}</h2>
+              <p>{tool.description}</p>
+
+              <div class="tool-card-bottom">
+                <span>OPEN CALCULATOR</span>
+                <b aria-hidden="true">→</b>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <p class="no-results" id="no-results" hidden>No calculator matches that search. Try “electricity”, “pipe”, “rebar”, “plate”, “cost”, or “weight”.</p>
 
       <section class="guide" id="guide">
         <div class="guide-intro">
@@ -165,7 +210,7 @@ const calculators = [
           <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
           <span>Steel<span class="brand-light">Calc</span><small>PRECISION TOOLS</small></span>
         </a>
-        <p>Free online steel calculators for weight, rebar, plate, pipe, and cost analysis.</p>
+        <p>Free online steel and engineering calculators for material weight, cost, electrical load, and project estimates.</p>
       </div>
 
       <div class="footer-col">
@@ -179,6 +224,7 @@ const calculators = [
         <strong>More Tools</strong>
         <a href="/calculators/steel-pipe">Steel Pipe</a>
         <a href="/calculators/steel-cost">Steel Cost</a>
+        <a href="/calculators/electricity">Electricity Load</a>
         <a href="/calculators">All calculators</a>
       </div>
 
@@ -324,6 +370,19 @@ const calculators = [
   .tool-card-bottom span{font-size:6.5px;text-transform:uppercase;letter-spacing:1px;font-weight:850;color:#a1a9af}.tool-card-bottom b{font-size:13px;color:#d18f2d}
 
   .no-results{margin:15px 0 0;border:1px dashed #d9dfe3;border-radius:6px;padding:13px;color:#8d969e;font-size:9px;background:#fafbfb}
+  .engineering-section{border-top:1px solid #e0e5e8;margin-top:52px;padding-top:38px}
+  .engineering-section .section-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:25px;margin-bottom:18px}
+  .engineering-section .section-heading h2{font-size:28px;line-height:1.1;letter-spacing:-1.1px;margin:11px 0 0;color:#17212b}
+  .engineering-section .section-heading h2 em{font-family:Georgia,serif;font-weight:500;color:#dc942d}
+  .engineering-section .section-heading>p{max-width:320px;font-size:9px;line-height:1.7;color:#7a858e;margin:0}
+  .engineering-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .art-electric{position:absolute;inset:0}
+  .art-electric:before,.art-electric:after{content:"";position:absolute;border:2px solid #d79632}
+  .art-electric:before{width:72px;height:72px;left:30px;top:20px;border-radius:9px;transform:rotate(45deg)}
+  .art-electric:after{width:56px;height:56px;right:28px;top:31px;border-color:#73808a;border-radius:50%}
+  .art-electric span{position:absolute;width:72px;height:6px;left:48px;top:56px;border-radius:4px;background:#33414b;transform:rotate(-28deg)}
+  .art-electric i{position:absolute;width:46px;height:4px;left:83px;top:79px;background:#d79632;transform:rotate(58deg);box-shadow:0 8px 0 #d79632}
+  .art-electric b{position:absolute;right:33px;bottom:22px;font:700 15px Georgia,serif;color:#c4862c;z-index:2}
 
   .guide{display:grid;grid-template-columns:.85fr 1.15fr;gap:8%;padding:47px 0 54px;border-top:1px solid #e0e5e8;margin-top:52px}
   .guide h2{font-size:30px;line-height:1.1;letter-spacing:-1.3px;margin:12px 0 0;color:#17212b}
@@ -352,6 +411,9 @@ const calculators = [
     .directory-hero{display:block;padding:42px 0 28px}.hero-panel{margin-top:20px;max-width:260px}
     .directory-bar{display:block}.search-box{width:100%}.directory-stats{margin-top:12px;flex-wrap:wrap}
     .tool-grid{grid-template-columns:1fr 1fr}
+    .engineering-grid{grid-template-columns:1fr 1fr}
+    .engineering-section .section-heading{display:block}
+    .engineering-section .section-heading>p{margin-top:10px}
     .guide{grid-template-columns:1fr;gap:27px}
     .estimate-note{align-items:flex-start;flex-direction:column}
   }
@@ -360,6 +422,7 @@ const calculators = [
     .site-shell{padding:0 18px}.topbar{height:70px}.brand{font-size:17px}.nav-cta{padding:9px 10px;font-size:8px}
     .crumbs{padding-top:15px}.directory-hero{padding-top:31px}.directory-hero h1{font-size:42px;letter-spacing:-2.7px}
     .tool-grid{grid-template-columns:1fr;gap:10px}.tool-card{min-height:260px}
+    .engineering-grid{grid-template-columns:1fr}
     .guide{padding:38px 0 44px}.guide h2{font-size:28px}
     footer{grid-template-columns:1fr 1fr}.footer-bottom{grid-column:1/-1;flex-direction:column;gap:5px}
   }
