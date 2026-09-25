@@ -1,0 +1,262 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout
+  title="Rebar BBS Calculator | SteelCalc"
+  description="Create a basic reinforcement bar bending schedule with cutting length, quantity, unit weight, total length, and total steel weight."
+>
+  <div class="page-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="SteelCalc home">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span>Steel<span class="brand-light">Calc</span><small>PRECISION TOOLS</small></span>
+      </a>
+      <nav aria-label="BBS navigation">
+        <a href="/calculators">Calculators</a>
+        <a href="/guides">Guides</a>
+        <a class="active" href="/calculators/bbs">BBS</a>
+      </nav>
+      <a class="header-cta" href="/calculators">All tools <span>↗</span></a>
+    </header>
+
+    <main>
+      <div class="crumb"><a href="/">SteelCalc</a><span>/</span><a href="/calculators">Calculators</a><span>/</span><strong>Rebar BBS</strong></div>
+
+      <section class="hero">
+        <div>
+          <div class="eyebrow">REINFORCEMENT / 07</div>
+          <h1>Rebar BBS calculator.<br /><em>Plan the cuts.</em></h1>
+          <p>Create a simple bar bending schedule for straight bars, L-bars, U-bars, and rectangular stirrups. SteelCalc calculates cutting length, total length, unit weight, and total steel weight.</p>
+        </div>
+        <div class="hero-chip"><strong>PLANNING TOOL</strong><span>Local browser only</span><small>No account. Export the schedule when you are done.</small></div>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <div><span class="kicker">BAR SCHEDULE</span><h2>Build your reinforcement list</h2></div>
+          <div class="actions">
+            <button id="save" class="ghost">Save</button>
+            <button id="load" class="ghost">Load</button>
+            <button id="clear" class="ghost">Clear</button>
+            <button id="csv" class="primary">CSV ↓</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Mark</th>
+                <th>Ø mm</th>
+                <th>Shape</th>
+                <th>A mm</th>
+                <th>B mm</th>
+                <th>Deduction / corner</th>
+                <th>Hook allowance</th>
+                <th>Cut length</th>
+                <th>Qty</th>
+                <th>Unit kg</th>
+                <th>Total kg</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+
+        <div class="empty" id="empty">No bars yet. Add your first bar mark to start the schedule.</div>
+
+        <div class="bottom-row">
+          <button id="add" class="add">+ Add bar</button>
+          <span>Cutting-length allowances are explicit so you can adapt the planning schedule to your project practice.</span>
+        </div>
+      </section>
+
+      <section class="summary">
+        <div><span>Bar marks</span><strong id="mark-count">0</strong><small>schedule rows</small></div>
+        <div><span>Total quantity</span><strong id="qty-total">0</strong><small>bars / stirrups</small></div>
+        <div><span>Total length</span><strong id="length-total">0.00 m</strong><small>cutting length combined</small></div>
+        <div class="dark"><span>Total steel</span><strong id="weight-total">0.00 kg</strong><small id="tonnes-total">0.000 t</small></div>
+      </section>
+
+      <section class="note">
+        <strong>Important calculation note</strong>
+        <p>This is a planning BBS tool, not a code-specific detailing engine. Bend deductions, hook lengths, anchorage, laps, development length, crank geometry, and shape codes vary by project drawings and applicable standards. Verify final bar lengths against the structural drawings before fabrication.</p>
+      </section>
+
+      <section class="faq">
+        <div><span class="kicker">QUICK ANSWERS</span><h2>How the BBS estimate works.</h2></div>
+        <div class="faq-list">
+          <details open><summary>How is bar weight calculated?<span>+</span></summary><p>Unit mass uses the nominal relation d² / 162.2 kg per metre. Total bar weight is unit mass multiplied by cutting length and quantity.</p></details>
+          <details><summary>Which shapes are supported?<span>+</span></summary><p>Straight bars, L-bars, U-bars, and rectangular stirrups are supported. The schedule uses A and B dimensions plus explicit deduction and hook allowances.</p></details>
+          <details><summary>Can I use this as a final fabrication schedule?<span>+</span></summary><p>No. It is intended for planning and quantity estimation. Final bar bending details should come from the approved structural drawings and project standards.</p></details>
+        </div>
+      </section>
+    </main>
+  </div>
+</Layout>
+
+<script>
+  const rows = document.querySelector('#rows');
+  const empty = document.querySelector('#empty');
+  const markCount = document.querySelector('#mark-count');
+  const qtyTotal = document.querySelector('#qty-total');
+  const lengthTotal = document.querySelector('#length-total');
+  const weightTotal = document.querySelector('#weight-total');
+  const tonnesTotal = document.querySelector('#tonnes-total');
+
+  const format = (n, digits = 2) => Number(n || 0).toLocaleString('en-IN', { maximumFractionDigits: digits });
+  const newRow = (i = 1) => ({
+    id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random()),
+    mark: 'B' + String(i).padStart(2, '0'),
+    diameter: '',
+    shape: 'straight',
+    a: '',
+    b: '',
+    deduction: '',
+    hook: '',
+    qty: ''
+  });
+
+  let items = [newRow(1)];
+
+  const cuttingLength = (item) => {
+    const a = Math.max(0, Number(item.a) || 0);
+    const b = Math.max(0, Number(item.b) || 0);
+    const d = Math.max(0, Number(item.deduction) || 0);
+    const hook = Math.max(0, Number(item.hook) || 0);
+    if (item.shape === 'l') return Math.max(0, a + b - d + hook);
+    if (item.shape === 'u') return Math.max(0, a + 2 * b - d + hook);
+    if (item.shape === 'stirrup') return Math.max(0, 2 * (a + b) - 4 * d + hook);
+    return Math.max(0, a + hook);
+  };
+
+  const render = () => {
+    if (!rows) return;
+    empty?.toggleAttribute('hidden', items.length > 0);
+    rows.innerHTML = items.map((item, index) => {
+      const cut = cuttingLength(item);
+      const dia = Math.max(0, Number(item.diameter) || 0);
+      const qty = Math.max(0, Math.floor(Number(item.qty) || 0));
+      const unitKg = cut / 1000 * (dia * dia / 162.2);
+      const totalKg = unitKg * qty;
+      return `<tr data-id="${item.id}">
+        <td><input class="mini mark" value="${item.mark}" aria-label="Bar mark" /></td>
+        <td><input class="mini diameter" type="number" min="0" step="1" value="${item.diameter}" aria-label="Diameter in millimetres" /></td>
+        <td>
+          <select class="mini shape" aria-label="Bar shape">
+            <option value="straight" ${item.shape === 'straight' ? 'selected' : ''}>Straight</option>
+            <option value="l" ${item.shape === 'l' ? 'selected' : ''}>L-Bar</option>
+            <option value="u" ${item.shape === 'u' ? 'selected' : ''}>U-Bar</option>
+            <option value="stirrup" ${item.shape === 'stirrup' ? 'selected' : ''}>Stirrup</option>
+          </select>
+        </td>
+        <td><input class="mini a" type="number" min="0" step="1" value="${item.a}" aria-label="Dimension A" /></td>
+        <td><input class="mini b" type="number" min="0" step="1" value="${item.b}" aria-label="Dimension B" /></td>
+        <td><input class="mini deduction" type="number" min="0" step="1" value="${item.deduction}" aria-label="Bend deduction" /></td>
+        <td><input class="mini hook" type="number" min="0" step="1" value="${item.hook}" aria-label="Hook allowance" /></td>
+        <td><strong>${format(cut, 0)} mm</strong></td>
+        <td><input class="mini qty" type="number" min="0" step="1" value="${item.qty}" aria-label="Quantity" /></td>
+        <td>${format(unitKg, 3)} kg</td>
+        <td><strong>${format(totalKg, 2)} kg</strong></td>
+        <td><button class="remove" data-remove="${item.id}" aria-label="Remove bar">×</button></td>
+      </tr>`;
+    }).join('');
+
+    rows.querySelectorAll('tr').forEach((tr) => {
+      const item = items.find((entry) => entry.id === tr.dataset.id);
+      if (!item) return;
+      tr.querySelectorAll('input, select').forEach((field) => {
+        field.addEventListener('input', () => {
+          const key = field.classList.contains('mark') ? 'mark' :
+            field.classList.contains('diameter') ? 'diameter' :
+            field.classList.contains('shape') ? 'shape' :
+            field.classList.contains('a') ? 'a' :
+            field.classList.contains('b') ? 'b' :
+            field.classList.contains('deduction') ? 'deduction' :
+            field.classList.contains('hook') ? 'hook' : 'qty';
+          item[key] = field.value;
+          render();
+        });
+      });
+      tr.querySelector('.remove')?.addEventListener('click', () => {
+        items = items.filter((entry) => entry.id !== item.id);
+        render();
+      });
+    });
+
+    const totals = items.reduce((acc, item) => {
+      const qty = Math.max(0, Math.floor(Number(item.qty) || 0));
+      const cut = cuttingLength(item);
+      const dia = Math.max(0, Number(item.diameter) || 0);
+      const unitKg = cut / 1000 * (dia * dia / 162.2);
+      acc.qty += qty;
+      acc.length += cut / 1000 * qty;
+      acc.weight += unitKg * qty;
+      return acc;
+    }, { qty: 0, length: 0, weight: 0 });
+
+    if (markCount) markCount.textContent = format(items.length, 0);
+    if (qtyTotal) qtyTotal.textContent = format(totals.qty, 0);
+    if (lengthTotal) lengthTotal.textContent = `${format(totals.length)} m`;
+    if (weightTotal) weightTotal.textContent = `${format(totals.weight)} kg`;
+    if (tonnesTotal) tonnesTotal.textContent = `${format(totals.weight / 1000, 3)} t`;
+  };
+
+  const save = () => localStorage.setItem('steelcalc-bbs', JSON.stringify(items));
+  const load = () => {
+    try {
+      const parsed = JSON.parse(localStorage.getItem('steelcalc-bbs') || 'null');
+      if (Array.isArray(parsed)) {
+        items = parsed;
+        render();
+      }
+    } catch {}
+  };
+
+  const csv = () => {
+    const header = ['Mark', 'Diameter mm', 'Shape', 'A mm', 'B mm', 'Deduction mm', 'Hook allowance mm', 'Cut length mm', 'Quantity', 'Unit kg', 'Total kg'];
+    const lines = [header.join(',')];
+    items.forEach((item) => {
+      const cut = cuttingLength(item);
+      const dia = Math.max(0, Number(item.diameter) || 0);
+      const qty = Math.max(0, Math.floor(Number(item.qty) || 0));
+      const unitKg = cut / 1000 * (dia * dia / 162.2);
+      lines.push([item.mark,item.diameter,item.shape,item.a,item.b,item.deduction,item.hook,Math.round(cut),qty,unitKg.toFixed(3),(unitKg*qty).toFixed(2)].join(','));
+    });
+    const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'steelcalc-bbs.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  document.querySelector('#add')?.addEventListener('click', () => {
+    items.push(newRow(items.length + 1));
+    render();
+  });
+  document.querySelector('#save')?.addEventListener('click', save);
+  document.querySelector('#load')?.addEventListener('click', load);
+  document.querySelector('#clear')?.addEventListener('click', () => {
+    items = [];
+    localStorage.removeItem('steelcalc-bbs');
+    render();
+  });
+  document.querySelector('#csv')?.addEventListener('click', csv);
+  render();
+</script>
+
+<style>
+:global(body){margin:0;background:#f6f7f8;color:#17212b;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+.page-shell{max-width:1280px;margin:0 auto;padding:0 28px 72px}.topbar{height:78px;display:flex;align-items:center;gap:26px;border-bottom:1px solid #e1e6e9}.brand{display:flex;align-items:center;gap:9px;margin-right:auto;text-decoration:none;color:#18232d;font-size:18px;font-weight:850;letter-spacing:-.7px}.brand-light{font-weight:450;color:#68727b}.brand small{display:block;font-size:6.5px;letter-spacing:1.8px;color:#8b969d;margin-top:5px}.brand-mark{width:29px;height:29px;background:#e9a23b;border-radius:8px;display:flex;align-items:flex-end;justify-content:center;gap:3px;padding:6px}.brand-mark span{display:block;width:4px;background:#17212b}.brand-mark span:nth-child(1){height:7px}.brand-mark span:nth-child(2){height:13px}.brand-mark span:nth-child(3){height:10px}.topbar nav{display:flex;gap:24px}.topbar nav a{font-size:10px;font-weight:700;color:#68747d;text-decoration:none}.topbar nav a.active,.topbar nav a:hover{color:#17212b}.header-cta{font-size:9px;font-weight:800;color:#17212b;text-decoration:none;border:1px solid #d7dde1;padding:10px 12px;border-radius:6px}.header-cta span{color:#d18d2b;margin-left:7px}
+.crumb{display:flex;gap:9px;align-items:center;font-size:9px;color:#9aa3aa;padding:21px 0}.crumb a{text-decoration:none;color:#66737c;font-weight:700}.crumb strong{font-weight:750;color:#7a858e}
+.hero{display:grid;grid-template-columns:1fr 270px;gap:40px;align-items:end;padding:28px 0 31px}.eyebrow,.kicker{font-size:7px;font-weight:850;letter-spacing:1.8px;color:#8b959d}.hero h1{font-size:clamp(42px,5vw,66px);line-height:1.01;letter-spacing:-3.5px;margin:14px 0 15px}.hero h1 em,h2 em{font-family:Georgia,serif;font-weight:500;color:#dc942d}.hero p{max-width:720px;font-size:11px;line-height:1.8;color:#65727b;margin:0}.hero-chip{border:1px solid #dfe4e7;background:#fff;border-radius:8px;padding:17px 18px}.hero-chip strong,.hero-chip span,.hero-chip small{display:block}.hero-chip strong{font-family:Georgia,serif;color:#c4862c;font-size:15px}.hero-chip span{font-size:9px;font-weight:800;margin-top:6px}.hero-chip small{font-size:7px;color:#8a959d;margin-top:4px;line-height:1.6}
+.card{border:1px solid #dfe4e7;background:#fff;border-radius:8px;padding:18px;margin-top:7px}.card-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin-bottom:15px}.card-head h2{margin:8px 0 0;font-size:20px}.actions{display:flex;gap:7px}.ghost,.primary{border-radius:5px;padding:9px 11px;font-size:8px;font-weight:800;cursor:pointer}.ghost{background:#fff;border:1px solid #d8dee2;color:#5f6c75}.primary{border:1px solid #d9932f;background:#d9932f;color:#fff}.table-wrap{overflow:auto}.table-wrap table{border-collapse:collapse;width:100%;min-width:1080px}.table-wrap th{font-size:7px;text-transform:uppercase;letter-spacing:.7px;color:#89949d;text-align:left;padding:9px 7px;border-bottom:1px solid #e1e6e9}.table-wrap td{font-size:8px;color:#66737b;padding:8px 7px;border-bottom:1px solid #edf0f2;white-space:nowrap}.mini{height:31px;min-width:64px;border:1px solid #d9dfe3;background:#fbfcfc;border-radius:5px;padding:0 7px;font-size:9px;outline:0;color:#20303a}.mini:focus{border-color:#d1a25f;box-shadow:0 0 0 2px #f6e9d4}.mark{width:70px}.shape{min-width:100px}.remove{border:0;background:transparent;color:#a36c2a;font-size:18px;cursor:pointer}.empty{padding:18px;border:1px dashed #d8dfe3;margin-top:12px;color:#8b959d;font-size:9px;background:#fafbfb}.empty strong{display:block;color:#596670;font-size:10px;margin-bottom:4px}.empty[hidden]{display:none}.bottom-row{display:flex;align-items:center;gap:14px;margin-top:14px}.add{border:1px dashed #d3b072;background:#fff8ef;color:#8b672c;border-radius:5px;padding:10px 13px;font-size:9px;font-weight:850;cursor:pointer}.bottom-row span{font-size:8px;color:#949da4}
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:13px}.summary>div{border:1px solid #dfe4e7;background:#fff;border-radius:7px;padding:15px 16px}.summary span,.summary small{display:block;color:#89939b;font-size:7px}.summary strong{display:block;color:#26343d;font-size:19px;margin:7px 0 3px}.summary .dark{background:#192630;border-color:#192630}.summary .dark strong{color:#fff}.summary .dark span,.summary .dark small{color:#aeb9bf}
+.note{display:grid;grid-template-columns:1fr 2fr;gap:30px;border-top:1px solid #dfe4e7;margin-top:43px;padding:20px 0}.note strong{font-size:9px}.note p{font-size:8px;line-height:1.75;color:#7d8991;margin:0}
+.faq{display:grid;grid-template-columns:.75fr 1.25fr;gap:50px;border-top:1px solid #dfe4e7;padding:39px 0}.faq h2{font-size:26px;letter-spacing:-1px;margin:10px 0}.faq-list details{border-top:1px solid #e2e6e8;padding:13px 0}.faq-list details:last-child{border-bottom:1px solid #e2e6e8}.faq-list summary{display:flex;justify-content:space-between;gap:16px;cursor:pointer;font-size:9px;font-weight:800;color:#37434c;list-style:none}.faq-list summary::-webkit-details-marker{display:none}.faq-list summary span{color:#d08d2b;font-size:13px}.faq-list p{font-size:8px;line-height:1.8;color:#7c878f;margin:9px 0 0}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.summary{grid-template-columns:1fr 1fr}.note,.faq{grid-template-columns:1fr;gap:20px}}
+@media(max-width:640px){.page-shell{padding:0 17px 55px}.topbar nav{display:none}.hero{padding-top:23px}.card{padding:12px}.card-head{align-items:flex-start;flex-direction:column}.actions{width:100%;flex-wrap:wrap}.summary{grid-template-columns:1fr}.bottom-row{align-items:flex-start;flex-direction:column}}
+</style>
