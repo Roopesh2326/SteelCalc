@@ -87,6 +87,14 @@ const tools = [
     tag: 'STRUCTURAL',
     href: '/calculators/structural-steel',
     visual: 'structural'
+  },
+  {
+    number: '12',
+    title: 'Rebar BBS Calculator',
+    detail: 'Build a basic reinforcement bar bending schedule with cutting length and steel weight.',
+    tag: 'BBS',
+    href: '/calculators/bbs',
+    visual: 'bbs'
   }
 ];
 ---
@@ -189,6 +197,7 @@ const tools = [
               {tool.visual === 'flooring' && <div class="art-flooring"><span></span><i></i><b>600</b></div>}
               {tool.visual === 'earthwork' && <div class="art-earthwork"><span></span><i></i><b>m³</b></div>}
               {tool.visual === 'structural' && <div class="art-structural"><span></span><i></i><b>H</b></div>}
+              {tool.visual === 'bbs' && <div class="art-bbs"><span></span><i></i><b>BBS</b></div>}
             </div>
 
             <h3>{tool.title}</h3>
@@ -325,7 +334,7 @@ const tools = [
   .art-plaster{position:absolute;inset:0}.art-plaster:before{content:"";position:absolute;left:30px;top:22px;width:88px;height:72px;border:1px solid #cbd2d6;background:linear-gradient(145deg,#f7f7f4,#d5d1c8);box-shadow:9px 9px 0 #b6bec3}.art-plaster span{position:absolute;left:45px;top:39px;width:58px;height:8px;background:#aaafb0;transform:rotate(-5deg);box-shadow:0 15px 0 #c2c5c3,0 30px 0 #8f989d}.art-plaster i{position:absolute;right:24px;bottom:22px;width:42px;height:42px;border:4px solid #6c777e;border-radius:50%;background:#e8ecee}.art-plaster b{position:absolute;right:18px;bottom:25px;font:700 11px Georgia,serif;color:#c4862c;z-index:2}
   .art-flooring{position:absolute;inset:0}.art-flooring:before{content:"";position:absolute;left:21px;top:25px;width:106px;height:68px;background:linear-gradient(135deg,#f2f1ec,#cfd4d7);border:1px solid #aeb8bd;transform:skewY(-8deg);box-shadow:12px 12px 0 #e0e3e4}.art-flooring span{position:absolute;left:38px;top:39px;width:83px;height:1px;background:#9da8ad;transform:rotate(-8deg);box-shadow:0 18px 0 #9da8ad,0 36px 0 #9da8ad}.art-flooring i{position:absolute;right:24px;top:45px;width:38px;height:38px;border:4px solid #6a757d;background:#f8fafb;transform:rotate(15deg)}.art-flooring b{position:absolute;right:19px;bottom:17px;font:700 10px Georgia,serif;color:#c4862c;z-index:2}
   .art-earthwork{position:absolute;inset:0}.art-earthwork:before{content:"";position:absolute;left:24px;bottom:21px;width:110px;height:52px;background:linear-gradient(#d7a15a 0 34%,#b87b38 34% 70%,#8b5e2f 70%);clip-path:polygon(0 25%,35% 25%,48% 0,100% 0,100% 100%,0 100%);box-shadow:7px -4px 0 #e1b577}.art-earthwork span{position:absolute;right:29px;top:29px;width:55px;height:31px;border:2px solid #5f6b73;border-radius:3px 3px 11px 11px;background:#dce1e3;transform:rotate(-7deg)}.art-earthwork i{position:absolute;right:23px;top:42px;width:9px;height:42px;background:#b9782f;transform:rotate(17deg);box-shadow:-12px 8px 0 #d49643}.art-earthwork b{position:absolute;right:18px;bottom:16px;font:700 12px Georgia,serif;color:#c4862c;z-index:2}
-  .art-structural{position:absolute;inset:0}.art-structural:before{content:"H";position:absolute;left:31px;top:22px;width:86px;height:75px;display:grid;place-items:center;border:1px solid #9ca8af;background:linear-gradient(145deg,#f7f8f8,#a8b1b6);color:#596770;font:bold 64px Arial,sans-serif;box-shadow:10px 9px 0 #d9dee1}.art-structural span{position:absolute;right:25px;top:35px;width:46px;height:5px;background:#c5822b;box-shadow:0 13px 0 #5f6c74,0 26px 0 #c5822b}.art-structural i{position:absolute;right:35px;bottom:21px;width:32px;height:32px;border:4px solid #65717a;background:#e7ebed;transform:rotate(45deg)}.art-structural b{position:absolute;right:18px;bottom:16px;font:700 11px Georgia,serif;color:#c4862c;z-index:2}
+  .art-structural{position:absolute;inset:0}.art-structural:before{content:"H";position:absolute;left:31px;top:22px;width:86px;height:75px;display:grid;place-items:center;border:1px solid #9ca8af;background:linear-gradient(145deg,#f7f8f8,#a8b1b6);color:#596770;font:bold 64px Arial,sans-serif;box-shadow:10px 9px 0 #d9dee1}.art-structural span{position:absolute;right:25px;top:35px;width:46px;height:5px;background:#c5822b;box-shadow:0 13px 0 #5f6c74,0 26px 0 #c5822b}.art-structural i{position:absolute;right:35px;bottom:21px;width:32px;height:32px;border:4px solid #65717a;background:#e7ebed;transform:rotate(45deg)}.art-structural b{position:absolute;right:18px;bottom:16px;font:700 11px Georgia,serif;color:#c4862c;z-index:2}.art-bbs{position:absolute;inset:0}.art-bbs:before{content:"";position:absolute;left:28px;top:24px;width:94px;height:68px;background:#fff;border:1px solid #bac4ca;box-shadow:10px 9px 0 #dbe0e2}.art-bbs span{position:absolute;left:40px;top:38px;width:70px;height:2px;background:#d18e2c;box-shadow:0 13px 0 #d7dde0,0 26px 0 #d7dde0,0 39px 0 #d7dde0}.art-bbs i{position:absolute;right:21px;bottom:22px;width:35px;height:35px;border:4px solid #68757d;border-radius:50%;background:#eef0f1}.art-bbs b{position:absolute;right:18px;bottom:28px;font:700 9px Georgia,serif;color:#c4862c;z-index:2}
 
   .tool-card-bottom{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #edf0f2;margin-top:auto;padding-top:10px}.tool-card-bottom span{font-size:6.5px;text-transform:uppercase;letter-spacing:1px;font-weight:850;color:#a1a9af}.tool-card-bottom b{font-size:13px;color:#d18f2d}
 
