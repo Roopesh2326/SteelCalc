@@ -461,7 +461,9 @@ import Layout from '../layouts/Layout.astro';
 
   @media print {
     :global(body){background:#fff !important}
-    .workbench-shell{display:none !important}
+    .workbench-shell{display:block !important;padding:0 !important}
+    .workbench-shell > .topbar,
+    .workbench-shell > main > :not(.print-sheet){display:none !important}
     .print-sheet{display:block !important;padding:24px 26px;color:#17212b;background:#fff;font-family:Arial,Helvetica,sans-serif}
     .print-header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #17212b;padding-bottom:16px}
     .print-brand{display:block;font-size:24px;font-weight:800;letter-spacing:-1px}
