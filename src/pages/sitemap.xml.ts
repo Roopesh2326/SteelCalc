@@ -9,6 +9,7 @@ const paths = [
   '/calculators/steel-pipe',
   '/calculators/steel-cost',
   '/calculators/concrete',
+  '/calculators/brick-block',
   '/guides',
   '/guides/tmt-bar-weight-chart',
   '/guides/steel-weight-formulas',
