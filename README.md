@@ -1,6 +1,6 @@
 # SteelCalc
 
-SteelCalc is an Astro-based toolkit for practical steel weight and cost calculations.
+SteelCalc is an Astro-based toolkit for practical steel, engineering load, and project cost calculations.
 
 ## Calculator toolkit
 
@@ -9,6 +9,7 @@ SteelCalc is an Astro-based toolkit for practical steel weight and cost calculat
 - Steel Plate Calculator
 - Steel Pipe Calculator
 - Steel Cost Calculator
+- Electricity Load Calculator
 - Project Workbench
 
 ## Development
@@ -55,6 +56,7 @@ No server runtime is required for the calculator pages.
 /calculators/steel-plate
 /calculators/steel-pipe
 /calculators/steel-cost
+/calculators/electricity
 /guides
 /guides/tmt-bar-weight-chart
 /guides/steel-weight-formulas
@@ -77,4 +79,4 @@ The repository also contains a GitHub Actions build workflow that runs the produ
 
 ## Notes on calculation estimates
 
-SteelCalc is an estimation tool. Actual delivered weight and purchase cost can vary by steel grade, manufacturing tolerances, coating, supplier pricing, and project-specific specifications.
+SteelCalc is an estimation tool. Actual delivered weight and purchase cost can vary by steel grade, manufacturing tolerances, coating, supplier pricing, and project-specific specifications. Electrical results are planning estimates only; final electrical design, protection, conductor sizing, and installation decisions should follow applicable codes, equipment data, and qualified review.
