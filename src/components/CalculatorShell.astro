@@ -403,6 +403,7 @@ const breadcrumbSchema = {
     const controls = Array.from(form.querySelectorAll('input[type="number"], select'))
       .filter((control) => control.id !== 'auto-calc')
       .filter((control) => control.id !== 'waste')
+      .filter((control) => control.dataset.optional !== 'true')
       .filter((control) => !control.closest('.field')?.classList.contains('hidden-field'));
     return controls.every((control) => control.value.trim() !== '');
   };
@@ -591,7 +592,7 @@ const breadcrumbSchema = {
       const moduleThickness = (unitThickness + joint) / 1000;
       const moduleVolume = moduleLength * moduleHeight * moduleThickness;
       const baseUnits = wallVolume / moduleVolume;
-      const planningUnits = baseUnits * (1 + wastage / 100);
+      const planningUnits = Math.ceil(baseUnits * (1 + wastage / 100));
       const solidUnitVolume = (unitLength / 1000) * (unitHeight / 1000) * (unitThickness / 1000);
       const wetMortar = Math.max(0, wallVolume - (baseUnits * solidUnitVolume));
       const dryMortar = wetMortar * dryMortarFactor;
