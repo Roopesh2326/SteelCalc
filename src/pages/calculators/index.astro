@@ -44,6 +44,14 @@ const calculators = [
   }
 ];
 
+const directorySchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Steel & Construction Calculators',
+  url: Astro.site ? new URL('/calculators', Astro.site).toString() : undefined,
+  description: 'SteelCalc calculator directory for steel, construction, structural section, earthwork, and reinforcement estimates.'
+};
+
 const constructionCalculators = [
   {
     number: 'C01',
@@ -138,15 +146,7 @@ const constructionCalculators = [
     <main>
       <div class="crumbs" aria-label="Breadcrumb">
         <a href="/">SteelCalc</a><span>/</span><strong>Calculators</strong>
-      </div>      <script type="application/ld+json">
-        {JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'CollectionPage',
-          name: 'Steel & Construction Calculators',
-          url: Astro.site ? new URL('/calculators', Astro.site).toString() : undefined,
-          description: 'SteelCalc calculator directory for steel, construction, structural section, earthwork, and reinforcement estimates.'
-        })}
-      </script>
+      </div>      <script type="application/ld+json" set:html={JSON.stringify(directorySchema)}></script>
 
       <section class="directory-hero">
         <div>
