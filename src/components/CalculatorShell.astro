@@ -1,6 +1,6 @@
 ---
 interface Props {
-  type: 'steel-weight' | 'tmt-rebar' | 'steel-plate' | 'steel-pipe' | 'steel-cost' | 'concrete' | 'masonry' | 'plaster' | 'flooring' | 'earthwork';
+  type: 'steel-weight' | 'tmt-rebar' | 'steel-plate' | 'steel-pipe' | 'steel-cost' | 'concrete' | 'masonry' | 'plaster' | 'flooring' | 'earthwork' | 'structural-steel';
   eyebrow: string;
   title: string;
   accent: string;
@@ -20,6 +20,7 @@ const labels: Record<Props['type'], { result: string; helper: string }> = {
   'plaster': { result: 'Plaster volume', helper: 'Estimated wet plaster volume, cement bags, and sand for wall or ceiling surfaces.' },
   'flooring': { result: 'Tiles required', helper: 'Estimated tile count, covered area, and wastage for a floor.' },
   'earthwork': { result: 'Excavation volume', helper: 'Estimated in-situ, loose haul, and planning volumes for excavation work.' },
+  'structural-steel': { result: 'Structural steel weight', helper: 'Estimated section weight using sharp-corner cross-section formulas and entered density.' },
 };
 
 const faqItems: Record<Props['type'], Array<{ question: string; answer: string }>> = {
@@ -77,6 +78,12 @@ const faqItems: Record<Props['type'], Array<{ question: string; answer: string }
     { question: 'What does the swell allowance do?', answer: 'It estimates loose spoil or haul volume after excavation by increasing the in-situ volume by the entered swell percentage.' },
     { question: 'What is the planning volume?', answer: 'Planning volume applies the optional compaction or placement allowance to the in-situ quantity so you can budget fill material more conservatively.' },
     { question: 'Is this a geotechnical design calculator?', answer: 'No. It is a quantity-estimation tool. Actual excavation methods, soil classification, shoring, groundwater, haul conditions, and compaction requirements should follow the project specifications and site engineering review.' }
+  ],
+  'structural-steel': [
+    { question: 'Which structural steel profiles are included?', answer: 'The calculator currently covers equal angles, channels, I-beams, SHS, RHS, and CHS profiles using dimensions you enter.' },
+    { question: 'How is structural section weight calculated?', answer: 'Cross-sectional area is calculated from the selected profile dimensions, converted to square metres, multiplied by length and density, then multiplied by quantity.' },
+    { question: 'Are fillets and corner radii included?', answer: 'No. The reference formulas use simplified sharp-corner geometry. Rolled sections with fillets, tapers, or manufacturer-specific geometry can have different actual areas and unit masses.' },
+    { question: 'Is this a steel section design calculator?', answer: 'No. It estimates section weight and unit mass. Structural capacity, buckling, deflection, connection design, and code checks require engineering design using the applicable section properties and standards.' }
   ]
 };
 
@@ -130,6 +137,11 @@ const relatedTools: Record<Props['type'], Array<{ title: string; href: string }>
     { title: 'Concrete Calculator', href: '/calculators/concrete' },
     { title: 'Flooring & Tile Calculator', href: '/calculators/flooring' },
     { title: 'Project Workbench', href: '/workbench' }
+  ],
+  'structural-steel': [
+    { title: 'Steel Weight Calculator', href: '/calculators/steel-weight' },
+    { title: 'TMT / Rebar Calculator', href: '/calculators/tmt-rebar' },
+    { title: 'Steel Cost Calculator', href: '/calculators/steel-cost' }
   ]
 };
 
@@ -195,7 +207,7 @@ const breadcrumbSchema = {
   <section class="calculator-card">
     <form class="calc-form" id="calc-form">
       <div class="form-head">
-        <div><span class="form-kicker">INPUTS</span><h2>{type === 'concrete' ? 'Enter concrete inputs' : type === 'masonry' ? 'Enter masonry inputs' : type === 'plaster' ? 'Enter plaster inputs' : type === 'flooring' ? 'Enter flooring inputs' : type === 'earthwork' ? 'Enter earthwork inputs' : 'Enter your dimensions'}</h2></div>
+        <div><span class="form-kicker">INPUTS</span><h2>{type === 'concrete' ? 'Enter concrete inputs' : type === 'masonry' ? 'Enter masonry inputs' : type === 'plaster' ? 'Enter plaster inputs' : type === 'flooring' ? 'Enter flooring inputs' : type === 'earthwork' ? 'Enter earthwork inputs' : type === 'structural-steel' ? 'Enter section inputs' : 'Enter your dimensions'}</h2></div>
         <button class="ghost-btn" type="button" id="reset-btn">Reset</button>
       </div>
       <div id="form-error" role="alert" aria-live="polite"></div>
@@ -317,6 +329,38 @@ const breadcrumbSchema = {
           <div class="field"><label for="earthwork-quantity">Quantity <span>nos.</span></label><input id="earthwork-quantity" type="number" min="1" step="1" placeholder="1" /></div>
           <div class="field"><label for="swell">Swell / bulking <span>%</span></label><input id="swell" data-optional="true" type="number" min="0" step="0.1" placeholder="20" /></div>
           <div class="field"><label for="compaction">Compaction allowance <span>%</span></label><input id="compaction" data-optional="true" type="number" min="0" step="0.1" placeholder="10" /></div>
+        </>
+      )}
+
+      {type === 'structural-steel' && (
+        <>
+          <div class="field full"><label for="profile">Structural profile</label><select id="profile"><option value="" selected>Select profile</option><option value="angle">Equal angle</option><option value="channel">Channel</option><option value="ibeam">I-beam</option><option value="shs">SHS</option><option value="rhs">RHS</option><option value="chs">CHS</option></select></div>
+
+          <div class="field profile-angle hidden-field"><label for="angle-side">Leg size <span>mm</span></label><input id="angle-side" type="number" min="0" step="0.1" placeholder="50" /></div>
+          <div class="field profile-angle hidden-field"><label for="angle-thickness">Thickness <span>mm</span></label><input id="angle-thickness" type="number" min="0" step="0.1" placeholder="6" /></div>
+
+          <div class="field profile-channel hidden-field"><label for="channel-height">Overall height <span>mm</span></label><input id="channel-height" type="number" min="0" step="0.1" placeholder="100" /></div>
+          <div class="field profile-channel hidden-field"><label for="channel-width">Flange width <span>mm</span></label><input id="channel-width" type="number" min="0" step="0.1" placeholder="50" /></div>
+          <div class="field profile-channel hidden-field"><label for="channel-thickness">Thickness <span>mm</span></label><input id="channel-thickness" type="number" min="0" step="0.1" placeholder="6" /></div>
+
+          <div class="field profile-ibeam hidden-field"><label for="ibeam-height">Overall height <span>mm</span></label><input id="ibeam-height" type="number" min="0" step="0.1" placeholder="150" /></div>
+          <div class="field profile-ibeam hidden-field"><label for="ibeam-width">Flange width <span>mm</span></label><input id="ibeam-width" type="number" min="0" step="0.1" placeholder="75" /></div>
+          <div class="field profile-ibeam hidden-field"><label for="ibeam-flange">Flange thickness <span>mm</span></label><input id="ibeam-flange" type="number" min="0" step="0.1" placeholder="8" /></div>
+          <div class="field profile-ibeam hidden-field"><label for="ibeam-web">Web thickness <span>mm</span></label><input id="ibeam-web" type="number" min="0" step="0.1" placeholder="5" /></div>
+
+          <div class="field profile-shs hidden-field"><label for="shs-side">Outside side <span>mm</span></label><input id="shs-side" type="number" min="0" step="0.1" placeholder="100" /></div>
+          <div class="field profile-shs hidden-field"><label for="shs-thickness">Wall thickness <span>mm</span></label><input id="shs-thickness" type="number" min="0" step="0.1" placeholder="5" /></div>
+
+          <div class="field profile-rhs hidden-field"><label for="rhs-height">Outside height <span>mm</span></label><input id="rhs-height" type="number" min="0" step="0.1" placeholder="150" /></div>
+          <div class="field profile-rhs hidden-field"><label for="rhs-width">Outside width <span>mm</span></label><input id="rhs-width" type="number" min="0" step="0.1" placeholder="100" /></div>
+          <div class="field profile-rhs hidden-field"><label for="rhs-thickness">Wall thickness <span>mm</span></label><input id="rhs-thickness" type="number" min="0" step="0.1" placeholder="6" /></div>
+
+          <div class="field profile-chs hidden-field"><label for="chs-diameter">Outside diameter <span>mm</span></label><input id="chs-diameter" type="number" min="0" step="0.1" placeholder="114.3" /></div>
+          <div class="field profile-chs hidden-field"><label for="chs-thickness">Wall thickness <span>mm</span></label><input id="chs-thickness" type="number" min="0" step="0.1" placeholder="5" /></div>
+
+          <div class="field"><label for="section-length">Length <span>m</span></label><input id="section-length" type="number" min="0" step="0.001" placeholder="6" /></div>
+          <div class="field"><label for="section-quantity">Quantity <span>pcs</span></label><input id="section-quantity" type="number" min="1" step="1" placeholder="1" /></div>
+          <div class="field full"><label for="section-density">Density <span>kg/m³</span></label><input id="section-density" type="number" min="1" step="1" placeholder="7850" /></div>
         </>
       )}
 
@@ -799,6 +843,96 @@ const breadcrumbSchema = {
         'Loose haul volume',
         `${formatNumber(looseVolume)} m³`,
         ['Planning fill', `${formatNumber(planningFill)} m³`, 'Swell', `${formatNumber(swell, 1)}%`]
+      );
+      return;
+    }
+    if (type === 'structural-steel') {
+      const profile = root.querySelector('#profile')?.value || '';
+      const lengthM = value('section-length');
+      const qty = value('section-quantity');
+      const density = value('section-density');
+      let areaMm2 = 0;
+      let formulaText = '';
+      let sectionName = '';
+
+      if (!profile) { setError('Select a structural profile.'); return; }
+      if (!requirePositive(['Length', lengthM], ['Quantity', qty], ['Density', density])) return;
+
+      if (profile === 'angle') {
+        const a = value('angle-side');
+        const t = value('angle-thickness');
+        if (!requirePositive(['Leg size', a], ['Thickness', t])) return;
+        if (a <= t) { setError('Angle leg size must be greater than thickness.'); return; }
+        areaMm2 = 2 * a * t - t * t;
+        formulaText = '2 × A × t − t²';
+        sectionName = 'Equal angle';
+      }
+
+      if (profile === 'channel') {
+        const h = value('channel-height');
+        const b = value('channel-width');
+        const t = value('channel-thickness');
+        if (!requirePositive(['Overall height', h], ['Flange width', b], ['Thickness', t])) return;
+        if (h <= 2 * t || b <= t) { setError('Channel dimensions must be greater than the wall thickness.'); return; }
+        areaMm2 = h * t + 2 * b * t - 2 * t * t;
+        formulaText = 'H × t + 2 × B × t − 2t²';
+        sectionName = 'Channel';
+      }
+
+      if (profile === 'ibeam') {
+        const h = value('ibeam-height');
+        const b = value('ibeam-width');
+        const tf = value('ibeam-flange');
+        const tw = value('ibeam-web');
+        if (!requirePositive(['Overall height', h], ['Flange width', b], ['Flange thickness', tf], ['Web thickness', tw])) return;
+        if (h <= 2 * tf || b <= tw) { setError('I-beam dimensions are not physically valid.'); return; }
+        areaMm2 = 2 * b * tf + (h - 2 * tf) * tw;
+        formulaText = '2 × B × tf + (H − 2tf) × tw';
+        sectionName = 'I-beam';
+      }
+
+      if (profile === 'shs') {
+        const s = value('shs-side');
+        const t = value('shs-thickness');
+        if (!requirePositive(['Outside side', s], ['Wall thickness', t])) return;
+        if (s <= 2 * t) { setError('SHS side must be greater than twice the wall thickness.'); return; }
+        areaMm2 = s * s - (s - 2 * t) * (s - 2 * t);
+        formulaText = 'S² − (S − 2t)²';
+        sectionName = 'SHS';
+      }
+
+      if (profile === 'rhs') {
+        const h = value('rhs-height');
+        const b = value('rhs-width');
+        const t = value('rhs-thickness');
+        if (!requirePositive(['Outside height', h], ['Outside width', b], ['Wall thickness', t])) return;
+        if (h <= 2 * t || b <= 2 * t) { setError('RHS dimensions must exceed twice the wall thickness.'); return; }
+        areaMm2 = h * b - (h - 2 * t) * (b - 2 * t);
+        formulaText = 'H × B − (H − 2t)(B − 2t)';
+        sectionName = 'RHS';
+      }
+
+      if (profile === 'chs') {
+        const d = value('chs-diameter');
+        const t = value('chs-thickness');
+        if (!requirePositive(['Outside diameter', d], ['Wall thickness', t])) return;
+        if (d <= 2 * t) { setError('CHS diameter must be greater than twice the wall thickness.'); return; }
+        const inner = d - 2 * t;
+        areaMm2 = Math.PI / 4 * (d * d - inner * inner);
+        formulaText = 'π / 4 × (D² − d²)';
+        sectionName = 'CHS';
+      }
+
+      const kgPerM = areaMm2 / 1_000_000 * density;
+      const totalKg = kgPerM * lengthM * qty;
+
+      setResult(
+        totalKg,
+        'kg',
+        `Estimated ${sectionName} weight using a simplified cross-section.`,
+        'Unit mass',
+        `${formatNumber(kgPerM)} kg/m`,
+        ['Cross-section', `${formatNumber(areaMm2)} mm²`, 'Formula', formulaText]
       );
       return;
     }
