@@ -14,6 +14,7 @@ const paths = [
   '/calculators/flooring',
   '/calculators/earthwork',
   '/calculators/structural-steel',
+  '/calculators/bbs',
   '/guides',
   '/guides/tmt-bar-weight-chart',
   '/guides/steel-weight-formulas',
