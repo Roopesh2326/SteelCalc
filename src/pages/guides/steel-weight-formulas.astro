@@ -1,0 +1,46 @@
+---
+import GuideLayout from '../../components/GuideLayout.astro';
+const formulas = [
+  ['Round bar / TMT', 'd² ÷ 162.2', 'kg/m', 'd = diameter in mm'],
+  ['Flat bar', 'W × T × 0.00785', 'kg/m', 'W and T in mm'],
+  ['Steel plate', 'T × 7.85', 'kg/m²', 'T in mm'],
+  ['Round pipe', 'π ÷ 4 × (OD² − ID²) × 0.00785', 'kg/m', 'OD and ID in mm'],
+  ['Rectangular solid', 'W × T × 0.00785', 'kg/m', 'W and T in mm'],
+  ['Square solid', 'S² × 0.00785', 'kg/m', 'S in mm']
+];
+---
+<GuideLayout
+  title="Steel Weight Formulas | SteelCalc"
+  description="A practical steel weight formula guide for bars, plates, pipes, and solid sections."
+  eyebrow="FORMULA REFERENCE"
+>
+  <h2>The universal idea</h2>
+  <p>Steel weight is volume multiplied by material density. For nominal carbon/mild steel calculations, SteelCalc uses 7,850 kg/m³ unless a calculator allows the density to be changed.</p>
+
+  <div class="formula">Weight = Cross-sectional area × Length × Density</div>
+
+  <h2>Quick reference</h2>
+  <table>
+    <thead><tr><th>Section</th><th>Formula</th><th>Result</th><th>Inputs</th></tr></thead>
+    <tbody>
+      {formulas.map((row) => <tr><td>{row[0]}</td><td><code>{row[1]}</code></td><td>{row[2]}</td><td>{row[3]}</td></tr>)}
+    </tbody>
+  </table>
+
+  <h2>Worked examples</h2>
+  <h3>16 mm round bar</h3>
+  <p>16² ÷ 162.2 ≈ 1.578 kg/m. For a 12 m bar: 1.578 × 12 ≈ 18.94 kg.</p>
+
+  <h3>10 mm plate, 1 m²</h3>
+  <p>10 × 7.85 = 78.5 kg/m². A 1 m² plate is therefore about 78.5 kg before accounting for dimensional or manufacturing variation.</p>
+
+  <h3>Pipe</h3>
+  <p>Find the inside diameter first: ID = OD − 2 × wall thickness. Then calculate the annular area and multiply by density and length.</p>
+
+  <div class="callout">
+    <strong>Nominal versus delivered weight</strong>
+    <p>Formulas give an estimate from dimensions and nominal density. Actual purchased or supplied weight can differ because of tolerances, grade, coating, and supplier specifications.</p>
+  </div>
+
+  <a class="guide-link" href="/calculators/steel-weight">Open Steel Weight Calculator <span>→</span></a>
+</GuideLayout>
