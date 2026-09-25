@@ -52,6 +52,14 @@ const constructionCalculators = [
     href: '/calculators/concrete',
     tag: 'CONCRETE',
     visual: 'concrete'
+  },
+  {
+    number: 'C02',
+    title: 'Brick & Block Calculator',
+    description: 'Estimate masonry units, mortar, cement, and sand for walls using custom unit dimensions.',
+    href: '/calculators/brick-block',
+    tag: 'MASONRY',
+    visual: 'masonry'
   }
 ];
 ---
@@ -99,9 +107,9 @@ const constructionCalculators = [
         </div>
 
         <div class="hero-panel">
-          <strong>06</strong>
+          <strong>07</strong>
           <span>Calculators</span>
-          <small>05 steel tools · 01 construction tool</small>
+          <small>05 steel tools · 02 construction tools</small>
         </div>
       </section>
 
@@ -112,8 +120,8 @@ const constructionCalculators = [
         </label>
 
         <div class="directory-stats">
-          <span><strong>06</strong> tools</span>
-          <span>05 steel · 01 construction</span>
+          <span><strong>07</strong> tools</span>
+          <span>05 steel · 02 construction</span>
           <span>Instant results</span>
           <span>No sign-up</span>
         </div>
@@ -146,7 +154,7 @@ const constructionCalculators = [
         ))}
       </section>
 
-      <p class="no-results" id="no-results" hidden>No calculator matches that search. Try “concrete”, “pipe”, “rebar”, “plate”, “cost”, or “weight”.</p>
+      <p class="no-results" id="no-results" hidden>No calculator matches that search. Try “concrete”, “brick”, “block”, “pipe”, “rebar”, “plate”, “cost”, or “weight”.</p>
 
       <section class="engineering-section" aria-labelledby="engineering-title">
         <div class="section-heading">
@@ -165,8 +173,9 @@ const constructionCalculators = [
                 <span class="tool-tag">{tool.tag}</span>
               </div>
 
-              <div class="tool-image concrete" aria-hidden="true">
-                <div class="art-concrete"><span></span><i></i><b>m³</b></div>
+              <div class={`tool-image ${tool.visual}`} aria-hidden="true">
+                {tool.visual === 'concrete' && <div class="art-concrete"><span></span><i></i><b>m³</b></div>}
+                {tool.visual === 'masonry' && <div class="art-masonry"><span></span><i></i><b>BRICK</b></div>}
               </div>
 
               <h2>{tool.title}</h2>
@@ -225,6 +234,7 @@ const constructionCalculators = [
         <a href="/calculators/steel-pipe">Steel Pipe</a>
         <a href="/calculators/steel-cost">Steel Cost</a>
         <a href="/calculators/concrete">Concrete</a>
+        <a href="/calculators/brick-block">Brick & Block</a>
         <a href="/calculators">All calculators</a>
       </div>
 
@@ -381,6 +391,11 @@ const constructionCalculators = [
   .art-concrete span{position:absolute;width:58px;height:8px;left:48px;top:44px;background:#d4932d;transform:rotate(-9deg);box-shadow:0 15px 0 #d4932d,0 30px 0 #d4932d}
   .art-concrete i{position:absolute;width:48px;height:48px;right:28px;top:41px;border:5px solid #56636c;border-radius:4px;transform:rotate(14deg)}
   .art-concrete b{position:absolute;right:20px;bottom:18px;font:700 16px Georgia,serif;color:#c4862c;z-index:2}
+  .art-masonry{position:absolute;inset:0}
+  .art-masonry:before{content:"";position:absolute;left:25px;top:28px;width:76px;height:62px;background:repeating-linear-gradient(0deg,#d68f34 0 19px,#f1c47a 19px 21px),repeating-linear-gradient(90deg,transparent 0 36px,#b96e1f 36px 38px);border:1px solid #b96e1f;box-shadow:64px 18px 0 #e8a64d}
+  .art-masonry span{position:absolute;right:28px;top:37px;width:50px;height:34px;border:1px solid #929da4;background:#e5e9eb;transform:rotate(-7deg);box-shadow:0 11px 0 #c5ccd0}
+  .art-masonry i{position:absolute;right:28px;bottom:22px;width:48px;height:4px;background:#5c6870;box-shadow:0 -9px 0 #5c6870}
+  .art-masonry b{position:absolute;right:15px;bottom:15px;font:700 10px Georgia,serif;color:#c4862c;z-index:2}
 
   .guide{display:grid;grid-template-columns:.85fr 1.15fr;gap:8%;padding:47px 0 54px;border-top:1px solid #e0e5e8;margin-top:52px}
   .guide h2{font-size:30px;line-height:1.1;letter-spacing:-1.3px;margin:12px 0 0;color:#17212b}
