@@ -1,0 +1,48 @@
+---
+import Layout from '../layouts/Layout.astro';
+const { title, description, eyebrow = 'STEELCALC GUIDE' } = Astro.props;
+---
+
+  <div class="guide-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="SteelCalc home">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span>Steel<span class="brand-light">Calc</span><small>PRECISION TOOLS</small></span>
+      </a>
+      <nav aria-label="Guide navigation">
+        <a href="/calculators">Calculators</a>
+        <a class="active" href="/guides">Guides</a>
+        <a href="/workbench">Workbench</a>
+      </nav>
+      <a class="nav-cta" href="/calculators">All calculators <span>→</span></a>
+    </header>
+    <main>
+      <div class="crumbs"><a href="/">SteelCalc</a><span>/</span><a href="/guides">Guides</a><span>/</span><strong>{title.replace(' | SteelCalc','')}</strong></div>
+      <section class="guide-hero">
+        <div><div class="eyebrow">{eyebrow}</div><h1>{title.replace(' | SteelCalc','')}</h1><p>{description}</p></div>
+        <div class="hero-chip"><strong>STEELCALC</strong><span>Practical references</span><small>Formulas, charts, examples, and calculator links.</small></div>
+      </section>
+      <article class="guide-content">
+        <slot />
+      </article>
+    </main>
+    <footer>
+      <div><a class="brand footer-brand" href="/"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>Steel<span class="brand-light">Calc</span><small>PRECISION TOOLS</small></span></a><p>Free steel calculation tools and reference material.</p></div>
+      <div class="footer-col"><strong>Tools</strong><a href="/calculators">Calculators</a><a href="/workbench">Project Workbench</a></div>
+      <div class="footer-col"><strong>Guides</strong><a href="/guides/tmt-bar-weight-chart">TMT bar chart</a><a href="/guides/steel-weight-formulas">Steel formulas</a></div>
+    </footer>
+  </div>
+</Layout>
+
+<style>
+  :global(*){box-sizing:border-box}
+  :global(body){margin:0;background:#f7f8f9;color:#17212b;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+  .guide-shell{max-width:1180px;margin:0 auto;padding:0 28px 60px}
+  .topbar{height:82px;display:flex;align-items:center;gap:25px;border-bottom:1px solid #e4e7e9}.brand{display:flex;align-items:center;gap:9px;margin-right:auto;text-decoration:none;color:#18232d;font-size:18px;font-weight:850;letter-spacing:-.7px}.brand-light{font-weight:450;color:#68747e}.brand small{display:block;font-size:6px;letter-spacing:1.7px;color:#8b969e;margin-top:5px}.brand-mark{width:28px;height:28px;background:#eca43c;border-radius:7px;display:flex;align-items:flex-end;justify-content:center;gap:3px;padding:6px}.brand-mark span{display:block;width:4px;background:#17212b;border-radius:1px}.brand-mark span:nth-child(1){height:7px}.brand-mark span:nth-child(2){height:12px}.brand-mark span:nth-child(3){height:9px}
+  nav{display:flex;gap:24px}nav a{font-size:10px;font-weight:700;color:#68747d;text-decoration:none}nav a:hover,nav a.active{color:#17212b}.nav-cta{font-size:9px;font-weight:800;color:#fff;text-decoration:none;background:#d9932f;border-radius:6px;padding:10px 12px}.nav-cta span{margin-left:6px}
+  .crumbs{display:flex;gap:8px;font-size:8px;color:#9ca5ab;padding:18px 0 8px}.crumbs a{color:#69757d;text-decoration:none}.crumbs span{color:#d0d5d9}
+  .guide-hero{display:grid;grid-template-columns:1fr 230px;gap:35px;align-items:end;padding:45px 0 38px}.eyebrow{font-size:7px;font-weight:850;letter-spacing:1.8px;color:#8b959d}.guide-hero h1{font-size:clamp(40px,5vw,62px);letter-spacing:-3.4px;line-height:1.02;margin:15px 0 13px}.guide-hero p{max-width:660px;font-size:11px;line-height:1.8;color:#65727b;margin:0}.hero-chip{background:#fff;border:1px solid #dfe4e7;border-radius:7px;padding:17px;box-shadow:0 8px 20px #1f2d3708}.hero-chip strong{display:block;font-size:7px;letter-spacing:1.5px;color:#c4862c}.hero-chip span{display:block;font-size:11px;font-weight:800;margin-top:7px}.hero-chip small{display:block;color:#89949c;font-size:8px;line-height:1.7;margin-top:4px}
+  .guide-content{border-top:1px solid #e0e5e8;padding-top:34px}.guide-content h2{font-size:25px;letter-spacing:-1px;margin:30px 0 12px}.guide-content h3{font-size:14px;margin:24px 0 8px}.guide-content p,.guide-content li{font-size:10px;line-height:1.85;color:#68757e}.guide-content ul{padding-left:18px}.guide-content table{width:100%;border-collapse:collapse;margin:20px 0 28px;background:#fff;border:1px solid #e0e5e8;border-radius:6px;overflow:hidden}.guide-content th,.guide-content td{text-align:left;padding:10px 11px;border-bottom:1px solid #edf0f2;font-size:9px}.guide-content th{background:#f4f6f7;color:#53616b;font-weight:800}.guide-content td{color:#6e7a83}.guide-content tr:last-child td{border-bottom:0}.formula{padding:17px 18px;border:1px solid #dfe4e7;background:#18252f;color:#e8edf0;border-radius:7px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;line-height:1.7;margin:17px 0 24px}.callout{padding:15px 17px;border-left:3px solid #d9932f;background:#fff;border-top:1px solid #e1e6e9;border-right:1px solid #e1e6e9;border-bottom:1px solid #e1e6e9;border-radius:0 6px 6px 0;margin:20px 0}.callout strong{font-size:10px;color:#3f4c55}.callout p{margin:6px 0 0}.guide-link{display:inline-flex;gap:8px;align-items:center;padding:10px 12px;border:1px solid #d7dde1;background:#fff;border-radius:6px;text-decoration:none;color:#596671;font-size:9px;font-weight:800}.guide-link span{color:#c4862c}
+  footer{border-top:1px solid #dfe4e7;margin-top:48px;padding:22px 0 8px;display:grid;grid-template-columns:1.2fr .7fr .7fr;gap:28px}.footer-brand{font-size:15px}.footer-brand .brand-mark{width:25px;height:25px}.footer-brand small{font-size:6px}footer p{font-size:8px;color:#8a949d;margin:8px 0 0;max-width:230px}.footer-col strong{font-size:7px;text-transform:uppercase;letter-spacing:1.2px;color:#67737c}.footer-col a{display:block;font-size:8px;margin-top:8px;color:#7f8991;text-decoration:none}
+  @media(max-width:760px){.guide-shell{padding:0 18px 45px}.topbar{height:70px}.topbar nav{display:none}.guide-hero{grid-template-columns:1fr;gap:20px}.hero-chip{max-width:260px}.guide-content table{display:block;overflow-x:auto}.guide-content{padding-bottom:5px}footer{grid-template-columns:1fr 1fr}}
+</style>
