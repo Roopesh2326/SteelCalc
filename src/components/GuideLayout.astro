@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 const { title, description, eyebrow = 'STEELCALC GUIDE' } = Astro.props;
 ---
 
+<Layout title={title} description={description}>
   <div class="guide-shell">
     <header class="topbar">
       <a class="brand" href="/" aria-label="SteelCalc home">
