@@ -10,6 +10,7 @@ SteelCalc is an Astro-based toolkit for practical steel, construction, and proje
 - Steel Pipe Calculator
 - Steel Cost Calculator
 - Concrete Calculator
+- Brick & Block Calculator
 - Project Workbench
 
 ## Development
@@ -57,6 +58,7 @@ No server runtime is required for the calculator pages.
 /calculators/steel-pipe
 /calculators/steel-cost
 /calculators/concrete
+/calculators/brick-block
 /guides
 /guides/tmt-bar-weight-chart
 /guides/steel-weight-formulas
