@@ -1,0 +1,21 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="Structural Steel Section Formulas | SteelCalc" description="Reference formulas for simplified equal angle, channel, I-beam, SHS, RHS, and CHS cross-sectional areas.">
+  <div class="page"><header><a href="/" class="brand">Steel<span>Calc</span></a><nav><a href="/calculators">Calculators</a><a class="active" href="/guides">Guides</a><a href="/tools">Tools</a></nav></header>
+    <main><div class="eyebrow">STRUCTURAL STEEL REFERENCE</div><h1>Section formulas, <em>made visible.</em></h1><p class="intro">The Structural Steel Profiles calculator uses simplified sharp-corner geometry. Use the table to see exactly what each profile calculation represents.</p>
+      <div class="table-wrap"><table><thead><tr><th>Profile</th><th>Area formula (mm²)</th><th>Unit mass</th><th>Geometry note</th></tr></thead><tbody>
+        <tr><td>Equal angle</td><td>2At − t²</td><td>A × t</td><td>Equal legs, sharp corner</td></tr>
+        <tr><td>Channel</td><td>Ht + 2Bt − 2t²</td><td>Area × density</td><td>Uniform thickness approximation</td></tr>
+        <tr><td>I-beam</td><td>2Btf + (H − 2tf)tw</td><td>Area × density</td><td>Flanges and web, no fillets</td></tr>
+        <tr><td>SHS</td><td>S² − (S − 2t)²</td><td>Area × density</td><td>Square hollow section</td></tr>
+        <tr><td>RHS</td><td>HB − (H − 2t)(B − 2t)</td><td>Area × density</td><td>Rectangular hollow section</td></tr>
+        <tr><td>CHS</td><td>π/4 × (D² − d²)</td><td>Area × density</td><td>Round hollow section; d = D − 2t</td></tr>
+      </tbody></table></div>
+      <div class="note"><strong>Important</strong><p>Rolled sections can include fillets, tapers, corner radii, and rolling tolerances. Manufacturer tables should be used when exact catalogue mass or section properties are required.</p></div>
+    </main>
+  </div>
+</Layout>
+<style>
+:global(body){margin:0;background:#f6f7f8;color:#17212b;font-family:Inter,ui-sans-serif,system-ui}.page{max-width:1120px;margin:0 auto;padding:0 28px 70px}header{height:78px;border-bottom:1px solid #e1e6e9;display:flex;align-items:center}.brand{font-size:18px;font-weight:850;text-decoration:none;color:#17212b;margin-right:auto}.brand span{font-weight:450;color:#6c7780}nav{display:flex;gap:24px}nav a{font-size:10px;font-weight:700;color:#68747d;text-decoration:none}.active{color:#17212b}main{padding-top:55px}.eyebrow{font-size:7px;letter-spacing:1.8px;font-weight:850;color:#8b959d}h1{font-size:clamp(42px,5vw,64px);line-height:1;letter-spacing:-3.4px;margin:16px 0}h1 em{font-family:Georgia,serif;font-weight:500;color:#d9932f}.intro{max-width:760px;font-size:10px;line-height:1.8;color:#66747d}.table-wrap{overflow:auto;margin-top:32px}table{width:100%;min-width:720px;border-collapse:collapse;background:#fff;border:1px solid #e0e5e8}th,td{text-align:left;padding:13px 14px;border-bottom:1px solid #edf0f2;font-size:9px;line-height:1.65}th{font-size:7px;text-transform:uppercase;letter-spacing:1px;color:#87929a;background:#fafbfb}.note{margin-top:25px;border-left:3px solid #d9932f;background:#fff;padding:16px 18px}.note strong{font-size:9px}.note p{font-size:9px;line-height:1.7;color:#76828b;margin:6px 0 0}
+</style>
