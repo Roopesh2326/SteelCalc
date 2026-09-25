@@ -1,46 +1,80 @@
-# Astro Starter Kit: Basics
+# SteelCalc
+
+SteelCalc is an Astro-based toolkit for practical steel weight and cost calculations.
+
+## Calculator toolkit
+
+- Steel Weight Calculator
+- TMT / Rebar Calculator
+- Steel Plate Calculator
+- Steel Pipe Calculator
+- Steel Cost Calculator
+- Project Workbench
+
+## Development
+
+From the repository root:
 
 ```sh
-npm create astro@latest -- --template basics
+npm install
+npm run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Production build:
 
-## 🚀 Project Structure
+```sh
+npm run build
+npm run preview
+```
 
-Inside of your Astro project, you'll see the following folders and files:
+## Production configuration
+
+Copy `.env.example` to `.env` for local configuration. Before deployment, set the final public origin:
+
+```text
+PUBLIC_SITE_URL=https://your-domain.example
+```
+
+The site uses that value for absolute canonical URLs and the production sitemap reference.
+
+For a static host such as Cloudflare Pages:
+
+- Build command: `npm run build`
+- Output directory: `dist`
+- Node: 22+
+
+No server runtime is required for the calculator pages.
+
+## Routes
 
 ```text
 /
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+/calculators
+/calculators/steel-weight
+/calculators/tmt-rebar
+/calculators/steel-plate
+/calculators/steel-pipe
+/calculators/steel-cost
+/guides
+/guides/tmt-bar-weight-chart
+/guides/steel-weight-formulas
+/workbench
+/robots.txt
+/sitemap.xml
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+A branded `/404` page is included for invalid routes.
 
-## 🧞 Commands
+## Quality gate
 
-All commands are run from the root of the project, from a terminal:
+Every pull request should pass:
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+```sh
+npm run build
+```
 
-## 👀 Want to learn more?
+The repository also contains a GitHub Actions build workflow that runs the production build automatically on pushes and pull requests.
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Notes on calculation estimates
+
+SteelCalc is an estimation tool. Actual delivered weight and purchase cost can vary by steel grade, manufacturing tolerances, coating, supplier pricing, and project-specific specifications.

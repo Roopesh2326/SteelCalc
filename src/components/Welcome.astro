@@ -1,210 +1,299 @@
 ---
-import astroLogo from '../assets/astro.svg';
-import background from '../assets/background.svg';
+const tools = [
+  {
+    number: '01',
+    title: 'Steel Weight Calculator',
+    detail: 'Calculate weight of round, square, rectangular, flat, and hex steel sections.',
+    tag: 'WEIGHT',
+    href: '/calculators/steel-weight',
+    visual: 'weight'
+  },
+  {
+    number: '02',
+    title: 'TMT Rebar Calculator',
+    detail: 'Find the weight of TMT bars using diameter, length, and quantity.',
+    tag: 'REBAR',
+    href: '/calculators/tmt-rebar',
+    visual: 'rebar'
+  },
+  {
+    number: '03',
+    title: 'Steel Plate Calculator',
+    detail: 'Calculate steel plate weight from thickness, width, length, and sheets.',
+    tag: 'PLATE',
+    href: '/calculators/steel-plate',
+    visual: 'plate'
+  },
+  {
+    number: '04',
+    title: 'Steel Pipe Calculator',
+    detail: 'Calculate steel pipe weight from diameter, wall thickness, and length.',
+    tag: 'PIPE',
+    href: '/calculators/steel-pipe',
+    visual: 'pipe'
+  },
+  {
+    number: '05',
+    title: 'Steel Cost Calculator',
+    detail: 'Estimate material cost from weight, rate per kg, quantity, and allowance.',
+    tag: 'COST',
+    href: '/calculators/steel-cost',
+    visual: 'cost'
+  }
+];
 ---
 
-<div id="container">
-	<img id="background" src={background.src} alt="" fetchpriority="high" />
-	<main>
-		<section id="hero">
-			<a href="https://astro.build"
-				><img src={astroLogo.src} width="115" height="48" alt="Astro Homepage" /></a
-			>
-			<h1>
-				To get started, open the <code><pre>src/pages</pre></code> directory in your project.
-			</h1>
-			<section id="links">
-				<a class="button" href="https://docs.astro.build">Read our docs</a>
-				<a href="https://astro.build/chat"
-					>Join our Discord <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 127.14 96.36"
-						><path
-							fill="currentColor"
-							d="M107.7 8.07A105.15 105.15 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83 97.68 97.68 0 0 0-29.11 0A72.37 72.37 0 0 0 45.64 0a105.89 105.89 0 0 0-26.25 8.09C2.79 32.65-1.71 56.6.54 80.21a105.73 105.73 0 0 0 32.17 16.15 77.7 77.7 0 0 0 6.89-11.11 68.42 68.42 0 0 1-10.85-5.18c.91-.66 1.8-1.34 2.66-2a75.57 75.57 0 0 0 64.32 0c.87.71 1.76 1.39 2.66 2a68.68 68.68 0 0 1-10.87 5.19 77 77 0 0 0 6.89 11.1 105.25 105.25 0 0 0 32.19-16.14c2.64-27.38-4.51-51.11-18.9-72.15ZM42.45 65.69C36.18 65.69 31 60 31 53s5-12.74 11.43-12.74S54 46 53.89 53s-5.05 12.69-11.44 12.69Zm42.24 0C78.41 65.69 73.25 60 73.25 53s5-12.74 11.44-12.74S96.23 46 96.12 53s-5.04 12.69-11.43 12.69Z"
-						></path></svg
-					>
-				</a>
-			</section>
-		</section>
-	</main>
+<div class="site-shell">
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="SteelCalc home">
+      <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span>Steel<span class="brand-light">Calc</span><small>PRECISION TOOLS</small></span>
+    </a>
 
-	<a href="https://astro.build/blog/astro-7/" id="news" class="box">
-		<svg width="32" height="32" fill="none" xmlns="http://www.w3.org/2000/svg"
-			><path
-				d="M24.667 12c1.333 1.414 2 3.192 2 5.334 0 4.62-4.934 5.7-7.334 12C18.444 28.567 18 27.456 18 26c0-4.642 6.667-7.053 6.667-14Zm-5.334-5.333c1.6 1.65 2.4 3.43 2.4 5.333 0 6.602-8.06 7.59-6.4 17.334C13.111 27.787 12 25.564 12 22.666c0-4.434 7.333-8 7.333-16Zm-6-5.333C15.111 3.555 16 5.556 16 7.333c0 8.333-11.333 10.962-5.333 22-3.488-.774-6-4-6-8 0-8.667 8.666-10 8.666-20Z"
-				fill="#111827"></path></svg
-		>
-		<h2>What's New in Astro 7.0?</h2>
-		<p>
-			Rust-powered compiler, advanced routing, AI agent support, and more! Click to explore Astro
-			7.0's new features.
-		</p>
-	</a>
+    <nav aria-label="Main navigation">
+      <a href="/calculators">Calculators</a>
+      <a href="/guides">Guides</a>
+      <a href="#how-it-works">About</a>
+    </nav>
+
+    <form class="header-search" action="/calculators" role="search">
+      <span aria-hidden="true">⌕</span>
+      <input name="q" type="search" placeholder="Search calculators..." aria-label="Search calculators" autocomplete="off" />
+    </form>
+
+    <div class="header-tools" aria-hidden="true">
+      <span>☾</span>
+      <span>☼</span>
+    </div>
+
+    <a class="nav-cta" href="/workbench">Project workbench <span aria-hidden="true">→</span></a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">FREE ONLINE TOOLS</div>
+        <h1>Steel Calculators for<br /><em>Real-World Projects</em></h1>
+        <p class="hero-lede">Accurate, easy-to-use steel calculators for weight, rebar, plate, pipe, and cost analysis. Built for students, engineers, contractors, and anyone working with steel materials.</p>
+
+        <div class="hero-actions">
+          <a class="primary-btn" href="/calculators">Browse calculators <span aria-hidden="true">→</span></a>
+          <a class="secondary-btn" href="#how-it-works">Learn more</a>
+        </div>
+      </div>
+
+      <div class="hero-material" aria-label="Steel reinforcement illustration">
+        <div class="hero-material-grid"></div>
+        <div class="hero-beam beam-one"></div>
+        <div class="hero-beam beam-two"></div>
+        <div class="hero-beam beam-three"></div>
+        <div class="hero-beam beam-four"></div>
+        <div class="hero-beam beam-five"></div>
+        <div class="hero-sheen"></div>
+        <div class="hero-label">MATERIAL / STEEL REBAR</div>
+        <div class="hero-spec"><strong>Ø 20</strong><span>mm nominal diameter</span></div>
+      </div>
+    </section>
+
+    <section class="benefits-strip" aria-label="SteelCalc benefits">
+      <div class="benefit">
+        <span class="benefit-icon accuracy" aria-hidden="true">◇</span>
+        <div><strong>Accurate Formulas</strong><small>Industry standard calculations</small></div>
+      </div>
+      <div class="benefit">
+        <span class="benefit-icon instant" aria-hidden="true">✓</span>
+        <div><strong>Instant Results</strong><small>No sign-up required</small></div>
+      </div>
+      <div class="benefit">
+        <span class="benefit-icon mobile" aria-hidden="true">▯</span>
+        <div><strong>Mobile Friendly</strong><small>Works on all devices</small></div>
+      </div>
+      <div class="benefit">
+        <span class="benefit-icon free" aria-hidden="true">♢</span>
+        <div><strong>100% Free</strong><small>Always free to use</small></div>
+      </div>
+    </section>
+
+    <section class="tools-section" id="tools">
+      <div class="section-heading">
+        <div>
+          <div class="eyebrow">THE TOOLKIT</div>
+          <h2>Our Steel <em>Calculators</em></h2>
+        </div>
+        <div class="section-side">
+          <p>Choose a calculator to get started. Each tool includes detailed results, formulas, FAQs, and shareable links.</p>
+          <a href="/calculators">View all <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+
+      <div class="tool-grid">
+        {tools.map((tool) => (
+          <a class="tool-card" href={tool.href}>
+            <div class="tool-image" aria-hidden="true">
+              {tool.visual === 'weight' && <div class="art-weight"><span></span><span></span><span></span></div>}
+              {tool.visual === 'rebar' && <div class="art-rebar"><span></span><span></span><span></span><span></span></div>}
+              {tool.visual === 'plate' && <div class="art-plate"><span></span><span></span><span></span></div>}
+              {tool.visual === 'pipe' && <div class="art-pipe"><span></span><i></i></div>}
+              {tool.visual === 'cost' && <div class="art-cost"><span></span><b>₹</b><i></i></div>}
+            </div>
+
+            <h3>{tool.title}</h3>
+            <p>{tool.detail}</p>
+            <div class="tool-card-bottom"><span>Open calculator</span><b aria-hidden="true">→</b></div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="how-section" id="how-it-works">
+      <div class="how-intro">
+        <div class="eyebrow">HOW IT WORKS</div>
+        <h2>Measure. Calculate.<br /><em>Move forward.</em></h2>
+        <p>Use familiar dimensions, get an instant estimate, and keep the result handy for your next step.</p>
+      </div>
+
+      <div class="how-steps">
+        <div><span>01</span><section><h3>Choose a calculator</h3><p>Start with the steel form that matches your material.</p></section></div>
+        <div><span>02</span><section><h3>Enter your measurements</h3><p>Use the units shown beside each input field.</p></section></div>
+        <div><span>03</span><section><h3>Review and share</h3><p>Copy, print, or share the calculation whenever you need it.</p></section></div>
+      </div>
+      <div class="workbench-banner">
+        <div><span>PROJECT MODE</span><strong>Need a mixed-material estimate?</strong><small>Combine TMT, plate, pipe, and bar items in one project.</small></div>
+        <a href="/workbench">Open workbench <span>→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-brand-wrap">
+      <a class="brand footer-brand" href="/" aria-label="SteelCalc home">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span>Steel<span class="brand-light">Calc</span><small>PRECISION TOOLS</small></span>
+      </a>
+      <p>Free online steel calculators for weight, rebar, plate, pipe, and cost analysis.</p>
+    </div>
+    <div class="footer-col"><strong>Calculators</strong><a href="/calculators/steel-weight">Steel Weight</a><a href="/calculators/tmt-rebar">TMT Rebar</a><a href="/calculators/steel-plate">Steel Plate</a></div>
+    <div class="footer-col"><strong>More Tools</strong><a href="/calculators/steel-pipe">Steel Pipe</a><a href="/calculators/steel-cost">Steel Cost</a><a href="/workbench">Project Workbench</a><a href="/calculators">All calculators</a></div>
+    <div class="footer-bottom"><span>© {new Date().getFullYear()} SteelCalc. All rights reserved.</span><span>Built for engineers, students, and builders.</span></div>
+  </footer>
 </div>
 
 <style>
-	#background {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		z-index: -1;
-		filter: blur(100px);
-	}
+  :global(*){box-sizing:border-box}
+  :global(html){scroll-behavior:smooth}
+  :global(body){margin:0;background:#f7f8f9;color:#17212b;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
 
-	#container {
-		font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova', 'Nimbus Sans', Arial, sans-serif;
-		height: 100%;
-	}
+  .site-shell{max-width:1460px;margin:0 auto;padding:0 5.8%}
+  .topbar{height:82px;display:flex;align-items:center;gap:28px;border-bottom:1px solid #e4e7e9}
+  .brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:#18232d;font-size:19px;font-weight:850;letter-spacing:-.8px;line-height:1;margin-right:auto}
+  .brand-light{font-weight:450;color:#68747e}
+  .brand small{display:block;font-size:6.5px;letter-spacing:1.8px;font-weight:800;color:#8c969f;margin-top:5px}
+  .brand-mark{width:29px;height:29px;background:#eca43c;border-radius:8px;display:flex;align-items:flex-end;justify-content:center;gap:3px;padding:6px}
+  .brand-mark span{display:block;width:4px;background:#17212b;border-radius:1px}
+  .brand-mark span:nth-child(1){height:8px}.brand-mark span:nth-child(2){height:13px}.brand-mark span:nth-child(3){height:10px}
 
-	main {
-		height: 100%;
-		display: flex;
-		justify-content: center;
-	}
+  .topbar nav{display:flex;gap:28px}
+  .topbar nav a{font-size:10px;font-weight:700;color:#56636d;text-decoration:none}
+  .topbar nav a:hover{color:#17212b}
 
-	#hero {
-		display: flex;
-		align-items: start;
-		flex-direction: column;
-		justify-content: center;
-		padding: 16px;
-	}
+  .header-search{display:flex;align-items:center;gap:8px;width:190px;height:34px;border:1px solid #dde2e6;background:#fff;border-radius:7px;padding:0 10px}
+  .header-search span{font-size:15px;color:#929ca4}
+  .header-search input{width:100%;border:0;outline:0;background:transparent;font:inherit;font-size:8px;color:#25323b}
+  .header-search input::placeholder{color:#a1aab1}
 
-	h1 {
-		font-size: 22px;
-		margin-top: 0.25em;
-	}
+  .header-tools{display:flex;gap:9px;color:#7f8a92;font-size:13px}
+  .header-tools span:last-child{color:#e5a03a}
 
-	#links {
-		display: flex;
-		gap: 16px;
-	}
+  .nav-cta{font-size:9px;font-weight:800;color:#fff;text-decoration:none;background:#d9932f;padding:10px 12px;border-radius:6px;white-space:nowrap;box-shadow:0 5px 12px #d9932f22}
+  .nav-cta span{margin-left:7px}
 
-	#links a {
-		display: flex;
-		align-items: center;
-		padding: 10px 12px;
-		color: #111827;
-		text-decoration: none;
-		transition: color 0.2s;
-	}
+  .hero{display:grid;grid-template-columns:1fr 1.04fr;align-items:center;gap:6%;padding:44px 0 36px;min-height:360px}
+  .eyebrow{font-size:7px;font-weight:850;letter-spacing:1.8px;color:#8b959d}
+  .hero h1{font-size:clamp(40px,4.9vw,63px);line-height:1.02;letter-spacing:-3.5px;margin:17px 0 15px;font-weight:790;color:#17212b}
+  .hero h1 em,.section-heading h2 em,.how-intro h2 em{font-family:Georgia,serif;font-weight:500;color:#dc942d}
+  .hero-lede{max-width:520px;font-size:11px;line-height:1.75;color:#64717b;margin:0}
+  .hero-actions{display:flex;gap:10px;align-items:center;margin-top:22px}
+  .primary-btn,.secondary-btn{display:inline-flex;align-items:center;gap:15px;text-decoration:none;font-size:8px;font-weight:800;border-radius:5px;padding:11px 13px}
+  .primary-btn{background:#d99430;color:#fff;box-shadow:0 6px 13px #d9943028}
+  .primary-btn span{font-size:13px}
+  .secondary-btn{border:1px solid #d9dfe3;background:#fff;color:#4d5a64}
 
-	#links a:hover {
-		color: rgb(78, 80, 86);
-	}
+  .hero-material{height:300px;position:relative;overflow:hidden;border-radius:4px;background:linear-gradient(145deg,#f5f6f6,#e6eaec 55%,#d9dfe2);border:1px solid #dde2e5;box-shadow:0 16px 34px #1f2d370d}
+  .hero-material-grid{position:absolute;inset:0;background-image:linear-gradient(#c8d0d555 1px,transparent 1px),linear-gradient(90deg,#c8d0d555 1px,transparent 1px);background-size:28px 28px;opacity:.55}
+  .hero-beam{position:absolute;height:25px;border-radius:999px;transform:rotate(-16deg);background:linear-gradient(180deg,#f4f6f7 0%,#b3bcc2 20%,#5f6c75 53%,#343f47 74%,#b8c1c6 100%);box-shadow:0 11px 13px #1f2d3724,inset 0 1px 1px #fff8}
+  .hero-beam:after{content:"";position:absolute;left:7%;right:7%;top:6px;bottom:6px;border-top:2px dotted #ecf0f244;border-bottom:2px dotted #202b334d;border-radius:999px}
+  .beam-one{width:82%;left:17%;top:95px}.beam-two{width:78%;left:23%;top:122px}.beam-three{width:80%;left:14%;top:149px}.beam-four{width:72%;left:28%;top:176px}.beam-five{width:71%;left:19%;top:203px}
+  .hero-sheen{position:absolute;width:48%;height:180%;right:-15%;top:-35%;transform:rotate(19deg);background:linear-gradient(90deg,transparent,#ffffff4d,transparent)}
+  .hero-label{position:absolute;top:16px;left:18px;font-size:6px;font-weight:850;letter-spacing:1.4px;color:#7f8b94}
+  .hero-spec{position:absolute;left:18px;bottom:15px;border-top:1px solid #bcc5ca;padding-top:9px}
+  .hero-spec strong{font-family:Georgia,serif;color:#c88529;font-size:15px}.hero-spec span{font-size:7px;color:#7e8991;margin-left:7px}
 
-	#links a svg {
-		height: 1em;
-		margin-left: 8px;
-	}
+  .benefits-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid #e0e5e8;border-bottom:1px solid #e0e5e8;padding:17px 0}
+  .benefit{display:flex;align-items:center;gap:10px;padding:4px 20px;border-right:1px solid #e3e7e9}
+  .benefit:last-child{border-right:0}
+  .benefit-icon{display:grid;place-items:center;width:27px;height:27px;border:1.5px solid #d79532;border-radius:50%;color:#d79532;font-size:12px;font-weight:800}
+  .benefit strong,.benefit small{display:block}
+  .benefit strong{font-size:8.5px;color:#27333c}.benefit small{font-size:7px;color:#89949d;margin-top:3px}
 
-	#links a.button {
-		color: white;
-		background: linear-gradient(83.21deg, #3245ff 0%, #bc52ee 100%);
-		box-shadow:
-			inset 0 0 0 1px rgba(255, 255, 255, 0.12),
-			inset 0 -2px 0 rgba(0, 0, 0, 0.24);
-		border-radius: 10px;
-	}
+  .tools-section{padding:58px 0 57px}
+  .section-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:22px}
+  .section-heading h2,.how-intro h2{font-size:31px;line-height:1.1;letter-spacing:-1.3px;margin:11px 0 0;color:#17212b}
+  .section-side{display:flex;align-items:flex-end;gap:14px}
+  .section-side p{max-width:365px;font-size:9px;line-height:1.7;color:#7a858e;margin:0}
+  .section-side a{font-size:8px;font-weight:800;color:#65717a;text-decoration:none;white-space:nowrap}
+  .section-side a span{color:#d18d2b;margin-left:5px}
 
-	#links a.button:hover {
-		color: rgb(230, 230, 230);
-		box-shadow: none;
-	}
+  .tool-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:11px}
+  .tool-card{display:flex;flex-direction:column;min-width:0;min-height:236px;background:#fff;border:1px solid #e1e5e8;border-radius:6px;padding:12px 12px 11px;box-shadow:0 5px 15px #17232d05;transition:transform .18s,border-color .18s,box-shadow .18s;text-decoration:none;color:inherit}
+  .tool-card:hover{transform:translateY(-3px);border-color:#d7b576;box-shadow:0 13px 27px #17232d0b}
+  .tool-card h3{font-size:11px;line-height:1.25;letter-spacing:-.1px;margin:9px 0 5px;color:#1f2b35}
+  .tool-card>p{font-size:7.8px;line-height:1.6;color:#7c878f;margin:0;min-height:37px}
+  .tool-card-top{display:flex;justify-content:space-between;align-items:center}
+  .tool-number{font-size:7px;font-weight:850;color:#cb892a}.tool-tag{font-size:5.5px;letter-spacing:1px;color:#929ba2;background:#f3f5f6;padding:5px 6px;border-radius:2px;font-weight:850}
 
-	pre {
-		font-family:
-			ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono',
-			monospace;
-		font-weight: normal;
-		background: linear-gradient(14deg, #d83333 0%, #f041ff 100%);
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-		background-clip: text;
-		margin: 0;
-	}
+  .tool-image{height:112px;position:relative;margin:8px -2px 0;border-radius:5px;overflow:hidden;background:linear-gradient(150deg,#f7f8f9,#e6eaec);border:1px solid #e3e7ea}
+  .tool-image:after{content:"";position:absolute;left:10px;right:10px;bottom:9px;height:1px;background:#d3dade}
+  .art-weight{position:absolute;inset:0}.art-weight span{position:absolute;display:block;height:11px;border-radius:999px;background:linear-gradient(180deg,#f6f8f8,#8b969d 44%,#46525b 70%,#b9c2c7);box-shadow:0 6px 7px #25333c24;transform:rotate(-10deg)}.art-weight span:nth-child(1){width:86%;left:8%;top:39px}.art-weight span:nth-child(2){width:79%;left:14%;top:53px}.art-weight span:nth-child(3){width:73%;left:20%;top:67px}
+  .art-rebar{position:absolute;inset:0;transform:rotate(-10deg)}.art-rebar span{position:absolute;left:11%;right:16%;height:8px;border-radius:999px;background:linear-gradient(180deg,#f1f4f5,#727e87 58%,#414c54);box-shadow:0 4px 6px #25333c24}.art-rebar span:nth-child(1){top:30px}.art-rebar span:nth-child(2){top:43px}.art-rebar span:nth-child(3){top:56px}.art-rebar span:nth-child(4){top:69px}.art-rebar:after{content:"";position:absolute;right:17px;bottom:19px;width:28px;height:28px;border-radius:50%;border:6px solid #64717a;background:#28343d;box-shadow:0 0 0 2px #c5cdd2}
+  .art-plate span{position:absolute;display:block;width:72%;height:21px;left:14%;border-radius:3px;border:1px solid #acb7bf;background:linear-gradient(145deg,#fff,#c7cfd4 45%,#9eaab2 65%,#f1f3f4);box-shadow:0 6px 8px #25333c1f;transform:skewY(-7deg)}.art-plate span:nth-child(1){top:56px}.art-plate span:nth-child(2){top:42px;left:18%}.art-plate span:nth-child(3){top:28px;left:22%}
+  .art-pipe{position:absolute;inset:0}.art-pipe span{position:absolute;width:82px;height:40px;left:30px;top:36px;border-radius:50%;background:linear-gradient(145deg,#f8fafb,#8a979f 45%,#53606a 68%,#d7dde1);box-shadow:0 7px 9px #25333c24;transform:rotate(-15deg)}.art-pipe span:after{content:"";position:absolute;inset:9px 11px;border-radius:50%;background:#26333c}.art-pipe i{position:absolute;width:42px;height:42px;left:83px;top:30px;border-radius:50%;border:7px solid #65727c;background:#26333c;box-shadow:0 0 0 2px #c6cfd4}
+  .art-cost span{position:absolute;width:56px;height:66px;left:19px;top:21px;border:1px solid #bac3c9;border-radius:4px;background:#fff;box-shadow:0 7px 10px #25333c15;transform:rotate(-3deg)}.art-cost span:after{content:"";position:absolute;left:11px;right:11px;top:16px;height:1px;background:#d4a15a;box-shadow:0 9px 0 #e2e6e8,0 18px 0 #e2e6e8,0 27px 0 #e2e6e8}.art-cost b{position:absolute;right:19px;top:27px;width:43px;height:43px;border-radius:50%;display:grid;place-items:center;background:#dd9634;color:#fff;font:700 20px Georgia,serif;box-shadow:0 7px 12px #cd8b322f}.art-cost i{position:absolute;right:20px;bottom:20px;width:31px;height:3px;background:#d49a45;box-shadow:0 -8px 0 #e2e5e7}
 
-	h2 {
-		margin: 0 0 1em;
-		font-weight: normal;
-		color: #111827;
-		font-size: 20px;
-	}
+  .tool-card-bottom{display:flex;justify-content:space-between;align-items:center;border-top:1px solid #edf0f2;margin-top:auto;padding-top:10px}.tool-card-bottom span{font-size:6.5px;text-transform:uppercase;letter-spacing:1px;font-weight:850;color:#a1a9af}.tool-card-bottom b{font-size:13px;color:#d18f2d}
 
-	p {
-		color: #4b5563;
-		font-size: 16px;
-		line-height: 24px;
-		letter-spacing: -0.006em;
-		margin: 0;
-	}
+  .how-section{display:grid;grid-template-columns:.85fr 1.15fr;gap:8%;padding:44px 0 58px;border-top:1px solid #e0e5e8}.workbench-banner{grid-column:1/-1;margin-top:13px;border:1px solid #dfe4e7;background:#18252f;color:#fff;border-radius:7px;padding:15px 17px;display:flex;align-items:center;justify-content:space-between;gap:20px}.workbench-banner span{font-size:6.5px;letter-spacing:1.4px;color:#d9a04f;font-weight:850}.workbench-banner strong,.workbench-banner small{display:block}.workbench-banner strong{font-size:11px;margin-top:6px}.workbench-banner small{font-size:8px;color:#a8b5bc;margin-top:4px}.workbench-banner>a{background:#d9932f;color:#fff;text-decoration:none;font-size:8px;font-weight:850;padding:9px 11px;border-radius:5px;white-space:nowrap}.workbench-banner>a span{color:#fff;margin-left:5px;letter-spacing:0}
+  .how-intro h2{font-size:29px}.how-intro p{max-width:410px;font-size:9px;line-height:1.75;color:#7a858e;margin:12px 0 0}
+  .how-steps>div{display:flex;gap:18px;padding:0 0 15px;margin-bottom:15px;border-bottom:1px solid #e5e8ea}.how-steps>div:last-child{margin-bottom:0;border-bottom:0;padding-bottom:0}.how-steps>div>span{font-size:7px;font-weight:850;color:#d18f2d;padding-top:2px}.how-steps h3{font-size:10px;margin:0 0 5px;color:#29353e}.how-steps p{font-size:8px;line-height:1.65;color:#7d8790;margin:0}
 
-	code {
-		display: inline-block;
-		background:
-			linear-gradient(66.77deg, #f3cddd 0%, #f5cee7 100%) padding-box,
-			linear-gradient(155deg, #d83333 0%, #f041ff 18%, #f5cee7 45%) border-box;
-		border-radius: 8px;
-		border: 1px solid transparent;
-		padding: 6px 8px;
-	}
+  footer{border-top:1px solid #dfe4e7;padding:22px 0 25px;display:grid;grid-template-columns:1.15fr .7fr .7fr;gap:30px}
+  .footer-brand-wrap>p{font-size:8px;line-height:1.7;color:#89949c;max-width:275px;margin:8px 0 0}
+  .footer-brand{font-size:15px}.footer-brand .brand-mark{width:26px;height:26px}.footer-brand small{font-size:6.5px}
+  .footer-col strong{font-size:7px;letter-spacing:1.2px;color:#66727c;text-transform:uppercase}.footer-col a{display:block;margin-top:8px;color:#7f8991;text-decoration:none;font-size:8px}.footer-col a:hover{color:#17212b}
+  .footer-bottom{grid-column:1/-1;border-top:1px solid #e7eaec;padding-top:13px;display:flex;justify-content:space-between;gap:20px}.footer-bottom span{font-size:7px;color:#9aa2a8}
 
-	.box {
-		padding: 16px;
-		background: rgba(255, 255, 255, 1);
-		border-radius: 16px;
-		border: 1px solid white;
-	}
+  @media(max-width:1120px){
+    .site-shell{padding:0 4.5%}
+    .topbar{gap:17px}.topbar nav{gap:19px}.header-search{width:160px}
+    .hero{grid-template-columns:1fr .95fr;gap:4%}.hero h1{font-size:52px}
+    .tool-grid{grid-template-columns:repeat(3,1fr)}
+  }
 
-	#news {
-		position: absolute;
-		bottom: 16px;
-		right: 16px;
-		max-width: 300px;
-		text-decoration: none;
-		transition: background 0.2s;
-		backdrop-filter: blur(50px);
-	}
+  @media(max-width:820px){
+    .site-shell{padding:0 4%}.topbar{height:74px}.topbar nav,.header-tools{display:none}.header-search{display:none}
+    .hero{grid-template-columns:1fr;gap:24px;padding:46px 0 40px}.hero h1{font-size:49px}.hero-material{height:320px}
+    .benefits-strip{grid-template-columns:1fr 1fr}.benefit{border-bottom:1px solid #e5e8ea}.benefit:nth-child(2){border-right:0}.benefit:nth-child(3),.benefit:nth-child(4){border-bottom:0}
+    .section-heading{display:block}.section-side{display:block}.section-side p{max-width:520px;margin-top:11px}.section-side a{display:inline-block;margin-top:10px}
+    .tool-grid{grid-template-columns:1fr 1fr}
+  }
 
-	#news:hover {
-		background: rgba(255, 255, 255, 0.55);
-	}
+  @media(max-width:560px){
+    .site-shell{padding:0 18px}.topbar{height:70px}.nav-cta{padding:9px 10px;font-size:8px}.brand{font-size:17px}
+    .hero{padding:39px 0 32px}.hero h1{font-size:41px;letter-spacing:-2.6px}.hero-lede{font-size:11px}.hero-actions{align-items:flex-start;flex-direction:column}.hero-material{height:270px}
+    .benefits-strip{grid-template-columns:1fr}.benefit{border-right:0;border-bottom:1px solid #e5e8ea;padding:12px 7px}.benefit:last-child{border-bottom:0}
+    .tools-section{padding:50px 0 45px}.section-heading h2{font-size:29px}.tool-grid{grid-template-columns:1fr;gap:10px}.tool-card{min-height:260px}
+    .how-section{grid-template-columns:1fr;gap:25px;padding:35px 0 42px}.how-intro h2{font-size:28px}.workbench-banner{align-items:flex-start;flex-direction:column}.workbench-banner>a{white-space:normal}
+    footer{grid-template-columns:1fr 1fr}.footer-bottom{grid-column:1/-1;flex-direction:column;gap:5px}
+  }
 
-	@media screen and (max-height: 368px) {
-		#news {
-			display: none;
-		}
-	}
-
-	@media screen and (max-width: 768px) {
-		#container {
-			display: flex;
-			flex-direction: column;
-		}
-
-		#hero {
-			display: block;
-			padding-top: 10%;
-		}
-
-		#links {
-			flex-wrap: wrap;
-		}
-
-		#links a.button {
-			padding: 14px 18px;
-		}
-
-		#news {
-			right: 16px;
-			left: 16px;
-			bottom: 2.5rem;
-			max-width: 100%;
-		}
-
-		h1 {
-			line-height: 1.5;
-		}
-	}
+  @media(prefers-reduced-motion:reduce){:global(html){scroll-behavior:auto}.tool-card{transition:none}}
 </style>
