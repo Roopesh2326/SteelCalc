@@ -377,10 +377,10 @@ const breadcrumbSchema = {
       const lengthM = value('length');
       const qty = value('quantity');
       if (!requirePositive(['Diameter', d], ['Length', lengthM], ['Quantity', qty])) return;
-      const kgPerM = d * d / 162;
+      const kgPerM = d * d / 162.2;
       const kgPerPiece = kgPerM * lengthM;
       const kg = kgPerPiece * qty;
-      setResult(kg, 'kg', 'Uses the standard nominal TMT/rebar weight relation.', 'Unit weight', `${formatNumber(kgPerM)} kg/m`, ['Weight / bar', `${formatNumber(kgPerPiece)} kg`, 'Bars', `${formatNumber(qty, 0)} pcs`]);
+      setResult(kg, 'kg', 'Uses the nominal d² / 162.2 steel weight relation.', 'Unit weight', `${formatNumber(kgPerM)} kg/m`, ['Weight / bar', `${formatNumber(kgPerPiece)} kg`, 'Bars', `${formatNumber(qty, 0)} pcs`]);
       return;
     }
     if (type === 'steel-plate') {
