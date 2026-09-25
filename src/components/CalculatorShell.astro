@@ -11,7 +11,7 @@ interface Props {
 const { type, eyebrow, title, accent, description, formula } = Astro.props;
 const labels: Record<Props['type'], { result: string; helper: string }> = {
   'steel-weight': { result: 'Estimated weight', helper: 'Based on steel density and entered dimensions.' },
-  'tmt-rebar': { result: 'Total rebar weight', helper: 'Uses the standard d² / 162 kg-per-metre method.' },
+  'tmt-rebar': { result: 'Total rebar weight', helper: 'Uses the nominal d² / 162.2 kg-per-metre method.' },
   'steel-plate': { result: 'Plate weight', helper: 'Calculated using 7.85 g/cm³ steel density.' },
   'steel-pipe': { result: 'Pipe weight', helper: 'Based on outside diameter, wall thickness, and length.' },
   'steel-cost': { result: 'Estimated material cost', helper: 'Weight × rate, with an optional allowance for waste.' },
@@ -143,51 +143,51 @@ const breadcrumbSchema = {
       {type === 'steel-weight' && (
         <>
           <div class="field full"><label for="shape">Shape</label><select id="shape"><option value="round">Round bar</option><option value="square">Square bar</option><option value="rect">Rectangular bar</option><option value="flat">Flat bar</option><option value="hex">Hex bar</option></select></div>
-          <div class="field shape-round"><label for="diameter">Diameter <span>mm</span></label><input id="diameter" type="number" min="0" step="0.01" value="20" /></div>
-          <div class="field shape-square"><label for="side">Side <span>mm</span></label><input id="side" type="number" min="0" step="0.01" value="20" /></div>
-          <div class="field shape-rect"><label for="width">Width <span>mm</span></label><input id="width" type="number" min="0" step="0.01" value="40" /></div>
-          <div class="field shape-rect shape-flat"><label for="thickness">Thickness <span>mm</span></label><input id="thickness" type="number" min="0" step="0.01" value="6" /></div>
-          <div class="field shape-flat"><label for="width">Width <span>mm</span></label><input id="width" type="number" min="0" step="0.01" value="40" /></div>
-          <div class="field shape-hex"><label for="hex-side">Side <span>mm</span></label><input id="hex-side" type="number" min="0" step="0.01" value="20" /></div>
-          <div class="field"><label for="length">Length <span>m</span></label><input id="length" type="number" min="0" step="0.01" value="6" /></div>
-          <div class="field"><label for="quantity">Quantity <span>pcs</span></label><input id="quantity" type="number" min="1" step="1" value="1" /></div>
-          <div class="field"><label for="density">Density <span>kg/m³</span></label><input id="density" type="number" min="1" step="1" value="7850" /></div>
+          <div class="field shape-round"><label for="diameter">Diameter <span>mm</span></label><input id="diameter" type="number" min="0" step="0.01" placeholder="20" /></div>
+          <div class="field shape-square"><label for="side">Side <span>mm</span></label><input id="side" type="number" min="0" step="0.01" placeholder="20" /></div>
+          <div class="field shape-rect"><label for="width">Width <span>mm</span></label><input id="width" type="number" min="0" step="0.01" placeholder="40" /></div>
+          <div class="field shape-rect shape-flat"><label for="thickness">Thickness <span>mm</span></label><input id="thickness" type="number" min="0" step="0.01" placeholder="6" /></div>
+          <div class="field shape-flat"><label for="width">Width <span>mm</span></label><input id="width" type="number" min="0" step="0.01" placeholder="40" /></div>
+          <div class="field shape-hex"><label for="hex-side">Side <span>mm</span></label><input id="hex-side" type="number" min="0" step="0.01" placeholder="20" /></div>
+          <div class="field"><label for="length">Length <span>m</span></label><input id="length" type="number" min="0" step="0.01" placeholder="6" /></div>
+          <div class="field"><label for="quantity">Quantity <span>pcs</span></label><input id="quantity" type="number" min="1" step="1" placeholder="1" /></div>
+          <div class="field"><label for="density">Density <span>kg/m³</span></label><input id="density" type="number" min="1" step="1" placeholder="7850" /></div>
         </>
       )}
 
       {type === 'tmt-rebar' && (
         <>
-          <div class="field full"><label for="diameter">Bar diameter <span>mm</span></label><select id="diameter"><option>6</option><option>8</option><option>10</option><option>12</option><option selected>16</option><option>20</option><option>25</option><option>28</option><option>32</option><option>36</option><option>40</option></select></div>
-          <div class="field"><label for="length">Length per bar <span>m</span></label><input id="length" type="number" min="0" step="0.01" value="12" /></div>
-          <div class="field"><label for="quantity">Number of bars <span>pcs</span></label><input id="quantity" type="number" min="1" step="1" value="10" /></div>
+          <div class="field full"><label for="diameter">Bar diameter <span>mm</span></label><select id="diameter"><option value="" selected>Select diameter</option><option>6</option><option>8</option><option>10</option><option>12</option><option>16</option><option>20</option><option>25</option><option>28</option><option>32</option><option>36</option><option>40</option></select></div>
+          <div class="field"><label for="length">Length per bar <span>m</span></label><input id="length" type="number" min="0" step="0.01" placeholder="12" /></div>
+          <div class="field"><label for="quantity">Number of bars <span>pcs</span></label><input id="quantity" type="number" min="1" step="1" placeholder="10" /></div>
         </>
       )}
 
       {type === 'steel-plate' && (
         <>
-          <div class="field"><label for="thickness">Thickness <span>mm</span></label><input id="thickness" type="number" min="0" step="0.01" value="6" /></div>
-          <div class="field"><label for="width">Width <span>mm</span></label><input id="width" type="number" min="0" step="0.01" value="1220" /></div>
-          <div class="field"><label for="length">Length <span>mm</span></label><input id="length" type="number" min="0" step="0.01" value="2440" /></div>
-          <div class="field"><label for="quantity">Quantity <span>sheets</span></label><input id="quantity" type="number" min="1" step="1" value="1" /></div>
+          <div class="field"><label for="thickness">Thickness <span>mm</span></label><input id="thickness" type="number" min="0" step="0.01" placeholder="6" /></div>
+          <div class="field"><label for="width">Width <span>mm</span></label><input id="width" type="number" min="0" step="0.01" placeholder="1220" /></div>
+          <div class="field"><label for="length">Length <span>mm</span></label><input id="length" type="number" min="0" step="0.01" placeholder="2440" /></div>
+          <div class="field"><label for="quantity">Quantity <span>sheets</span></label><input id="quantity" type="number" min="1" step="1" placeholder="1" /></div>
         </>
       )}
 
       {type === 'steel-pipe' && (
         <>
-          <div class="field"><label for="outer-diameter">Outer diameter <span>mm</span></label><input id="outer-diameter" type="number" min="0" step="0.01" value="60.3" /></div>
-          <div class="field"><label for="thickness">Wall thickness <span>mm</span></label><input id="thickness" type="number" min="0" step="0.01" value="3.2" /></div>
-          <div class="field"><label for="length">Length <span>m</span></label><input id="length" type="number" min="0" step="0.01" value="6" /></div>
-          <div class="field"><label for="quantity">Quantity <span>pcs</span></label><input id="quantity" type="number" min="1" step="1" value="1" /></div>
-          <div class="field full"><label for="density">Density <span>kg/m³</span></label><input id="density" type="number" min="1" step="1" value="7850" /></div>
+          <div class="field"><label for="outer-diameter">Outer diameter <span>mm</span></label><input id="outer-diameter" type="number" min="0" step="0.01" placeholder="60.3" /></div>
+          <div class="field"><label for="thickness">Wall thickness <span>mm</span></label><input id="thickness" type="number" min="0" step="0.01" placeholder="3.2" /></div>
+          <div class="field"><label for="length">Length <span>m</span></label><input id="length" type="number" min="0" step="0.01" placeholder="6" /></div>
+          <div class="field"><label for="quantity">Quantity <span>pcs</span></label><input id="quantity" type="number" min="1" step="1" placeholder="1" /></div>
+          <div class="field full"><label for="density">Density <span>kg/m³</span></label><input id="density" type="number" min="1" step="1" placeholder="7850" /></div>
         </>
       )}
 
       {type === 'steel-cost' && (
         <>
-          <div class="field"><label for="weight">Weight <span>kg</span></label><input id="weight" type="number" min="0" step="0.01" value="100" /></div>
-          <div class="field"><label for="rate">Rate <span>₹ / kg</span></label><input id="rate" type="number" min="0" step="0.01" value="75" /></div>
-          <div class="field"><label for="quantity">Quantity <span>lots</span></label><input id="quantity" type="number" min="1" step="1" value="1" /></div>
-          <div class="field"><label for="waste">Waste / allowance <span>%</span></label><input id="waste" type="number" min="0" step="0.1" value="0" /></div>
+          <div class="field"><label for="weight">Weight <span>kg</span></label><input id="weight" type="number" min="0" step="0.01" placeholder="100" /></div>
+          <div class="field"><label for="rate">Rate <span>₹ / kg</span></label><input id="rate" type="number" min="0" step="0.01" placeholder="75" /></div>
+          <div class="field"><label for="quantity">Quantity <span>lots</span></label><input id="quantity" type="number" min="1" step="1" placeholder="1" /></div>
+          <div class="field"><label for="waste">Waste / allowance <span>%</span></label><input id="waste" type="number" min="0" step="0.1" placeholder="0" /></div>
         </>
       )}
 
@@ -211,7 +211,7 @@ const breadcrumbSchema = {
         <small>{labels[type].result}</small>
         <div class="result-number" id="result-number" aria-live="polite">0.00</div>
         <div class="result-unit" id="result-unit">kg</div>
-        <p id="result-helper">{labels[type].helper}</p>
+        <p id="result-helper" data-default-helper={labels[type].helper}>{labels[type].helper}</p>
         <div class="result-detail">
           <div><span id="detail-one-label">Per item</span><strong id="detail-one-value">—</strong></div>
           <div><span id="detail-two-label">Quantity</span><strong id="detail-two-value">—</strong></div>
@@ -219,7 +219,7 @@ const breadcrumbSchema = {
       </div>
       <div class="result-secondary">
         <span id="secondary-label">Formula</span>
-        <strong id="secondary-value">{formula}</strong>
+        <strong id="secondary-value" data-default-formula={formula}>{formula}</strong>
       </div>
     </aside>
   </section>
@@ -329,6 +329,25 @@ const breadcrumbSchema = {
     secondaryLabel.textContent = label;
     secondaryValue.textContent = secondary;
     setDetails(...details);
+  };
+
+  const clearResultDisplay = () => {
+    if (!resultNumber || !resultUnit || !resultHelper || !secondaryLabel || !secondaryValue) return;
+    resultNumber.textContent = '—';
+    resultUnit.textContent = '';
+    resultHelper.textContent = resultHelper.dataset.defaultHelper || '';
+    secondaryLabel.textContent = 'Formula';
+    secondaryValue.textContent = secondaryValue.dataset.defaultFormula || '';
+    setDetails('Per item', '—', 'Quantity', '—');
+  };
+
+  const hasRequiredInputs = () => {
+    if (!form) return false;
+    const controls = Array.from(form.querySelectorAll('input[type="number"], select'))
+      .filter((control) => control.id !== 'auto-calc')
+      .filter((control) => control.id !== 'waste')
+      .filter((control) => !control.closest('.field')?.classList.contains('hidden-field'));
+    return controls.every((control) => control.value.trim() !== '');
   };
 
   const getSummaryText = () => {
@@ -474,23 +493,38 @@ const breadcrumbSchema = {
   form?.querySelectorAll('input, select').forEach((field) => {
     field.addEventListener('input', () => {
       setError();
-      liveCalculate();
+      if (autoCalc?.checked && hasRequiredInputs()) liveCalculate();
+      else if (!hasRequiredInputs()) clearResultDisplay();
     });
     field.addEventListener('change', () => {
       setError();
-      if (autoCalc?.checked) calculate();
+      if (autoCalc?.checked && hasRequiredInputs()) calculate();
+      else if (!hasRequiredInputs()) clearResultDisplay();
     });
   });
 
   autoCalc?.addEventListener('change', () => {
     if (autoCalc.checked) calculate();
   });
-  root?.querySelector('#shape')?.addEventListener('change', () => { updateShapeFields(); calculate(); });
-  resetBtn?.addEventListener('click', () => {
-    form?.reset();
-    window.history.replaceState({}, '', window.location.pathname);
+  root?.querySelector('#shape')?.addEventListener('change', () => {
     updateShapeFields();
-    calculate();
+    setError();
+    if (autoCalc?.checked && hasRequiredInputs()) calculate();
+    else clearResultDisplay();
+  });
+
+  resetBtn?.addEventListener('click', () => {
+    form?.querySelectorAll('input[type="number"]').forEach((field) => {
+      field.value = '';
+    });
+    form?.querySelectorAll('select').forEach((select) => {
+      select.selectedIndex = 0;
+    });
+    if (autoCalc) autoCalc.checked = true;
+    window.history.replaceState({}, '', window.location.pathname);
+    setError();
+    updateShapeFields();
+    clearResultDisplay();
   });
   copyBtn?.addEventListener('click', async () => {
     try {
@@ -529,11 +563,8 @@ const breadcrumbSchema = {
 
   const loadedSharedInputs = loadSharedInputs();
   updateShapeFields();
-  if (loadedSharedInputs) {
-    calculate();
-  } else {
-    calculate();
-  }
+  if (loadedSharedInputs && hasRequiredInputs()) calculate();
+  else clearResultDisplay();
 </script>
 
 <style>
