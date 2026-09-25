@@ -8,6 +8,18 @@ const pathname = Astro.url.pathname;
 const canonical = Astro.site ? new URL(pathname, Astro.site).toString() : undefined;
 const pageName = title.replace(/\s*\|\s*SteelCalc\s*$/, '');
 const isCalculator = pathname.startsWith('/calculators/') && pathname !== '/calculators/';
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'SteelCalc',
+  description,
+  url: Astro.site ? Astro.site.toString() : undefined,
+  potentialAction: Astro.site ? {
+    '@type': 'SearchAction',
+    target: `${Astro.site.toString().replace(/\/$/, '')}/calculators?q={search_term_string}`,
+    'query-input': 'required name=search_term_string'
+  } : undefined
+};
 
 const applicationSchema = {
   '@context': 'https://schema.org',
@@ -22,6 +34,9 @@ const applicationSchema = {
 const cleanSchema = Object.fromEntries(
   Object.entries(applicationSchema).filter(([, value]) => value !== undefined)
 );
+const cleanWebsiteSchema = Object.fromEntries(
+  Object.entries(websiteSchema).filter(([, value]) => value !== undefined)
+);
 ---
 <!doctype html>
 <html lang="en">
@@ -33,6 +48,8 @@ const cleanSchema = Object.fromEntries(
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
     <meta name="author" content="SteelCalc" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="format-detection" content="telephone=no" />
     <meta property="og:type" content={isCalculator ? 'website' : 'website'} />
     <meta property="og:site_name" content="SteelCalc" />
     <meta property="og:title" content={title} />
@@ -47,6 +64,7 @@ const cleanSchema = Object.fromEntries(
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="generator" content={Astro.generator} />
     <script type="application/ld+json" set:html={JSON.stringify(cleanSchema)}></script>
+    <script type="application/ld+json" set:html={JSON.stringify(cleanWebsiteSchema)}></script>
     <title>{title}</title>
   </head>
   <body>
