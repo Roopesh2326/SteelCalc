@@ -14,6 +14,7 @@ SteelCalc is an Astro-based toolkit for practical steel, construction, and proje
 - Plaster Calculator
 - Flooring & Tile Calculator
 - Excavation & Earthwork Calculator
+- Structural Steel Profile Calculator
 - Project Workbench
 
 ## Development
