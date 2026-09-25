@@ -2,14 +2,17 @@
 import Layout from '../../layouts/Layout.astro';
 const guides = [
   { title: 'TMT Bar Weight Chart', desc: '6mm–40mm reference with kg/m, 12m bar weight, and formula.', href: '/guides/tmt-bar-weight-chart', tag: 'TMT / REBAR' },
-  { title: 'Steel Weight Formulas', desc: 'Practical formulas for bars, plates, pipes, flats, and hollow sections.', href: '/guides/steel-weight-formulas', tag: 'FORMULAS' }
+  { title: 'Steel Weight Formulas', desc: 'Practical formulas for bars, plates, pipes, flats, and hollow sections.', href: '/guides/steel-weight-formulas', tag: 'FORMULAS' },
+  { title: 'Construction Quantity Reference', desc: 'Planning notes for concrete, masonry, plaster, flooring, and earthwork estimates.', href: '/guides/construction-reference', tag: 'CONSTRUCTION' },
+  { title: 'Structural Section Formulas', desc: 'Simplified area formulas for angles, channels, I-beams, SHS, RHS, and CHS.', href: '/guides/structural-sections-reference', tag: 'STRUCTURAL STEEL' },
+  { title: 'Material Density Reference', desc: 'Nominal densities and estimating qualifiers for common materials.', href: '/guides/material-density-reference', tag: 'MATERIALS' }
 ];
 ---
 <Layout title="Steel Guides | SteelCalc" description="Practical steel weight formulas, TMT reference charts, and calculation guides from SteelCalc.">
   <div class="shell">
     <header class="topbar">
       <a class="brand" href="/"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>Steel<span class="light">Calc</span><small>PRECISION TOOLS</small></span></a>
-      <nav><a href="/calculators">Calculators</a><a class="active" href="/guides">Guides</a><a href="/workbench">Workbench</a></nav>
+      <nav><a href="/calculators">Calculators</a><a class="active" href="/guides">Guides</a><a href="/workbench">Workbench</a><a href="/tools">Tools</a></nav>
       <a class="cta" href="/calculators">All calculators →</a>
     </header>
     <main>
@@ -22,6 +25,10 @@ const guides = [
       <section class="workbench-callout">
         <div><span class="eyebrow">NEXT STEP</span><h2>Need more than one item?</h2><p>Add multiple TMT, plate, pipe, and bar items into one project and get combined weight and cost.</p></div>
         <a href="/workbench">Open project workbench →</a>
+      </section>
+      <section class="workbench-callout light-callout">
+        <div><span class="eyebrow">REFERENCE TOOLS</span><h2>Need a unit conversion?</h2><p>Convert length, area, volume, mass, and force before entering dimensions into a calculator.</p></div>
+        <a href="/tools/unit-converter">Open unit converter →</a>
       </section>
     </main>
   </div>
