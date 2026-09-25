@@ -176,7 +176,8 @@ import Layout from '../../layouts/Layout.astro';
             field.classList.contains('deduction') ? 'deduction' :
             field.classList.contains('hook') ? 'hook' : 'qty';
           item[key] = field.value;
-          render();
+          updateRowCalculation(tr, item);
+          updateSummary();
         });
       });
       tr.querySelector('.remove')?.addEventListener('click', () => {
@@ -184,7 +185,21 @@ import Layout from '../../layouts/Layout.astro';
         render();
       });
     });
+  };
 
+  const updateRowCalculation = (tr, item) => {
+    const cut = cuttingLength(item);
+    const dia = Math.max(0, Number(item.diameter) || 0);
+    const qty = Math.max(0, Math.floor(Number(item.qty) || 0));
+    const unitKg = cut / 1000 * (dia * dia / 162.2);
+    const totalKg = unitKg * qty;
+    const cells = tr.querySelectorAll('td');
+    if (cells[7]) cells[7].querySelector('strong')?.replaceChildren(document.createTextNode(`${format(cut, 0)} mm`));
+    if (cells[9]) cells[9].textContent = `${format(unitKg, 3)} kg`;
+    if (cells[10]) cells[10].querySelector('strong')?.replaceChildren(document.createTextNode(`${format(totalKg, 2)} kg`));
+  };
+
+  const updateSummary = () => {
     const totals = items.reduce((acc, item) => {
       const qty = Math.max(0, Math.floor(Number(item.qty) || 0));
       const cut = cuttingLength(item);
