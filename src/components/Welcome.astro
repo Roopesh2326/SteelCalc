@@ -1,4 +1,6 @@
 ---
+import ToolLauncher from './ToolLauncher.astro';
+
 const tools = [
   {
     number: '06',
@@ -171,14 +173,16 @@ const tools = [
       </div>
     </section>
 
+    <ToolLauncher tools={tools} />
+
     <section class="tools-section" id="tools">
       <div class="section-heading">
         <div>
-          <div class="eyebrow">THE TOOLKIT</div>
-          <h2>Our <em>Calculators</em></h2>
+          <div class="eyebrow">FULL TOOLKIT</div>
+          <h2>All <em>calculators.</em></h2>
         </div>
         <div class="section-side">
-          <p>Steel and construction tools in one place. Each calculator includes detailed results, formulas, FAQs, and shareable links.</p>
+          <p>The complete SteelCalc catalogue. Use the quick launcher above for guided discovery, or browse every calculator here.</p>
           <a href="/calculators">View all <span aria-hidden="true">→</span></a>
         </div>
       </div>
