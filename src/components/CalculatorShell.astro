@@ -551,6 +551,14 @@ const breadcrumbSchema = {
     root?.querySelectorAll('.shape-hex').forEach((el) => el.classList.toggle('hidden-field', shape !== 'hex'));
   };
 
+  const updateProfileFields = () => {
+    if (type !== 'structural-steel') return;
+    const profile = root?.querySelector('#profile')?.value;
+    ['angle', 'channel', 'ibeam', 'shs', 'rhs', 'chs'].forEach((name) => {
+      root?.querySelectorAll('.profile-' + name).forEach((el) => el.classList.toggle('hidden-field', profile !== name));
+    });
+  };
+
   const calculate = () => {
     if (!type) return;
     if (type === 'steel-weight') {
@@ -1002,6 +1010,13 @@ const breadcrumbSchema = {
     else clearResultDisplay();
   });
 
+  root?.querySelector('#profile')?.addEventListener('change', () => {
+    updateProfileFields();
+    setError();
+    if (autoCalc?.checked && hasRequiredInputs()) calculate();
+    else clearResultDisplay();
+  });
+
   resetBtn?.addEventListener('click', () => {
     form?.querySelectorAll('input[type="number"]').forEach((field) => {
       field.value = '';
@@ -1013,6 +1028,7 @@ const breadcrumbSchema = {
     window.history.replaceState({}, '', window.location.pathname);
     setError();
     updateShapeFields();
+    updateProfileFields();
     clearResultDisplay();
   });
   copyBtn?.addEventListener('click', async () => {
@@ -1052,6 +1068,7 @@ const breadcrumbSchema = {
 
   const loadedSharedInputs = loadSharedInputs();
   updateShapeFields();
+  updateProfileFields();
   if (loadedSharedInputs && hasRequiredInputs()) calculate();
   else clearResultDisplay();
 </script>
