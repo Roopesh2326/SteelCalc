@@ -9,6 +9,7 @@ SteelCalc is an Astro-based toolkit for practical steel weight and cost calculat
 - Steel Plate Calculator
 - Steel Pipe Calculator
 - Steel Cost Calculator
+- Project Workbench
 
 ## Development
 
@@ -54,6 +55,10 @@ No server runtime is required for the calculator pages.
 /calculators/steel-plate
 /calculators/steel-pipe
 /calculators/steel-cost
+/guides
+/guides/tmt-bar-weight-chart
+/guides/steel-weight-formulas
+/workbench
 /robots.txt
 /sitemap.xml
 ```
