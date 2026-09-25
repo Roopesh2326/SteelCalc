@@ -1,0 +1,17 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CalculatorShell from '../../components/CalculatorShell.astro';
+---
+<Layout
+  title="Structural Steel Section Calculator | SteelCalc"
+  description="Estimate weight and unit mass for equal angles, channels, I-beams, SHS, RHS, and CHS steel sections."
+>
+  <CalculatorShell
+    type="structural-steel"
+    eyebrow="STEEL / 06"
+    title="Structural steel section calculator."
+    accent="Profile by profile."
+    description="Estimate theoretical section area, unit mass, and total weight for common structural steel profiles."
+    formula="section area × length × density"
+  />
+</Layout>
