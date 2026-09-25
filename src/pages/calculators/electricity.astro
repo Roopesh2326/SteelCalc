@@ -1,0 +1,17 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CalculatorShell from '../../components/CalculatorShell.astro';
+---
+<Layout
+  title="Electricity Load Calculator | SteelCalc"
+  description="Estimate single-phase or three-phase electrical load, monthly energy consumption, and electricity cost from voltage, current, power factor, usage, and tariff."
+>
+  <CalculatorShell
+    type="electricity"
+    eyebrow="ENGINEERING / 01"
+    title="Electricity load calculator."
+    accent="Without the spreadsheet."
+    description="Estimate real power in kW, monthly electricity consumption in kWh, and an indicative monthly cost from your supply and usage inputs."
+    formula="V × I × PF / 1000"
+  />
+</Layout>
