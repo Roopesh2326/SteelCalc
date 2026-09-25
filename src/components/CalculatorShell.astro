@@ -17,7 +17,7 @@ const labels: Record<Props['type'], { result: string; helper: string }> = {
   'steel-cost': { result: 'Estimated material cost', helper: 'Weight × rate, with an optional allowance for waste.' },
   'concrete': { result: 'Concrete volume', helper: 'Wet volume with a configurable dry-volume factor and mix ratio.' },
   'masonry': { result: 'Masonry units', helper: 'Estimated brick or block count, mortar, cement, and sand.' },
-  'plaster': { result: 'Plaster area', helper: 'Estimated plaster volume, cement bags, and sand for wall or ceiling surfaces.' },
+  'plaster': { result: 'Plaster volume', helper: 'Estimated wet plaster volume, cement bags, and sand for wall or ceiling surfaces.' },
   'flooring': { result: 'Tiles required', helper: 'Estimated tile count, covered area, and wastage for a floor.' },
 };
 
@@ -696,11 +696,11 @@ const breadcrumbSchema = {
       const cementBags = (cementVolume * 1440) / bagWeight;
 
       setResult(
-        area * qty,
-        'm²',
-        'Estimated plaster surface area using the entered thickness and mix.',
-        'Wet plaster',
-        `${formatNumber(wetVolume)} m³`,
+        wetVolume,
+        'm³',
+        'Estimated wet plaster volume from the entered surface area and thickness.',
+        'Plaster area',
+        `${formatNumber(area * qty)} m²`,
         ['Cement', `${formatNumber(cementBags)} bags`, 'Sand', `${formatNumber(sandVolume)} m³`]
       );
       return;
