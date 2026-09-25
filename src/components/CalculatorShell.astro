@@ -1,6 +1,6 @@
 ---
 interface Props {
-  type: 'steel-weight' | 'tmt-rebar' | 'steel-plate' | 'steel-pipe' | 'steel-cost';
+  type: 'steel-weight' | 'tmt-rebar' | 'steel-plate' | 'steel-pipe' | 'steel-cost' | 'concrete';
   eyebrow: string;
   title: string;
   accent: string;
@@ -15,6 +15,7 @@ const labels: Record<Props['type'], { result: string; helper: string }> = {
   'steel-plate': { result: 'Plate weight', helper: 'Calculated using 7.85 g/cm³ steel density.' },
   'steel-pipe': { result: 'Pipe weight', helper: 'Based on outside diameter, wall thickness, and length.' },
   'steel-cost': { result: 'Estimated material cost', helper: 'Weight × rate, with an optional allowance for waste.' },
+  'concrete': { result: 'Concrete volume', helper: 'Wet volume with a configurable dry-volume factor and mix ratio.' },
 };
 
 const faqItems: Record<Props['type'], Array<{ question: string; answer: string }>> = {
@@ -42,6 +43,12 @@ const faqItems: Record<Props['type'], Array<{ question: string; answer: string }
     { question: 'How is steel cost estimated?', answer: 'The calculator multiplies weight by the entered rate per kilogram and quantity, then applies the optional waste or allowance percentage.' },
     { question: 'Does the waste percentage change the material weight?', answer: 'It changes the planning quantity used for the cost estimate. The base material amount remains visible in the result breakdown.' },
     { question: 'Does SteelCalc provide live market steel rates?', answer: 'No. The calculator uses the rate you enter. Supplier and market prices can change by location, grade, quantity, and time.' }
+  ],
+  'concrete': [
+    { question: 'How is concrete volume calculated?', answer: 'Wet concrete volume is length × width × depth × quantity. The calculator then applies the entered dry-volume factor to estimate constituent material quantities.' },
+    { question: 'What does the dry-volume factor do?', answer: 'It converts wet concrete volume into an estimated dry material volume for batching. The default example is 1.54, but you can change it to match your estimating practice or project specification.' },
+    { question: 'Can I use a custom concrete mix ratio?', answer: 'Yes. Enter the cement, sand, and aggregate ratio parts. The calculator distributes dry volume across those parts and estimates cement bags from the entered bag weight.' },
+    { question: 'Is this a structural mix-design calculator?', answer: 'No. It is a quantity-estimation tool. Final concrete mix proportions, water-cement ratio, strength class, admixtures, and construction requirements should follow the project specification and qualified engineering review.' }
   ]
 };
 
@@ -70,6 +77,11 @@ const relatedTools: Record<Props['type'], Array<{ title: string; href: string }>
     { title: 'Steel Weight Calculator', href: '/calculators/steel-weight' },
     { title: 'TMT / Rebar Calculator', href: '/calculators/tmt-rebar' },
     { title: 'Steel Plate Calculator', href: '/calculators/steel-plate' }
+  ],
+  'concrete': [
+    { title: 'TMT / Rebar Calculator', href: '/calculators/tmt-rebar' },
+    { title: 'Project Workbench', href: '/workbench' },
+    { title: 'Steel Cost Calculator', href: '/calculators/steel-cost' }
   ]
 };
 
@@ -135,7 +147,7 @@ const breadcrumbSchema = {
   <section class="calculator-card">
     <form class="calc-form" id="calc-form">
       <div class="form-head">
-        <div><span class="form-kicker">INPUTS</span><h2>Enter your dimensions</h2></div>
+        <div><span class="form-kicker">INPUTS</span><h2>{type === 'concrete' ? 'Enter concrete inputs' : 'Enter your dimensions'}</h2></div>
         <button class="ghost-btn" type="button" id="reset-btn">Reset</button>
       </div>
       <div id="form-error" role="alert" aria-live="polite"></div>
@@ -188,6 +200,21 @@ const breadcrumbSchema = {
           <div class="field"><label for="rate">Rate <span>₹ / kg</span></label><input id="rate" type="number" min="0" step="0.01" placeholder="75" /></div>
           <div class="field"><label for="quantity">Quantity <span>lots</span></label><input id="quantity" type="number" min="1" step="1" placeholder="1" /></div>
           <div class="field"><label for="waste">Waste / allowance <span>%</span></label><input id="waste" type="number" min="0" step="0.1" placeholder="0" /></div>
+        </>
+      )}
+
+      {type === 'concrete' && (
+        <>
+          <div class="field full"><label for="element">Element type</label><select id="element"><option value="slab" selected>Slab</option><option value="beam">Beam</option><option value="column">Column</option><option value="footing">Footing</option><option value="other">Other</option></select></div>
+          <div class="field"><label for="length">Length <span>m</span></label><input id="length" type="number" min="0" step="0.001" placeholder="4" /></div>
+          <div class="field"><label for="width">Width <span>m</span></label><input id="width" type="number" min="0" step="0.001" placeholder="3" /></div>
+          <div class="field"><label for="depth">Depth / thickness <span>m</span></label><input id="depth" type="number" min="0" step="0.001" placeholder="0.15" /></div>
+          <div class="field"><label for="quantity">Quantity <span>nos.</span></label><input id="quantity" type="number" min="1" step="1" placeholder="1" /></div>
+          <div class="field"><label for="dry-factor">Dry volume factor <span>×</span></label><input id="dry-factor" type="number" min="0" step="0.01" placeholder="1.54" /></div>
+          <div class="field"><label for="cement-ratio">Cement ratio <span>parts</span></label><input id="cement-ratio" type="number" min="0" step="0.1" placeholder="1" /></div>
+          <div class="field"><label for="sand-ratio">Sand ratio <span>parts</span></label><input id="sand-ratio" type="number" min="0" step="0.1" placeholder="2" /></div>
+          <div class="field"><label for="aggregate-ratio">Aggregate ratio <span>parts</span></label><input id="aggregate-ratio" type="number" min="0" step="0.1" placeholder="4" /></div>
+          <div class="field full"><label for="cement-bag">Cement bag weight <span>kg / bag</span></label><input id="cement-bag" type="number" min="0" step="0.1" placeholder="50" /></div>
         </>
       )}
 
@@ -446,6 +473,56 @@ const breadcrumbSchema = {
       const adjustedWeight = baseWeight * (1 + waste / 100);
       const cost = adjustedWeight * rate;
       setResult(cost, '₹', 'Includes the entered quantity and optional waste/allowance.', 'Adjusted weight', `${formatNumber(adjustedWeight)} kg`, ['Base material', `₹${formatNumber(baseWeight * rate, 2)}`, 'Waste added', `${formatNumber(waste, 1)}%`]);
+    }
+    if (type === 'concrete') {
+      const lengthM = value('length');
+      const widthM = value('width');
+      const depthM = value('depth');
+      const qty = value('quantity');
+      const dryFactor = value('dry-factor');
+      const cementRatio = value('cement-ratio');
+      const sandRatio = value('sand-ratio');
+      const aggregateRatio = value('aggregate-ratio');
+      const bagWeight = value('cement-bag');
+
+      if (!requirePositive(
+        ['Length', lengthM],
+        ['Width', widthM],
+        ['Depth / thickness', depthM],
+        ['Quantity', qty],
+        ['Dry volume factor', dryFactor],
+        ['Cement ratio', cementRatio],
+        ['Sand ratio', sandRatio],
+        ['Aggregate ratio', aggregateRatio],
+        ['Cement bag weight', bagWeight]
+      )) return;
+
+      const ratioTotal = cementRatio + sandRatio + aggregateRatio;
+      if (ratioTotal <= 0) { setError('Mix ratio total must be greater than zero.'); return; }
+
+      const wetVolume = lengthM * widthM * depthM * qty;
+      const dryVolume = wetVolume * dryFactor;
+      const cementVolume = dryVolume * cementRatio / ratioTotal;
+      const sandVolume = dryVolume * sandRatio / ratioTotal;
+      const aggregateVolume = dryVolume * aggregateRatio / ratioTotal;
+      const cementMass = cementVolume * 1440;
+      const bags = cementMass / bagWeight;
+      const element = root.querySelector('#element')?.value || 'slab';
+
+      setResult(
+        wetVolume,
+        'm³',
+        `Estimated wet concrete volume for the selected ${element}.`,
+        'Dry material volume',
+        `${formatNumber(dryVolume)} m³`,
+        [
+          'Cement',
+          `${formatNumber(bags)} bags`,
+          'Sand / aggregate',
+          `${formatNumber(sandVolume)} m³ / ${formatNumber(aggregateVolume)} m³`
+        ]
+      );
+      return;
     }
   };
 

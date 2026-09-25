@@ -1,0 +1,17 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CalculatorShell from '../../components/CalculatorShell.astro';
+---
+<Layout
+  title="Concrete Calculator | SteelCalc"
+  description="Estimate concrete volume, dry material volume, cement bags, sand, and aggregate for slabs, beams, columns, footings, and other work."
+>
+  <CalculatorShell
+    type="concrete"
+    eyebrow="CONSTRUCTION / 01"
+    title="Concrete calculator."
+    accent="Without the spreadsheet."
+    description="Estimate concrete volume and material quantities for common construction elements using your dimensions, dry-volume factor, and mix ratio."
+    formula="L × W × D × quantity"
+  />
+</Layout>

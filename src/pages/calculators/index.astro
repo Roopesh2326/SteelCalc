@@ -43,11 +43,22 @@ const calculators = [
     visual: 'cost'
   }
 ];
+
+const constructionCalculators = [
+  {
+    number: 'C01',
+    title: 'Concrete Calculator',
+    description: 'Estimate concrete volume, cement bags, sand, and aggregate for common construction elements.',
+    href: '/calculators/concrete',
+    tag: 'CONCRETE',
+    visual: 'concrete'
+  }
+];
 ---
 
 <Layout
-  title="Steel Calculators | SteelCalc"
-  description="Explore SteelCalc's free steel weight, TMT rebar, steel plate, steel pipe, and steel cost calculators."
+  title="Steel & Construction Calculators | SteelCalc"
+  description="Explore SteelCalc's free steel, construction, weight, rebar, plate, pipe, cost, and concrete calculators."
 >
   <div class="site-shell">
     <header class="topbar">
@@ -83,14 +94,14 @@ const calculators = [
       <section class="directory-hero">
         <div>
           <div class="eyebrow">FREE ONLINE TOOLS</div>
-          <h1>Our Steel <em>Calculators</em></h1>
-          <p>Choose the tool that matches the steel material you're working with. Enter familiar measurements and get a practical estimate in seconds.</p>
+          <h1>Steel & <em>Construction Calculators</em></h1>
+          <p>Start with steel weight and cost tools, or use construction calculators for practical project quantity estimates.</p>
         </div>
 
         <div class="hero-panel">
-          <strong>05</strong>
+          <strong>06</strong>
           <span>Calculators</span>
-          <small>Weight · Rebar · Plate · Pipe · Cost</small>
+          <small>05 steel tools · 01 construction tool</small>
         </div>
       </section>
 
@@ -101,7 +112,8 @@ const calculators = [
         </label>
 
         <div class="directory-stats">
-          <span><strong>05</strong> tools</span>
+          <span><strong>06</strong> tools</span>
+          <span>05 steel · 01 construction</span>
           <span>Instant results</span>
           <span>No sign-up</span>
         </div>
@@ -134,7 +146,40 @@ const calculators = [
         ))}
       </section>
 
-      <p class="no-results" id="no-results" hidden>No calculator matches that search. Try “pipe”, “rebar”, “plate”, “cost”, or “weight”.</p>
+      <p class="no-results" id="no-results" hidden>No calculator matches that search. Try “concrete”, “pipe”, “rebar”, “plate”, “cost”, or “weight”.</p>
+
+      <section class="engineering-section" aria-labelledby="engineering-title">
+        <div class="section-heading">
+          <div>
+            <div class="eyebrow">CONSTRUCTION & ENGINEERING</div>
+            <h2 id="engineering-title">Build beyond <em>steel.</em></h2>
+          </div>
+          <p>Practical quantity calculators for the next parts of a construction estimate.</p>
+        </div>
+
+        <div class="tool-grid engineering-grid">
+          {constructionCalculators.map((tool) => (
+            <a class="tool-card" href={tool.href}>
+              <div class="tool-card-top">
+                <span class="tool-number">{tool.number}</span>
+                <span class="tool-tag">{tool.tag}</span>
+              </div>
+
+              <div class="tool-image concrete" aria-hidden="true">
+                <div class="art-concrete"><span></span><i></i><b>m³</b></div>
+              </div>
+
+              <h2>{tool.title}</h2>
+              <p>{tool.description}</p>
+
+              <div class="tool-card-bottom">
+                <span>OPEN CALCULATOR</span>
+                <b aria-hidden="true">→</b>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
 
       <section class="guide" id="guide">
         <div class="guide-intro">
@@ -165,7 +210,7 @@ const calculators = [
           <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
           <span>Steel<span class="brand-light">Calc</span><small>PRECISION TOOLS</small></span>
         </a>
-        <p>Free online steel calculators for weight, rebar, plate, pipe, and cost analysis.</p>
+        <p>Free online steel and construction calculators for material weight, cost, concrete quantities, and project estimates.</p>
       </div>
 
       <div class="footer-col">
@@ -179,6 +224,7 @@ const calculators = [
         <strong>More Tools</strong>
         <a href="/calculators/steel-pipe">Steel Pipe</a>
         <a href="/calculators/steel-cost">Steel Cost</a>
+        <a href="/calculators/concrete">Concrete</a>
         <a href="/calculators">All calculators</a>
       </div>
 
@@ -324,6 +370,17 @@ const calculators = [
   .tool-card-bottom span{font-size:6.5px;text-transform:uppercase;letter-spacing:1px;font-weight:850;color:#a1a9af}.tool-card-bottom b{font-size:13px;color:#d18f2d}
 
   .no-results{margin:15px 0 0;border:1px dashed #d9dfe3;border-radius:6px;padding:13px;color:#8d969e;font-size:9px;background:#fafbfb}
+  .engineering-section{border-top:1px solid #e0e5e8;margin-top:52px;padding-top:38px}
+  .engineering-section .section-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:25px;margin-bottom:18px}
+  .engineering-section .section-heading h2{font-size:28px;line-height:1.1;letter-spacing:-1.1px;margin:11px 0 0;color:#17212b}
+  .engineering-section .section-heading h2 em{font-family:Georgia,serif;font-weight:500;color:#dc942d}
+  .engineering-section .section-heading>p{max-width:320px;font-size:9px;line-height:1.7;color:#7a858e;margin:0}
+  .engineering-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .art-concrete{position:absolute;inset:0}
+  .art-concrete:before{content:"";position:absolute;width:86px;height:70px;left:30px;top:28px;border:1px solid #8f9aa1;background:linear-gradient(145deg,#edf0f1,#a9b2b7);transform:skewY(-8deg);box-shadow:12px 12px 0 #d9dee1}
+  .art-concrete span{position:absolute;width:58px;height:8px;left:48px;top:44px;background:#d4932d;transform:rotate(-9deg);box-shadow:0 15px 0 #d4932d,0 30px 0 #d4932d}
+  .art-concrete i{position:absolute;width:48px;height:48px;right:28px;top:41px;border:5px solid #56636c;border-radius:4px;transform:rotate(14deg)}
+  .art-concrete b{position:absolute;right:20px;bottom:18px;font:700 16px Georgia,serif;color:#c4862c;z-index:2}
 
   .guide{display:grid;grid-template-columns:.85fr 1.15fr;gap:8%;padding:47px 0 54px;border-top:1px solid #e0e5e8;margin-top:52px}
   .guide h2{font-size:30px;line-height:1.1;letter-spacing:-1.3px;margin:12px 0 0;color:#17212b}
@@ -352,6 +409,9 @@ const calculators = [
     .directory-hero{display:block;padding:42px 0 28px}.hero-panel{margin-top:20px;max-width:260px}
     .directory-bar{display:block}.search-box{width:100%}.directory-stats{margin-top:12px;flex-wrap:wrap}
     .tool-grid{grid-template-columns:1fr 1fr}
+    .engineering-grid{grid-template-columns:1fr 1fr}
+    .engineering-section .section-heading{display:block}
+    .engineering-section .section-heading>p{margin-top:10px}
     .guide{grid-template-columns:1fr;gap:27px}
     .estimate-note{align-items:flex-start;flex-direction:column}
   }
@@ -360,6 +420,7 @@ const calculators = [
     .site-shell{padding:0 18px}.topbar{height:70px}.brand{font-size:17px}.nav-cta{padding:9px 10px;font-size:8px}
     .crumbs{padding-top:15px}.directory-hero{padding-top:31px}.directory-hero h1{font-size:42px;letter-spacing:-2.7px}
     .tool-grid{grid-template-columns:1fr;gap:10px}.tool-card{min-height:260px}
+    .engineering-grid{grid-template-columns:1fr}
     .guide{padding:38px 0 44px}.guide h2{font-size:28px}
     footer{grid-template-columns:1fr 1fr}.footer-bottom{grid-column:1/-1;flex-direction:column;gap:5px}
   }
