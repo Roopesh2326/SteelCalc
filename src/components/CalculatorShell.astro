@@ -730,6 +730,8 @@ const breadcrumbSchema = {
       const plannedTiles = Math.ceil(baseTiles * (1 + wastage / 100) + extraTiles);
       const coverage = plannedTiles * tileArea;
       const boxes = tilesPerBox > 0 ? Math.ceil(plannedTiles / tilesPerBox) : 0;
+      const secondDetailLabel = tilesPerBox > 0 ? 'Boxes' : 'Tile area';
+      const secondDetailValue = tilesPerBox > 0 ? `${formatNumber(boxes, 0)} boxes` : `${formatNumber(tileArea * 1e6, 0)} mm²`;
 
       setResult(
         plannedTiles,
@@ -737,7 +739,7 @@ const breadcrumbSchema = {
         'Includes the entered tile wastage and optional extra tiles.',
         'Floor coverage',
         `${formatNumber(floorArea)} m²`,
-        ['Tile coverage', `${formatNumber(coverage)} m²`, tilesPerBox > 0 ? 'Boxes' : 'Tile area', tilesPerBox > 0 ? `${formatNumber(boxes, 0)} boxes` : `${formatNumber(tileArea * 1e6, 0)} mm²`}]
+        ['Tile coverage', `${formatNumber(coverage)} m²`, secondDetailLabel, secondDetailValue]
       );
       return;
     }
