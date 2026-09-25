@@ -147,7 +147,7 @@ const breadcrumbSchema = {
           <div class="field shape-square"><label for="side">Side <span>mm</span></label><input id="side" type="number" min="0" step="0.01" placeholder="20" /></div>
           <div class="field shape-rect"><label for="width">Width <span>mm</span></label><input id="width" type="number" min="0" step="0.01" placeholder="40" /></div>
           <div class="field shape-rect shape-flat"><label for="thickness">Thickness <span>mm</span></label><input id="thickness" type="number" min="0" step="0.01" placeholder="6" /></div>
-          <div class="field shape-flat"><label for="width">Width <span>mm</span></label><input id="width" type="number" min="0" step="0.01" placeholder="40" /></div>
+          <div class="field shape-flat"><label for="flat-width">Width <span>mm</span></label><input id="flat-width" type="number" min="0" step="0.01" placeholder="40" /></div>
           <div class="field shape-hex"><label for="hex-side">Side <span>mm</span></label><input id="hex-side" type="number" min="0" step="0.01" placeholder="20" /></div>
           <div class="field"><label for="length">Length <span>m</span></label><input id="length" type="number" min="0" step="0.01" placeholder="6" /></div>
           <div class="field"><label for="quantity">Quantity <span>pcs</span></label><input id="quantity" type="number" min="1" step="1" placeholder="1" /></div>
@@ -390,7 +390,7 @@ const breadcrumbSchema = {
       if (shape === 'round') { const d = value('diameter'); if (!requirePositive(['Diameter', d], ['Length', lengthM], ['Quantity', qty], ['Density', density])) return; areaMm2 = Math.PI * d * d / 4; shapeText = 'π × d² / 4 × L × ρ'; detailText = `${formatNumber(areaMm2)} mm²`; }
       if (shape === 'square') { const s = value('side'); if (!requirePositive(['Side', s], ['Length', lengthM], ['Quantity', qty], ['Density', density])) return; areaMm2 = s * s; shapeText = 's² × L × ρ'; detailText = `${formatNumber(areaMm2)} mm²`; }
       if (shape === 'rect') { const w = value('width'); const t = value('thickness'); if (!requirePositive(['Width', w], ['Thickness', t], ['Length', lengthM], ['Quantity', qty], ['Density', density])) return; areaMm2 = w * t; shapeText = 'W × T × L × ρ'; detailText = `${formatNumber(areaMm2)} mm²`; }
-      if (shape === 'flat') { const w = value('width'); const t = value('thickness'); if (!requirePositive(['Width', w], ['Thickness', t], ['Length', lengthM], ['Quantity', qty], ['Density', density])) return; areaMm2 = w * t; shapeText = 'W × T × L × ρ'; detailText = `${formatNumber(areaMm2)} mm²`; }
+      if (shape === 'flat') { const w = value('flat-width'); const t = value('thickness'); if (!requirePositive(['Width', w], ['Thickness', t], ['Length', lengthM], ['Quantity', qty], ['Density', density])) return; areaMm2 = w * t; shapeText = 'W × T × L × ρ'; detailText = `${formatNumber(areaMm2)} mm²`; }
       if (shape === 'hex') { const s = value('hex-side'); if (!requirePositive(['Side', s], ['Length', lengthM], ['Quantity', qty], ['Density', density])) return; areaMm2 = 3 * Math.sqrt(3) / 2 * s * s; shapeText = '3√3 / 2 × s² × L × ρ'; detailText = `${formatNumber(areaMm2)} mm²`; }
       const kgPerPiece = areaMm2 / 1_000_000 * lengthM * density;
       const kg = kgPerPiece * qty;
