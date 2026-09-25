@@ -92,6 +92,14 @@ const constructionCalculators = [
     href: '/calculators/structural-steel',
     tag: 'STRUCTURAL',
     visual: 'structural'
+  },
+  {
+    number: 'C07',
+    title: 'Rebar BBS Calculator',
+    description: 'Build a basic reinforcement bar bending schedule with cutting length and steel weight.',
+    href: '/calculators/bbs',
+    tag: 'BBS',
+    visual: 'bbs'
   }
 ];
 ---
@@ -139,9 +147,9 @@ const constructionCalculators = [
         </div>
 
         <div class="hero-panel">
-          <strong>11</strong>
+          <strong>12</strong>
           <span>Calculators</span>
-          <small>06 steel tools · 05 construction tools</small>
+          <small>06 steel tools · 06 construction tools</small>
         </div>
       </section>
 
@@ -152,8 +160,8 @@ const constructionCalculators = [
         </label>
 
         <div class="directory-stats">
-          <span><strong>11</strong> tools</span>
-          <span>06 steel · 05 construction</span>
+          <span><strong>12</strong> tools</span>
+          <span>06 steel · 06 construction</span>
           <span>Instant results</span>
           <span>No sign-up</span>
         </div>
@@ -186,7 +194,7 @@ const constructionCalculators = [
         ))}
       </section>
 
-      <p class="no-results" id="no-results" hidden>No calculator matches that search. Try “concrete”, “brick”, “block”, “plaster”, “flooring”, “tile”, “earthwork”, “structural”, “angle”, “channel”, “pipe”, “rebar”, “plate”, “cost”, or “weight”.</p>
+      <p class="no-results" id="no-results" hidden>No calculator matches that search. Try “concrete”, “brick”, “block”, “plaster”, “flooring”, “tile”, “earthwork”, “structural”, “angle”, “channel”, “BBS”, “stirrup”, “pipe”, “rebar”, “plate”, “cost”, or “weight”.</p>
 
       <section class="engineering-section" aria-labelledby="engineering-title">
         <div class="section-heading">
@@ -212,6 +220,7 @@ const constructionCalculators = [
                 {tool.visual === 'flooring' && <div class="art-flooring"><span></span><i></i><b>600</b></div>}
                 {tool.visual === 'earthwork' && <div class="art-earthwork"><span></span><i></i><b>m³</b></div>}
                 {tool.visual === 'structural' && <div class="art-structural"><span></span><i></i><b>H</b></div>}
+                {tool.visual === 'bbs' && <div class="art-bbs"><span></span><i></i><b>BBS</b></div>}
               </div>
 
               <h2>{tool.title}</h2>
@@ -275,6 +284,7 @@ const constructionCalculators = [
         <a href="/calculators/flooring">Flooring & Tile</a>
         <a href="/calculators/earthwork">Earthwork</a>
         <a href="/calculators/structural-steel">Structural Steel</a>
+        <a href="/calculators/bbs">Rebar BBS</a>
         <a href="/calculators">All calculators</a>
       </div>
 
@@ -456,6 +466,7 @@ const constructionCalculators = [
   .art-structural span{position:absolute;right:25px;top:35px;width:46px;height:5px;background:#c5822b;box-shadow:0 13px 0 #5f6c74,0 26px 0 #c5822b}
   .art-structural i{position:absolute;right:35px;bottom:21px;width:32px;height:32px;border:4px solid #65717a;background:#e7ebed;transform:rotate(45deg)}
   .art-structural b{position:absolute;right:18px;bottom:16px;font:700 11px Georgia,serif;color:#c4862c;z-index:2}
+  .art-bbs{position:absolute;inset:0}.art-bbs:before{content:"";position:absolute;left:28px;top:24px;width:94px;height:68px;background:#fff;border:1px solid #bac4ca;box-shadow:10px 9px 0 #dbe0e2}.art-bbs span{position:absolute;left:40px;top:38px;width:70px;height:2px;background:#d18e2c;box-shadow:0 13px 0 #d7dde0,0 26px 0 #d7dde0,0 39px 0 #d7dde0}.art-bbs i{position:absolute;right:21px;bottom:22px;width:35px;height:35px;border:4px solid #68757d;border-radius:50%;background:#eef0f1}.art-bbs b{position:absolute;right:18px;bottom:28px;font:700 9px Georgia,serif;color:#c4862c;z-index:2}
 
   .guide{display:grid;grid-template-columns:.85fr 1.15fr;gap:8%;padding:47px 0 54px;border-top:1px solid #e0e5e8;margin-top:52px}
   .guide h2{font-size:30px;line-height:1.1;letter-spacing:-1.3px;margin:12px 0 0;color:#17212b}
