@@ -1,6 +1,6 @@
 ---
 interface Props {
-  type: 'steel-weight' | 'tmt-rebar' | 'steel-plate' | 'steel-pipe' | 'steel-cost' | 'concrete' | 'masonry';
+  type: 'steel-weight' | 'tmt-rebar' | 'steel-plate' | 'steel-pipe' | 'steel-cost' | 'concrete' | 'masonry' | 'plaster' | 'flooring';
   eyebrow: string;
   title: string;
   accent: string;
@@ -17,6 +17,8 @@ const labels: Record<Props['type'], { result: string; helper: string }> = {
   'steel-cost': { result: 'Estimated material cost', helper: 'Weight × rate, with an optional allowance for waste.' },
   'concrete': { result: 'Concrete volume', helper: 'Wet volume with a configurable dry-volume factor and mix ratio.' },
   'masonry': { result: 'Masonry units', helper: 'Estimated brick or block count, mortar, cement, and sand.' },
+  'plaster': { result: 'Plaster area', helper: 'Estimated plaster volume, cement bags, and sand for wall or ceiling surfaces.' },
+  'flooring': { result: 'Tiles required', helper: 'Estimated tile count, covered area, and wastage for a floor.' },
 };
 
 const faqItems: Record<Props['type'], Array<{ question: string; answer: string }>> = {
@@ -56,6 +58,18 @@ const faqItems: Record<Props['type'], Array<{ question: string; answer: string }
     { question: 'Why is mortar joint size included?', answer: 'A brick or block occupies space together with its surrounding mortar joints. Using a unit module gives a planning count that better reflects wall coverage than dividing only by the solid unit volume.' },
     { question: 'How are cement and sand estimated?', answer: 'The tool estimates wet mortar as wall volume minus the solid volume of the base unit count, then applies the entered dry-volume factor and cement:sand ratio.' },
     { question: 'Are these exact site quantities?', answer: 'No. They are planning estimates. Bond pattern, openings, joint thickness, breakage, cutting, workmanship, and project-specific mortar practice can change actual quantities.' }
+  ],
+  'plaster': [
+    { question: 'How is plaster quantity calculated?', answer: 'The calculator multiplies plaster surface area by plaster thickness to get wet plaster volume, then applies the entered dry-volume factor to estimate cement and sand.' },
+    { question: 'Can I calculate wall or ceiling plaster?', answer: 'Yes. Enter the total plaster surface area in square metres. The surface can represent walls, ceilings, or a combination of areas.' },
+    { question: 'What does the dry-volume factor do?', answer: 'It estimates the dry ingredient volume needed after allowing for voids and material conversion. Use the factor specified by your estimating practice or project requirements.' },
+    { question: 'Are the cement and sand quantities exact?', answer: 'No. They are planning estimates. Final quantities can change with surface preparation, thickness variation, wastage, mix practice, and site conditions.' }
+  ],
+  'flooring': [
+    { question: 'How is tile quantity calculated?', answer: 'The calculator divides floor area by the area covered by one tile, then applies the entered wastage percentage and rounds up to a whole tile.' },
+    { question: 'Why add tile wastage?', answer: 'Cuts, breakage, edge pieces, pattern matching, and future replacement can require extra tiles beyond the exact floor-area requirement.' },
+    { question: 'Can I estimate tile boxes?', answer: 'Yes. Enter the number of tiles per box and the calculator will also estimate the number of boxes, rounded up.' },
+    { question: 'Does this calculate tile adhesive or grout?', answer: 'No. This version focuses on tile quantity and area coverage. Adhesive and grout can vary substantially by product, joint width, substrate, and installation method.' }
   ]
 };
 
@@ -94,6 +108,16 @@ const relatedTools: Record<Props['type'], Array<{ title: string; href: string }>
     { title: 'Concrete Calculator', href: '/calculators/concrete' },
     { title: 'TMT / Rebar Calculator', href: '/calculators/tmt-rebar' },
     { title: 'Project Workbench', href: '/workbench' }
+  ],
+  'plaster': [
+    { title: 'Concrete Calculator', href: '/calculators/concrete' },
+    { title: 'Brick & Block Calculator', href: '/calculators/brick-block' },
+    { title: 'Flooring & Tile Calculator', href: '/calculators/flooring' }
+  ],
+  'flooring': [
+    { title: 'Plaster Calculator', href: '/calculators/plaster' },
+    { title: 'Brick & Block Calculator', href: '/calculators/brick-block' },
+    { title: 'Concrete Calculator', href: '/calculators/concrete' }
   ]
 };
 
@@ -245,6 +269,30 @@ const breadcrumbSchema = {
           <div class="field"><label for="sand-mortar-ratio">Sand ratio <span>parts</span></label><input id="sand-mortar-ratio" type="number" min="0" step="0.1" placeholder="4" /></div>
           <div class="field"><label for="cement-bag">Cement bag weight <span>kg / bag</span></label><input id="cement-bag" type="number" min="0" step="0.1" placeholder="50" /></div>
           <div class="field"><label for="masonry-wastage"><span>Optional</span> Wastage <span>%</span></label><input id="masonry-wastage" data-optional="true" type="number" min="0" step="0.1" placeholder="5" /></div>
+        </>
+      )}
+
+      {type === 'plaster' && (
+        <>
+          <div class="field"><label for="plaster-area">Surface area <span>m²</span></label><input id="plaster-area" type="number" min="0" step="0.01" placeholder="50" /></div>
+          <div class="field"><label for="plaster-thickness">Plaster thickness <span>mm</span></label><input id="plaster-thickness" type="number" min="0" step="0.1" placeholder="12" /></div>
+          <div class="field"><label for="plaster-quantity">Quantity <span>areas</span></label><input id="plaster-quantity" type="number" min="1" step="1" placeholder="1" /></div>
+          <div class="field"><label for="dry-plaster-factor">Dry volume factor <span>×</span></label><input id="dry-plaster-factor" type="number" min="0" step="0.01" placeholder="1.33" /></div>
+          <div class="field"><label for="plaster-cement-ratio">Cement ratio <span>parts</span></label><input id="plaster-cement-ratio" type="number" min="0" step="0.1" placeholder="1" /></div>
+          <div class="field"><label for="plaster-sand-ratio">Sand ratio <span>parts</span></label><input id="plaster-sand-ratio" type="number" min="0" step="0.1" placeholder="4" /></div>
+          <div class="field full"><label for="plaster-bag">Cement bag weight <span>kg / bag</span></label><input id="plaster-bag" type="number" min="0" step="0.1" placeholder="50" /></div>
+        </>
+      )}
+
+      {type === 'flooring' && (
+        <>
+          <div class="field"><label for="floor-length">Floor length <span>m</span></label><input id="floor-length" type="number" min="0" step="0.001" placeholder="6" /></div>
+          <div class="field"><label for="floor-width">Floor width <span>m</span></label><input id="floor-width" type="number" min="0" step="0.001" placeholder="4" /></div>
+          <div class="field"><label for="tile-length">Tile length <span>mm</span></label><input id="tile-length" type="number" min="0" step="0.1" placeholder="600" /></div>
+          <div class="field"><label for="tile-width">Tile width <span>mm</span></label><input id="tile-width" type="number" min="0" step="0.1" placeholder="600" /></div>
+          <div class="field"><label for="tile-wastage">Tile wastage <span>%</span></label><input id="tile-wastage" data-optional="true" type="number" min="0" step="0.1" placeholder="7" /></div>
+          <div class="field"><label for="tiles-per-box">Tiles per box <span>pcs</span></label><input id="tiles-per-box" data-optional="true" type="number" min="0" step="1" placeholder="4" /></div>
+          <div class="field full"><label for="tile-quantity">Optional extra tiles <span>pcs</span></label><input id="tile-quantity" data-optional="true" type="number" min="0" step="1" placeholder="0" /></div>
         </>
       )}
 
@@ -616,6 +664,80 @@ const breadcrumbSchema = {
           'Sand',
           `${formatNumber(sandVolume)} m³`
         ]
+      );
+      return;
+    }
+    if (type === 'plaster') {
+      const area = value('plaster-area');
+      const thicknessMm = value('plaster-thickness');
+      const qty = value('plaster-quantity');
+      const dryFactor = value('dry-plaster-factor');
+      const cementRatio = value('plaster-cement-ratio');
+      const sandRatio = value('plaster-sand-ratio');
+      const bagWeight = value('plaster-bag');
+
+      if (!requirePositive(
+        ['Surface area', area],
+        ['Plaster thickness', thicknessMm],
+        ['Quantity', qty],
+        ['Dry volume factor', dryFactor],
+        ['Cement ratio', cementRatio],
+        ['Sand ratio', sandRatio],
+        ['Cement bag weight', bagWeight]
+      )) return;
+
+      const wetVolume = area * qty * (thicknessMm / 1000);
+      const dryVolume = wetVolume * dryFactor;
+      const ratioTotal = cementRatio + sandRatio;
+      if (ratioTotal <= 0) { setError('Plaster mix ratio total must be greater than zero.'); return; }
+
+      const cementVolume = dryVolume * cementRatio / ratioTotal;
+      const sandVolume = dryVolume * sandRatio / ratioTotal;
+      const cementBags = (cementVolume * 1440) / bagWeight;
+
+      setResult(
+        area * qty,
+        'm²',
+        'Estimated plaster surface area using the entered thickness and mix.',
+        'Wet plaster',
+        `${formatNumber(wetVolume)} m³`,
+        ['Cement', `${formatNumber(cementBags)} bags`, 'Sand', `${formatNumber(sandVolume)} m³`]
+      );
+      return;
+    }
+    if (type === 'flooring') {
+      const floorLength = value('floor-length');
+      const floorWidth = value('floor-width');
+      const tileLength = value('tile-length');
+      const tileWidth = value('tile-width');
+      const wastage = value('tile-wastage');
+      const tilesPerBox = value('tiles-per-box');
+      const extraTiles = value('tile-quantity');
+
+      if (!requirePositive(
+        ['Floor length', floorLength],
+        ['Floor width', floorWidth],
+        ['Tile length', tileLength],
+        ['Tile width', tileWidth]
+      )) return;
+      if (wastage < 0) { setError('Tile wastage cannot be negative.'); return; }
+      if (tilesPerBox < 0 || !Number.isInteger(tilesPerBox)) { setError('Tiles per box must be a whole number of 0 or more.'); return; }
+      if (extraTiles < 0 || !Number.isInteger(extraTiles)) { setError('Extra tiles must be a whole number of 0 or more.'); return; }
+
+      const floorArea = floorLength * floorWidth;
+      const tileArea = (tileLength / 1000) * (tileWidth / 1000);
+      const baseTiles = floorArea / tileArea;
+      const plannedTiles = Math.ceil(baseTiles * (1 + wastage / 100) + extraTiles);
+      const coverage = plannedTiles * tileArea;
+      const boxes = tilesPerBox > 0 ? Math.ceil(plannedTiles / tilesPerBox) : 0;
+
+      setResult(
+        plannedTiles,
+        'tiles',
+        'Includes the entered tile wastage and optional extra tiles.',
+        'Floor coverage',
+        `${formatNumber(floorArea)} m²`,
+        ['Tile coverage', `${formatNumber(coverage)} m²`, tilesPerBox > 0 ? 'Boxes' : 'Tile area', tilesPerBox > 0 ? `${formatNumber(boxes, 0)} boxes` : `${formatNumber(tileArea * 1e6, 0)} mm²`}]
       );
       return;
     }
