@@ -16,6 +16,8 @@ SteelCalc is an Astro-based toolkit for practical steel, construction, and proje
 - Excavation & Earthwork Calculator
 - Structural Steel Profile Calculator
 - Rebar BBS Calculator
+- Engineering Unit Converter
+- Engineering Reference Guides
 - Project Workbench
 
 ## Development
