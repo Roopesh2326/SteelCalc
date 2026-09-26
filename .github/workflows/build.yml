@@ -2,7 +2,7 @@ name: Build SteelCalc
 
 on:
   push:
-    branches: ["main", "phase-*", "final-polish/*"]
+    branches: ["main", "phase-*", "final-polish/*", "design/*"]
   pull_request:
 
 jobs:
