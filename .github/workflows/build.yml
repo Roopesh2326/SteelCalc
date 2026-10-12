@@ -18,7 +18,41 @@ jobs:
           node-version: 22
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build
         run: npm run build
+
+      - name: Smoke-test generated routes
+        shell: bash
+        run: |
+          set -euo pipefail
+          for route in \
+            index.html \
+            calculators/index.html \
+            calculators/steel-weight/index.html \
+            calculators/tmt-rebar/index.html \
+            calculators/steel-plate/index.html \
+            calculators/steel-pipe/index.html \
+            calculators/steel-cost/index.html \
+            calculators/concrete/index.html \
+            calculators/brick-block/index.html \
+            calculators/plaster/index.html \
+            calculators/flooring/index.html \
+            calculators/earthwork/index.html \
+            calculators/structural-steel/index.html \
+            calculators/bbs/index.html \
+            guides/index.html \
+            guides/tmt-bar-weight-chart/index.html \
+            guides/steel-weight-formulas/index.html \
+            guides/construction-reference/index.html \
+            guides/structural-sections-reference/index.html \
+            guides/material-density-reference/index.html \
+            tools/index.html \
+            tools/unit-converter/index.html \
+            workbench/index.html \
+            404.html \
+            robots.txt \
+            sitemap.xml; do
+            test -f "dist/$route" || { echo "Missing generated route: /$route"; exit 1; }
+          done
