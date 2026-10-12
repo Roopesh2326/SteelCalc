@@ -43,8 +43,8 @@ const cleanWebsiteSchema = Object.fromEntries(
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#f6f7f8" />
-    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#06101c" />
+    <meta name="color-scheme" content="dark" />
     <meta name="description" content={description} />
     <meta name="robots" content="index, follow" />
     <meta name="author" content="SteelCalc" />
@@ -69,6 +69,53 @@ const cleanWebsiteSchema = Object.fromEntries(
   </head>
   <body>
     <slot />
+  
+  <style is:global>
+    :root { color-scheme: dark; }
+    html { background: #06101c; }
+    body { background: #06101c !important; color: #eaf1f6; }
+    .site-shell, .shell, .guide-shell, .workbench-shell, .not-found { color: #eaf1f6; }
+    .topbar, .site-header { border-color: rgba(148,163,184,.16) !important; }
+    .brand { color: #f4f7fa !important; }
+    .brand-light, .light { color: #a6b3bf !important; }
+    .brand small { color: #71869a !important; }
+    .topbar nav a, .site-header nav a { color: #9eafbf; }
+    .topbar nav a:hover, .topbar nav a.active, .site-header nav a:hover, .site-header nav a.active { color: #fff; }
+    .crumbs, .crumb { color: #71869a !important; }
+    .crumbs a, .crumb a { color: #9db1c5 !important; }
+    .directory-hero h1, .guide-hero h1, .guide-content h2, .guide-content h3,
+    .shell h1, .shell h2, .shell h3, .not-found h1 { color: #f4f8fb; }
+    .directory-hero p, .intro, .guide-hero p, .guide-content p, .guide-content li,
+    .shell p { color: #9aadc0; }
+    .tool-card, .card, .hero-panel, .converter-card, .launcher, .launcher-card,
+    .launcher-search, .category-tab, .recent-row, .recent-tool, .search-box,
+    .header-search, .guide-content table, .callout, .hero-chip {
+      background: #0b1929 !important;
+      border-color: rgba(148,163,184,.18) !important;
+      color: #eaf1f6 !important;
+    }
+    .tool-card h2, .tool-card h3, .card h2, .card h3, .launcher-card h3,
+    .launcher-heading h2, .recent-row strong, .recent-tool strong,
+    .guide-content th, .callout strong, .hero-chip span { color: #edf4f8 !important; }
+    .tool-card p, .card p, .launcher-card p, .launcher-heading p,
+    .launcher-footer, .launcher-empty span, .hero-panel small, .hero-chip small,
+    .guide-content td { color: #91a5b9 !important; }
+    .tool-tag, .launcher-icon { background: #102238 !important; color: #ffc83d !important; }
+    .tool-card-bottom, .site-footer, footer, .guide-content { border-color: rgba(148,163,184,.16) !important; }
+    .field input, .field select, .converter-card input, .converter-card select {
+      background: #081625 !important; border-color: rgba(148,163,184,.2) !important; color: #eef4f8 !important;
+    }
+    .guide-content th { background: #102238 !important; }
+    .nav-cta, .cta { background: #f6b51b !important; color: #111827 !important; }
+    .primary, .primary-btn { background: #f6b51b !important; color: #111827 !important; }
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 2px solid #ffc83d; outline-offset: 3px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+
   </body>
 </html>
 
