@@ -80,13 +80,14 @@ A branded `/404` page is included for invalid routes.
 
 ## Quality gate
 
-Every pull request should pass:
+Every pull request should pass the production build and generated-route smoke tests:
 
 ```sh
+npm ci
 npm run build
 ```
 
-The repository also contains a GitHub Actions build workflow that runs the production build automatically on pushes and pull requests.
+GitHub Actions runs the clean install, production build, and route smoke tests on pushes and pull requests. The smoke test checks the homepage, all calculator pages, guide/reference pages, tools, workbench, 404 page, `robots.txt`, and `sitemap.xml`.
 
 ## Notes on calculation estimates
 
