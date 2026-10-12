@@ -1,0 +1,17 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CalculatorShell from '../../components/CalculatorShell.astro';
+---
+<Layout
+  title="Brick & Block Calculator | SteelCalc"
+  description="Estimate bricks or concrete blocks, mortar, cement, and sand for masonry walls using wall dimensions, unit dimensions, mortar joints, and wastage."
+>
+  <CalculatorShell
+    type="masonry"
+    eyebrow="CONSTRUCTION / 02"
+    title="Brick & block calculator."
+    accent="Without the spreadsheet."
+    description="Estimate masonry unit count, mortar, cement, and sand for walls using your actual unit and wall dimensions."
+    formula="wall volume ÷ unit module volume"
+  />
+</Layout>

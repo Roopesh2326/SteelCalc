@@ -1,23 +1,132 @@
+---
+const {
+  title = 'SteelCalc | Steel Weight & Cost Calculators',
+  description = 'Fast, practical steel weight and cost estimates for TMT bars, plates, pipes, and more.'
+} = Astro.props;
+
+const pathname = Astro.url.pathname;
+const canonical = Astro.site ? new URL(pathname, Astro.site).toString() : undefined;
+const pageName = title.replace(/\s*\|\s*SteelCalc\s*$/, '');
+const isCalculator = pathname.startsWith('/calculators/') && pathname !== '/calculators/';
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'SteelCalc',
+  description,
+  url: Astro.site ? Astro.site.toString() : undefined,
+  potentialAction: Astro.site ? {
+    '@type': 'SearchAction',
+    target: `${Astro.site.toString().replace(/\/$/, '')}/calculators?q={search_term_string}`,
+    'query-input': 'required name=search_term_string'
+  } : undefined
+};
+
+const applicationSchema = {
+  '@context': 'https://schema.org',
+  '@type': isCalculator ? 'WebApplication' : 'WebSite',
+  name: pageName,
+  description,
+  applicationCategory: isCalculator ? 'BusinessApplication' : undefined,
+  operatingSystem: isCalculator ? 'Any' : undefined,
+  url: canonical
+};
+
+const cleanSchema = Object.fromEntries(
+  Object.entries(applicationSchema).filter(([, value]) => value !== undefined)
+);
+const cleanWebsiteSchema = Object.fromEntries(
+  Object.entries(websiteSchema).filter(([, value]) => value !== undefined)
+);
+---
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#06101c" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="SteelCalc" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta property="og:type" content={isCalculator ? 'website' : 'website'} />
+    <meta property="og:site_name" content="SteelCalc" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="generator" content={Astro.generator} />
+    <script type="application/ld+json" set:html={JSON.stringify(cleanSchema)}></script>
+    <script type="application/ld+json" set:html={JSON.stringify(cleanWebsiteSchema)}></script>
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+  
+  <style is:global>
+    :root { color-scheme: dark; }
+    html { background: #06101c; }
+    body { background: #06101c !important; color: #eaf1f6; }
+    .site-shell, .shell, .guide-shell, .workbench-shell, .not-found { color: #eaf1f6; }
+    .topbar, .site-header { border-color: rgba(148,163,184,.16) !important; }
+    .brand { color: #f4f7fa !important; }
+    .brand-light, .light { color: #a6b3bf !important; }
+    .brand small { color: #71869a !important; }
+    .topbar nav a, .site-header nav a { color: #9eafbf; }
+    .topbar nav a:hover, .topbar nav a.active, .site-header nav a:hover, .site-header nav a.active { color: #fff; }
+    .crumbs, .crumb { color: #71869a !important; }
+    .crumbs a, .crumb a { color: #9db1c5 !important; }
+    .directory-hero h1, .guide-hero h1, .guide-content h2, .guide-content h3,
+    .shell h1, .shell h2, .shell h3, .not-found h1 { color: #f4f8fb; }
+    .directory-hero p, .intro, .guide-hero p, .guide-content p, .guide-content li,
+    .shell p { color: #9aadc0; }
+    .tool-card, .card, .hero-panel, .converter-card, .launcher, .launcher-card,
+    .launcher-search, .category-tab, .recent-row, .recent-tool, .search-box,
+    .header-search, .guide-content table, .callout, .hero-chip {
+      background: #0b1929 !important;
+      border-color: rgba(148,163,184,.18) !important;
+      color: #eaf1f6 !important;
+    }
+    .tool-card h2, .tool-card h3, .card h2, .card h3, .launcher-card h3,
+    .launcher-heading h2, .recent-row strong, .recent-tool strong,
+    .guide-content th, .callout strong, .hero-chip span { color: #edf4f8 !important; }
+    .tool-card p, .card p, .launcher-card p, .launcher-heading p,
+    .launcher-footer, .launcher-empty span, .hero-panel small, .hero-chip small,
+    .guide-content td { color: #91a5b9 !important; }
+    .tool-card p, .card p, .launcher-card p, .guide-content p, .guide-content li,
+    .directory-hero p, .guide-hero p, .intro, .shell p { font-size: 13px !important; line-height: 1.7 !important; }
+    .tool-card h2, .tool-card h3, .card h2, .card h3, .launcher-card h3 { font-size: 15px !important; line-height: 1.35 !important; }
+    .tool-tag, .launcher-card-tag, .launcher-footer, .crumbs, .crumb, .eyebrow { font-size: 10px !important; }
+    .topbar nav a, .site-header nav a, .nav-cta, .cta, .header-cta { font-size: 12px !important; }
+    button, .button, .primary-btn, .secondary-btn { min-height: 40px; }
+    input, select, textarea { font-size: 16px; }
+    .tool-tag, .launcher-icon { background: #102238 !important; color: #ffc83d !important; }
+    .tool-card-bottom, .site-footer, footer, .guide-content { border-color: rgba(148,163,184,.16) !important; }
+    .field input, .field select, .converter-card input, .converter-card select {
+      background: #081625 !important; border-color: rgba(148,163,184,.2) !important; color: #eef4f8 !important;
+    }
+    .guide-content th { background: #102238 !important; }
+    .nav-cta, .cta { background: #f6b51b !important; color: #111827 !important; }
+    .primary, .primary-btn { background: #f6b51b !important; color: #111827 !important; }
+    a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+      outline: 2px solid #ffc83d; outline-offset: 3px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+
+  </body>
 </html>
 
 <style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+  :global(html) { margin: 0; width: 100%; min-height: 100%; }
+  :global(body) { margin: 0; min-width: 320px; min-height: 100vh; }
 </style>

@@ -1,0 +1,26 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="Engineering Tools & References | SteelCalc" description="Engineering tools and reference pages for unit conversion, material densities, structural steel formulas, and construction estimating.">
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="SteelCalc home"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>Steel<span class="light">Calc</span><small>PRECISION TOOLS</small></span></a>
+      <nav><a href="/calculators">Calculators</a><a href="/guides">Guides</a><a class="active" href="/tools">Tools</a></nav>
+      <a class="cta" href="/calculators">All calculators →</a>
+    </header>
+    <main>
+      <div class="eyebrow">ENGINEERING REFERENCE</div>
+      <h1>Useful tools beyond the <em>calculators.</em></h1>
+      <p class="intro">Convert units, verify section formulas, and review estimating references before you enter project dimensions.</p>
+      <div class="grid">
+        <a class="card" href="/tools/unit-converter"><span>UTILITY</span><h2>Engineering Unit Converter</h2><p>Length, area, volume, mass, and force conversions for everyday estimating work.</p><b>Open converter →</b></a>
+        <a class="card" href="/guides/construction-reference"><span>REFERENCE</span><h2>Construction Reference</h2><p>Planning factors and quantity-estimating notes for concrete, masonry, plaster, flooring, and earthwork.</p><b>Read reference →</b></a>
+        <a class="card" href="/guides/structural-sections-reference"><span>STRUCTURAL STEEL</span><h2>Section Formula Reference</h2><p>Simplified area and weight formulas for angles, channels, I-beams, SHS, RHS, and CHS.</p><b>Read reference →</b></a>
+        <a class="card" href="/guides/material-density-reference"><span>MATERIALS</span><h2>Material Density Reference</h2><p>Common nominal densities and estimating assumptions, clearly separated from project-specific test data.</p><b>Read reference →</b></a>
+      </div>
+    </main>
+  </div>
+</Layout>
+<style>
+:global(body){margin:0;background:#f6f7f8;color:#17212b;font-family:Inter,ui-sans-serif,system-ui}.shell{max-width:1180px;margin:0 auto;padding:0 28px 72px}.topbar{height:78px;display:flex;align-items:center;gap:26px;border-bottom:1px solid #e1e6e9}.brand{display:flex;align-items:center;gap:9px;margin-right:auto;text-decoration:none;color:#18232d;font-size:18px;font-weight:850}.light{font-weight:450;color:#68727b}.brand small{display:block;font-size:6.5px;letter-spacing:1.7px;color:#8b969d;margin-top:5px}.brand-mark{width:28px;height:28px;background:#eca43c;border-radius:7px;display:flex;align-items:flex-end;justify-content:center;gap:3px;padding:6px}.brand-mark span{display:block;width:4px;background:#17212b}.brand-mark span:nth-child(1){height:7px}.brand-mark span:nth-child(2){height:12px}.brand-mark span:nth-child(3){height:9px}.topbar nav{display:flex;gap:23px}.topbar nav a{font-size:10px;font-weight:700;color:#68747d;text-decoration:none}.topbar nav a:hover,.topbar nav a.active{color:#17212b}.cta{font-size:9px;font-weight:800;color:#fff;text-decoration:none;background:#d9932f;padding:10px 12px;border-radius:6px}main{padding-top:52px}.eyebrow{font-size:7px;letter-spacing:1.8px;font-weight:850;color:#8b959d}h1{font-size:clamp(42px,5vw,64px);line-height:1.02;letter-spacing:-3.5px;margin:16px 0 15px}h1 em{font-family:Georgia,serif;font-weight:500;color:#d9932f}.intro{max-width:700px;font-size:11px;line-height:1.8;color:#65727b}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:32px}.card{display:block;background:#fff;border:1px solid #e1e5e8;border-radius:7px;padding:22px;text-decoration:none;color:inherit;transition:.18s}.card:hover{transform:translateY(-3px);border-color:#d7b576;box-shadow:0 14px 28px #17232d0c}.card>span{font-size:7px;font-weight:850;letter-spacing:1.4px;color:#c4862c}.card h2{font-size:22px;margin:13px 0 8px}.card p{font-size:9px;line-height:1.75;color:#7b8790;min-height:42px}.card b{font-size:9px;color:#5e6b74}@media(max-width:700px){.shell{padding:0 18px 50px}.topbar nav{display:none}.grid{grid-template-columns:1fr}}
+</style>

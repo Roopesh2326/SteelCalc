@@ -1,0 +1,7 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CalculatorShell from '../../components/CalculatorShell.astro';
+---
+<Layout title="Steel Weight Calculator | SteelCalc" description="Calculate steel bar weight for round, square, and rectangular sections from dimensions, length, quantity, and density.">
+  <CalculatorShell type="steel-weight" eyebrow="WEIGHT / 01" title="Steel weight." accent="Without the spreadsheet." description="Calculate the estimated weight of common steel bar shapes from dimensions, length, quantity, and density." formula="area × length × density" />
+</Layout>

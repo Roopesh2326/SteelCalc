@@ -1,0 +1,17 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CalculatorShell from '../../components/CalculatorShell.astro';
+---
+<Layout
+  title="Excavation & Earthwork Calculator | SteelCalc"
+  description="Estimate excavation volume, loose haul volume, and planning fill volume for trenches, pits, and bulk earthwork."
+>
+  <CalculatorShell
+    type="earthwork"
+    eyebrow="CONSTRUCTION / 05"
+    title="Excavation & earthwork calculator."
+    accent="Without the spreadsheet."
+    description="Estimate in-situ excavation, loose haul volume, and planning fill quantities from simple site dimensions."
+    formula="L × W × D × quantity"
+  />
+</Layout>

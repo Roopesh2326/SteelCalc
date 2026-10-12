@@ -1,0 +1,247 @@
+---
+interface Tool {
+  number: string;
+  title: string;
+  detail: string;
+  tag: string;
+  href: string;
+  visual: string;
+}
+
+interface Props {
+  tools: Tool[];
+}
+
+const { tools } = Astro.props;
+const toolData = tools.map((tool) => ({
+  ...tool,
+  category:
+    ['WEIGHT', 'PLATE', 'PIPE', 'COST', 'STRUCTURAL'].includes(tool.tag)
+      ? 'steel'
+      : ['CONCRETE', 'MASONRY', 'PLASTER', 'FLOORING', 'EARTHWORK'].includes(tool.tag)
+        ? 'construction'
+        : ['REBAR', 'BBS'].includes(tool.tag)
+          ? 'reinforcement'
+          : 'other'
+}));
+---
+
+<section class="launcher" aria-labelledby="launcher-title" data-tool-launcher>
+  <div class="launcher-heading">
+    <div>
+      <span class="eyebrow">QUICK START</span>
+      <h2 id="launcher-title">What are you <em>calculating?</em></h2>
+      <p>Search by material or job. SteelCalc narrows the choices so you can start without hunting through a long list.</p>
+    </div>
+    <div class="launcher-shortcut" aria-label="Keyboard shortcut">
+      <span>Keyboard</span><kbd>/</kbd>
+    </div>
+  </div>
+
+  <div class="launcher-controls">
+    <label class="launcher-search">
+      <span aria-hidden="true">⌕</span>
+      <input id="tool-search" type="search" placeholder="Try “steel weight”, “concrete”, or “BBS”" autocomplete="off" aria-label="Find a calculator" />
+      <button type="button" id="clear-tool-search" aria-label="Clear search" hidden>×</button>
+    </label>
+
+    <div class="category-tabs" role="tablist" aria-label="Calculator categories">
+      <button type="button" class="category-tab is-active" data-category="all" role="tab" aria-selected="true">All</button>
+      <button type="button" class="category-tab" data-category="steel" role="tab" aria-selected="false">Steel</button>
+      <button type="button" class="category-tab" data-category="construction" role="tab" aria-selected="false">Construction</button>
+      <button type="button" class="category-tab" data-category="reinforcement" role="tab" aria-selected="false">Reinforcement</button>
+    </div>
+  </div>
+
+  <div class="recent-row" id="recent-row" hidden>
+    <div>
+      <span class="recent-label">RECENT</span>
+      <strong id="recent-title">Continue a calculation</strong>
+    </div>
+    <div class="recent-tools" id="recent-tools"></div>
+  </div>
+
+  <div class="launcher-grid" id="launcher-grid">
+    {toolData.map((tool) => (
+      <a
+        class="launcher-card"
+        href={tool.href}
+        data-tool-card
+        data-category={tool.category}
+        data-title={tool.title.toLowerCase()}
+        data-tag={tool.tag.toLowerCase()}
+      >
+        <span class="launcher-icon" aria-hidden="true">
+          {tool.category === 'steel' ? '▦' : tool.category === 'construction' ? '⌗' : '⌘'}
+        </span>
+        <div class="launcher-card-main">
+          <span class="launcher-card-tag">{tool.tag}</span>
+          <h3>{tool.title}</h3>
+          <p>{tool.detail}</p>
+        </div>
+        <span class="launcher-arrow" aria-hidden="true">↗</span>
+      </a>
+    ))}
+  </div>
+
+  <div class="launcher-empty" id="launcher-empty" hidden>
+    <strong>No calculator matched that search.</strong>
+    <span>Try a simpler term such as steel, concrete, rebar, plate, or BBS.</span>
+  </div>
+
+  <div class="launcher-footer">
+    <span id="launcher-count" aria-live="polite"></span>
+    <a href="/calculators">Open the full calculator directory <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<script>
+  const launcher = document.querySelector('[data-tool-launcher]');
+  const searchInput = launcher?.querySelector('#tool-search');
+  const clearButton = launcher?.querySelector('#clear-tool-search');
+  const tabs = Array.from(launcher?.querySelectorAll('.category-tab') || []);
+  const cards = Array.from(launcher?.querySelectorAll('[data-tool-card]') || []);
+  const emptyState = launcher?.querySelector('#launcher-empty');
+  const countLabel = launcher?.querySelector('#launcher-count');
+  const recentRow = launcher?.querySelector('#recent-row');
+  const recentTools = launcher?.querySelector('#recent-tools');
+
+  let activeCategory = 'all';
+
+  const matches = (card) => {
+    const query = searchInput?.value.trim().toLowerCase() || '';
+    const category = card.getAttribute('data-category') || 'other';
+    const title = card.getAttribute('data-title') || '';
+    const tag = card.getAttribute('data-tag') || '';
+    const categoryMatch = activeCategory === 'all' || category === activeCategory;
+    const queryMatch = !query || title.includes(query) || tag.includes(query);
+    return categoryMatch && queryMatch;
+  };
+
+  const renderRecent = () => {
+    if (!recentRow || !recentTools) return;
+    try {
+      const recent = JSON.parse(localStorage.getItem('steelcalc-recent-tools') || '[]');
+      const valid = recent.filter((item) => item && item.href && item.title).slice(0, 3);
+      if (!valid.length) {
+        recentRow.hidden = true;
+        return;
+      }
+      recentRow.hidden = false;
+      recentTools.innerHTML = '';
+      valid.forEach((item) => {
+        const link = document.createElement('a');
+        link.href = item.href;
+        link.className = 'recent-tool';
+        link.innerHTML = '<strong></strong><span>Continue →</span>';
+        link.querySelector('strong').textContent = item.title;
+        recentTools.appendChild(link);
+      });
+    } catch {
+      recentRow.hidden = true;
+    }
+  };
+
+  const render = () => {
+    let visible = 0;
+    cards.forEach((card) => {
+      const show = matches(card);
+      card.hidden = !show;
+      if (show) visible += 1;
+    });
+    if (emptyState) emptyState.hidden = visible !== 0;
+    if (countLabel) countLabel.textContent = visible === cards.length ? `${visible} calculators` : `${visible} matching calculators`;
+    if (clearButton) clearButton.hidden = !(searchInput?.value || '');
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      activeCategory = tab.getAttribute('data-category') || 'all';
+      tabs.forEach((item) => {
+        const selected = item === tab;
+        item.classList.toggle('is-active', selected);
+        item.setAttribute('aria-selected', String(selected));
+      });
+      render();
+    });
+  });
+
+  searchInput?.addEventListener('input', render);
+  clearButton?.addEventListener('click', () => {
+    if (!searchInput) return;
+    searchInput.value = '';
+    searchInput.focus();
+    render();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === '/' && document.activeElement?.tagName !== 'INPUT' && document.activeElement?.tagName !== 'TEXTAREA') {
+      event.preventDefault();
+      searchInput?.focus();
+    }
+  });
+
+  cards.forEach((card) => {
+    card.addEventListener('click', () => {
+      try {
+        const href = card.getAttribute('href');
+        const title = card.querySelector('h3')?.textContent?.trim();
+        if (!href || !title) return;
+        const recent = JSON.parse(localStorage.getItem('steelcalc-recent-tools') || '[]')
+          .filter((item) => item?.href !== href);
+        recent.unshift({ href, title });
+        localStorage.setItem('steelcalc-recent-tools', JSON.stringify(recent.slice(0, 6)));
+      } catch {}
+    });
+  });
+
+  renderRecent();
+  render();
+</script>
+
+<style>
+  .launcher{margin:10px 0 0;padding:25px 26px 19px;border:1px solid #dce3e7;border-radius:14px;background:linear-gradient(145deg,#ffffff,#f8fafb);box-shadow:0 18px 42px rgba(23,33,43,.06);position:relative;overflow:hidden}
+  .launcher:before{content:"";position:absolute;inset:0 auto auto 0;width:100%;height:3px;background:linear-gradient(90deg,#d99532,#efb85a,transparent)}
+  .launcher-heading{display:flex;justify-content:space-between;gap:25px;align-items:flex-end}
+  .launcher-heading h2{font-size:28px;letter-spacing:-1.2px;margin:8px 0 6px;color:#17212b}
+  .launcher-heading h2 em{font-family:Georgia,serif;font-weight:500;color:#d28d2b}
+  .launcher-heading p{max-width:600px;margin:0;color:#78848d;font-size:9.5px;line-height:1.7}
+  .launcher-shortcut{display:flex;align-items:center;gap:7px;color:#8a959d;font-size:8px;white-space:nowrap}
+  .launcher-shortcut kbd{border:1px solid #d5dde1;border-bottom-width:2px;border-radius:5px;padding:5px 8px;background:#fff;color:#48555f;font:700 10px Inter,ui-sans-serif,system-ui}
+  .launcher-controls{display:flex;gap:10px;align-items:center;margin-top:18px}
+  .launcher-search{height:43px;flex:1;display:flex;align-items:center;gap:9px;border:1px solid #d7dfe4;background:#fff;border-radius:9px;padding:0 11px;box-shadow:0 5px 14px rgba(23,33,43,.035)}
+  .launcher-search>span{font-size:16px;color:#8c979f}
+  .launcher-search input{border:0;outline:0;width:100%;font:inherit;font-size:10px;color:#25323c;background:transparent}
+  .launcher-search input::placeholder{color:#a0a9b0}
+  .launcher-search button{border:0;background:transparent;color:#86919a;font-size:18px;cursor:pointer;padding:2px 4px}
+  .category-tabs{display:flex;gap:6px;align-items:center}
+  .category-tab{border:1px solid #d7dfe4;background:#fff;color:#697680;border-radius:8px;padding:11px 12px;font:750 8px Inter,ui-sans-serif,system-ui;cursor:pointer;white-space:nowrap}
+  .category-tab:hover{border-color:#c6d0d6;color:#26323b}
+  .category-tab.is-active{background:#17232e;color:#fff;border-color:#17232e;box-shadow:0 7px 14px rgba(23,35,46,.12)}
+  .recent-row{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:13px;padding:10px 12px;border:1px solid #e0e6e9;border-radius:9px;background:#fbfcfc}
+  .recent-label{font-size:6px;font-weight:850;letter-spacing:1.4px;color:#a0a8ae;display:block}
+  .recent-row strong{font-size:9px;color:#37434c}
+  .recent-tools{display:flex;gap:7px;overflow:auto}
+  .recent-tool{display:flex;align-items:center;gap:8px;padding:7px 9px;border:1px solid #e0e5e8;background:#fff;border-radius:7px;text-decoration:none;white-space:nowrap}
+  .recent-tool strong{font-size:8px;color:#48555e}
+  .recent-tool span{font-size:7px;color:#c1842a;font-weight:800}
+  .launcher-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:13px}
+  .launcher-card{min-width:0;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start;border:1px solid #dde4e8;border-radius:10px;padding:12px 11px;background:#fff;text-decoration:none;color:inherit;transition:transform .16s,border-color .16s,box-shadow .16s}
+  .launcher-card:hover{transform:translateY(-2px);border-color:#d4b06f;box-shadow:0 10px 22px rgba(23,33,43,.07)}
+  .launcher-card[hidden]{display:none}
+  .launcher-icon{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;background:#f5f1e9;color:#bb7d26;font-size:13px;font-weight:800}
+  .launcher-card-tag{font-size:5.5px;font-weight:850;letter-spacing:1.2px;color:#a0a9af}
+  .launcher-card h3{margin:4px 0 3px;font-size:10px;line-height:1.25;color:#27333d}
+  .launcher-card p{margin:0;font-size:7.3px;line-height:1.5;color:#7d8890}
+  .launcher-arrow{font-size:15px;color:#bc812b;line-height:1}
+  .launcher-empty{margin-top:13px;padding:22px;text-align:center;border:1px dashed #d3dce1;border-radius:9px;background:#fbfcfc}
+  .launcher-empty strong,.launcher-empty span{display:block}
+  .launcher-empty strong{font-size:10px;color:#36434c}
+  .launcher-empty span{font-size:8px;color:#8a959d;margin-top:5px}
+  .launcher-footer{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-top:15px;font-size:8px;color:#8a959d}
+  .launcher-footer a{color:#65727b;text-decoration:none;font-weight:800}
+  .launcher-footer a span{color:#cc892a;margin-left:5px}
+  @media(max-width:1050px){.launcher-controls{align-items:stretch;flex-direction:column}.category-tabs{overflow:auto}.launcher-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media(max-width:720px){.launcher{padding:21px 16px 17px;border-radius:11px}.launcher-heading{display:block}.launcher-shortcut{display:none}.launcher-grid{grid-template-columns:1fr 1fr}.recent-row{display:block}.recent-tools{margin-top:8px}.recent-tool{flex:0 0 auto}.launcher-footer{align-items:flex-start;flex-direction:column}}
+  @media(max-width:520px){.launcher-grid{grid-template-columns:1fr}.category-tab{padding:10px 11px}.category-tabs{width:100%}.category-tab{flex:0 0 auto}}
+</style>
