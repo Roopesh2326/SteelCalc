@@ -162,3 +162,21 @@ Work only after approval, in small reviewable commits.
 - One page/component per small commit; build, route smoke test and screenshot review after each phase.
 - Ask before making any change outside this approved plan.
 - **No Phase 1 implementation begins until the user explicitly approves this plan.**
+
+## Owner-approved additions (2026-11-16)
+
+These are required deliverables, not optional polish:
+
+1. **Mobile navigation on every page.** At both 768px and 390px, navigation must remain available through a consistent, accessible mobile menu. Do not simply hide the desktop navigation without a replacement. The menu must have a 44×44px minimum trigger, an accessible name, keyboard operation, visible focus, correct expanded state, Escape/selection dismissal, and no horizontal overflow. Verify it on every page family, including the 404 and calculator routes.
+2. **Workbench theme reconciliation.** Treat the workbench's mixed light/dark panels as a dedicated fix, not an incidental side effect of global tokens. Establish one coherent dark-surface hierarchy (or a deliberately documented contrasting result panel) for header, workspace, cards, table, inputs, summary, dialogs/overlays and print view. Ensure labels, values, borders and states remain legible; print styling may remain light but must be explicitly scoped to print.
+3. **Real-browser contrast checks after every phase.** Use an actual browser after each phase to inspect rendered foreground/background pairs and calculate WCAG contrast ratios. Record the tested selector/text, foreground, background, ratio, required threshold, viewport and pass/fail in `docs/QA/contrast-phaseN.md` (or an equivalent per-phase report). Check normal text at 4.5:1 and large text/UI components as applicable; do not infer contrast compliance from token names or source declarations alone. Run these checks alongside build, route smoke tests and after-phase screenshots.
+
+### Updated phase gates
+
+- **Phase 1:** Global tokens + shared Header/Footer must include the mobile menu and be verified at 768px and 390px on representative routes; check focus, keyboard and expanded/collapsed states.
+- **Phase 2:** Home page contrast report and screenshots at the phase's required viewports.
+- **Phase 3:** Calculator-shell contrast report, mobile menu parity and known-good calculator results.
+- **Phase 4:** Dedicated workbench theme reconciliation, then remaining pages; verify menu and contrast on every route family.
+- **Phase 5:** Final all-route contrast report and QA matrix at 1440, 1024, 768 and 390px.
+
+No phase is complete until its browser contrast report, build, route smoke test and screenshots are recorded.
