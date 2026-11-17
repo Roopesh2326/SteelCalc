@@ -107,3 +107,16 @@ video {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* Legacy page chrome is suppressed while every route adopts the shared shell. */
+.site-shell > .topbar,
+.shell > .topbar,
+.guide-shell > .topbar,
+.workbench-shell > .topbar,
+.calculator-page > .site-header,
+.site-shell > footer,
+.guide-shell > footer,
+.not-found > .brand {
+  display: none;
+}
