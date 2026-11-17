@@ -5,18 +5,7 @@ const { title, description, eyebrow = 'STEELCALC GUIDE' } = Astro.props;
 
 <Layout title={title} description={description}>
   <div class="guide-shell">
-    <header class="topbar">
-      <a class="brand" href="/" aria-label="SteelCalc home">
-        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
-        <span>Steel<span class="brand-light">Calc</span><small>PRECISION TOOLS</small></span>
-      </a>
-      <nav aria-label="Guide navigation">
-        <a href="/calculators">Calculators</a>
-        <a class="active" href="/guides">Guides</a>
-        <a href="/workbench">Workbench</a>
-      </nav>
-      <a class="nav-cta" href="/calculators">All calculators <span>→</span></a>
-    </header>
+    
     <main>
       <div class="crumbs"><a href="/">SteelCalc</a><span>/</span><a href="/guides">Guides</a><span>/</span><strong>{title.replace(' | SteelCalc','')}</strong></div>
       <section class="guide-hero">
@@ -27,11 +16,7 @@ const { title, description, eyebrow = 'STEELCALC GUIDE' } = Astro.props;
         <slot />
       </article>
     </main>
-    <footer>
-      <div><a class="brand footer-brand" href="/"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>Steel<span class="brand-light">Calc</span><small>PRECISION TOOLS</small></span></a><p>Free steel calculation tools and reference material.</p></div>
-      <div class="footer-col"><strong>Tools</strong><a href="/calculators">Calculators</a><a href="/workbench">Project Workbench</a></div>
-      <div class="footer-col"><strong>Guides</strong><a href="/guides/tmt-bar-weight-chart">TMT bar chart</a><a href="/guides/steel-weight-formulas">Steel formulas</a></div>
-    </footer>
+    
   </div>
 </Layout>
 
