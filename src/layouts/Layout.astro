@@ -81,8 +81,9 @@ const cleanWebsiteSchema = Object.fromEntries(
     <title>{title}</title>
   </head>
   <body>
+    <a class="skip-link" href="#page-content">Skip to content</a>
     <SiteHeader currentPath={pathname} />
-    <slot />
+    <div id="page-content"><slot /></div>
     <SiteFooter />
   
   <style is:global>
