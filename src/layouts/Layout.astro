@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 
 const {
   title = 'SteelCalc | Steel Weight & Cost Calculators',
@@ -79,7 +81,9 @@ const cleanWebsiteSchema = Object.fromEntries(
     <title>{title}</title>
   </head>
   <body>
+    <SiteHeader currentPath={pathname} />
     <slot />
+    <SiteFooter />
   
   <style is:global>
     :root { color-scheme: dark; }
