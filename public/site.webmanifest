@@ -3,14 +3,14 @@
   "short_name": "SteelCalc",
   "description": "Free steel and construction calculators for material weight, rebar, concrete, masonry, earthwork, flooring, and project estimates.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#f6f7f8",
-  "theme_color": "#f6f7f8",
+  "background_color": "#06101c",
+  "theme_color": "#06101c",
   "icons": [
-    {
-      "src": "/favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml"
-    }
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
   ]
 }

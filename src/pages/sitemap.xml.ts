@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 
-const paths = [
+const rawPaths = [
   '/',
   '/calculators',
   '/calculators/steel-weight',
@@ -25,6 +25,10 @@ const paths = [
   '/tools/unit-converter',
   '/workbench'
 ];
+
+// Every route is served with a trailing slash (astro.config trailingSlash: 'always'),
+// so the sitemap lists exactly those URLs.
+const paths = rawPaths.map((path) => (path.endsWith('/') ? path : `${path}/`));
 
 export const GET: APIRoute = ({ site }) => {
   if (!site) {

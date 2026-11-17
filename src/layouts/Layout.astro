@@ -1,10 +1,13 @@
 ---
 const {
   title = 'SteelCalc | Steel Weight & Cost Calculators',
-  description = 'Fast, practical steel weight and cost estimates for TMT bars, plates, pipes, and more.'
+  description = 'Fast, practical steel weight and cost estimates for TMT bars, plates, pipes, and more.',
+  image = '/og-image.png',
+  noindex = false
 } = Astro.props;
 
 const pathname = Astro.url.pathname;
+const ogImage = Astro.site ? new URL(image, Astro.site).toString() : undefined;
 const canonical = Astro.site ? new URL(pathname, Astro.site).toString() : undefined;
 const pageName = title.replace(/\s*\|\s*SteelCalc\s*$/, '');
 const isCalculator = pathname.startsWith('/calculators/') && pathname !== '/calculators/';
@@ -46,21 +49,27 @@ const cleanWebsiteSchema = Object.fromEntries(
     <meta name="theme-color" content="#06101c" />
     <meta name="color-scheme" content="dark" />
     <meta name="description" content={description} />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow'} />
     <meta name="author" content="SteelCalc" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta name="format-detection" content="telephone=no" />
-    <meta property="og:type" content={isCalculator ? 'website' : 'website'} />
+    <meta property="og:type" content="website" />
     <meta property="og:site_name" content="SteelCalc" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     {canonical && <meta property="og:url" content={canonical} />}
-    <meta name="twitter:card" content="summary" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    {ogImage && <meta property="og:image:width" content="1200" />}
+    {ogImage && <meta property="og:image:height" content="630" />}
+    {ogImage && <meta property="og:image:alt" content="SteelCalc — steel and construction calculators" />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    {canonical && <link rel="canonical" href={canonical} />}
+    {ogImage && <meta name="twitter:image" content={ogImage} />}
+    {canonical && !noindex && <link rel="canonical" href={canonical} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="generator" content={Astro.generator} />
     <script type="application/ld+json" set:html={JSON.stringify(cleanSchema)}></script>
