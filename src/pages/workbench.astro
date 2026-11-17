@@ -442,6 +442,64 @@ import Layout from '../layouts/Layout.astro';
   .workbench-card{background:#fff;border:1px solid #e0e5e8;border-radius:8px;box-shadow:0 10px 28px #17232d08;overflow:hidden}.table-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;padding:19px 20px;border-bottom:1px solid #e8ebed}.form-kicker{font-size:7px;letter-spacing:1.5px;font-weight:850;color:#c4862c}.table-head h2{margin:8px 0 0;font-size:19px;letter-spacing:-.7px}.toolbar{display:flex;gap:7px}.toolbar button{border-radius:5px;border:1px solid #d9dfe3;background:#fff;padding:8px 10px;font-size:8px;font-weight:800;color:#68747d;cursor:pointer}.toolbar .primary{background:#17232e;color:#fff;border-color:#17232e}.item-table-wrap{overflow:auto}.item-table-wrap table{width:100%;border-collapse:collapse;min-width:980px}.item-table-wrap th,.item-table-wrap td{padding:9px 8px;border-bottom:1px solid #eef0f2;text-align:left;font-size:8px;white-space:nowrap}.item-table-wrap th{font-size:7px;text-transform:uppercase;letter-spacing:.9px;color:#8a949c;background:#fafbfb}.item-table-wrap td{color:#58656e}.mini{height:31px;width:86px}.stack{display:flex;gap:4px}.stack .mini{width:66px}.muted{color:#a0a8ae}.weight-cell{font-weight:800;color:#2e3b44!important}.amount-cell{font-weight:800;color:#c4862c!important}.remove{width:26px;height:26px;border:0;background:#f3f5f6;color:#8b969e;border-radius:5px;cursor:pointer;font-size:16px}.empty{padding:35px;text-align:center;color:#89949c}.empty strong{font-size:11px;color:#4b5962}.empty p{font-size:9px;margin:7px 0 0}.add-row{display:flex;align-items:center;gap:12px;padding:13px 20px;border-top:1px solid #edf0f2}.add-btn{border:1px solid #d6dde1;background:#f8fafb;color:#4f5d66;border-radius:5px;padding:9px 11px;font-size:8px;font-weight:850;cursor:pointer}.add-row>span{font-size:8px;color:#98a1a8}
   .summary-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-top:14px}.summary-card{background:#fff;border:1px solid #e0e5e8;border-radius:7px;padding:15px}.summary-card span,.summary-card small{display:block}.summary-card span{font-size:8px;color:#7d8991}.summary-card strong{display:block;font-size:20px;letter-spacing:-.7px;color:#202d36;margin-top:8px}.summary-card small{font-size:7px;color:#9aa3aa;margin-top:6px}.summary-card.dark{background:#18252f;border-color:#18252f}.summary-card.dark span,.summary-card.dark small{color:#96a4ac}.summary-card.dark strong{color:#fff}
   .notes{display:flex;justify-content:space-between;gap:25px;align-items:center;border-top:1px solid #dfe4e7;margin-top:35px;padding-top:20px}.notes strong{font-size:9px;color:#4a5861}.notes p{max-width:760px;font-size:8px;line-height:1.7;color:#89949c;margin:6px 0 0}.notes a{font-size:8px;font-weight:800;color:#69757d;text-decoration:none;white-space:nowrap}.notes a span{color:#c4862c;margin-left:5px}
+  /* Workbench uses one dark engineering surface system; print output remains paper-white. */
+  .workbench-shell{color:#eaf1f6}
+  .workbench-shell .crumbs{color:#91a5b9}
+  .workbench-shell .crumbs a{color:#b7c9d9}
+  .workbench-shell .hero h1{color:#f4f8fb}
+  .workbench-shell .hero p{color:#b2c1cf;font-size:15px;line-height:1.7}
+  .workbench-shell .eyebrow{color:#9ebce0;font-size:10px}
+  .workbench-shell .hero-chip{background:#0d1d2e;border-color:#294056;box-shadow:none}
+  .workbench-shell .hero-chip strong{color:#f4b942;font-size:10px}
+  .workbench-shell .hero-chip span{color:#f3f7fb;font-size:14px}
+  .workbench-shell .hero-chip small{color:#aebdcb;font-size:12px}
+  .workbench-shell .project-head .field label{color:#c3d0dc;font-size:12px}
+  .workbench-shell .project-head .field label span{color:#9aadc0}
+  .workbench-shell .project-head .field input,
+  .workbench-shell .mini{min-height:42px;border:1px solid #294056;background:#081625;color:#eef4f8;font-size:14px}
+  .workbench-shell .project-head .field input::placeholder{color:#71869a}
+  .workbench-shell .project-head .field input:focus,
+  .workbench-shell .mini:focus{border-color:#6aa9ff;box-shadow:0 0 0 3px rgb(47 128 255 / 18%)}
+  .workbench-shell .workbench-card,
+  .workbench-shell .summary-card{background:#0d1d2e;border:1px solid #294056;box-shadow:0 14px 36px rgb(0 0 0 / 18%)}
+  .workbench-shell .table-head{border-bottom-color:#294056}
+  .workbench-shell .form-kicker{color:#f4b942;font-size:10px}
+  .workbench-shell .table-head h2{color:#f3f7fb;font-size:22px}
+  .workbench-shell .toolbar button,
+  .workbench-shell .add-btn{min-height:42px;border:1px solid #38516a;background:#12263a;color:#d5e0e9;font-size:12px}
+  .workbench-shell .toolbar .primary{background:#f4b942;color:#17212b;border-color:#f4b942}
+  .workbench-shell .item-table-wrap th{background:#12263a;color:#b2c1cf;border-bottom-color:#294056;font-size:10px}
+  .workbench-shell .item-table-wrap td{background:#0d1d2e;color:#d0dbe4;border-bottom-color:#22394f;font-size:12px}
+  .workbench-shell .item-table-wrap .mini{min-height:36px;height:36px;font-size:12px}
+  .workbench-shell .muted{color:#91a5b9}
+  .workbench-shell .weight-cell{color:#f3f7fb!important}
+  .workbench-shell .amount-cell{color:#f4c65d!important}
+  .workbench-shell .remove{width:36px;height:36px;background:#182f45;color:#d2deea;font-size:20px}
+  .workbench-shell .empty{color:#9aadc0}
+  .workbench-shell .empty strong{color:#f3f7fb;font-size:14px}
+  .workbench-shell .empty p{color:#aebdcb;font-size:13px}
+  .workbench-shell .add-row{border-top-color:#294056}
+  .workbench-shell .add-row>span{color:#9aadc0;font-size:12px}
+  .workbench-shell .summary-card{padding:18px}
+  .workbench-shell .summary-card span{color:#aebdcb;font-size:12px}
+  .workbench-shell .summary-card strong{color:#f3f7fb;font-size:24px}
+  .workbench-shell .summary-card small{color:#91a5b9;font-size:11px}
+  .workbench-shell .summary-card.dark{background:linear-gradient(145deg,#17385a,#10263d);border-color:#31577b}
+  .workbench-shell .summary-card.dark span,
+  .workbench-shell .summary-card.dark small{color:#c0d4e6}
+  .workbench-shell .summary-card.dark strong{color:#fff}
+  .workbench-shell .notes{border-top-color:#294056}
+  .workbench-shell .notes strong{color:#eaf1f6;font-size:13px}
+  .workbench-shell .notes p{color:#aebdcb;font-size:12px}
+  .workbench-shell .notes a{color:#c5d4e1;font-size:12px}
+  .workbench-shell button:focus-visible,
+  .workbench-shell input:focus-visible,
+  .workbench-shell select:focus-visible{outline:3px solid #ffd36f;outline-offset:2px}
+  @media(max-width:620px){
+    .workbench-shell .project-head .field input{min-height:46px}
+    .workbench-shell .summary-card strong{font-size:22px}
+  }
+
   .print-sheet{display:none}
 
   @media(max-width:900px){.workbench-shell{padding:0 18px 50px}.topbar{height:70px}.topbar nav{display:none}.hero{grid-template-columns:1fr}.hero-chip{max-width:260px}.project-head{grid-template-columns:1fr 1fr}.project-head .field:first-child{grid-column:1/-1}.summary-grid{grid-template-columns:1fr 1fr}.notes{align-items:flex-start;flex-direction:column}}
